@@ -6,6 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/03/11 15:23:58 by mkimdil          ###   ########.fr       */
 /*   Updated: 2024/03/11 15:16:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -17,7 +18,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/wait.h>
-# include <signal.h>
 
 typedef struct s_list
 {
