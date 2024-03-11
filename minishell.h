@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/11 14:54:38 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/03/11 15:16:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <signal.h>
+
+typedef struct s_list
+{
+	int x;
+	int y;
+	struct s_list *next;
+}			t_list;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
