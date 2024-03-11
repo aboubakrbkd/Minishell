@@ -6,6 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/03/11 15:28:12 by aboukdid         ###   ########.fr       */
 /*   Updated: 2024/03/11 15:23:58 by mkimdil          ###   ########.fr       */
 /*   Updated: 2024/03/11 15:16:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
@@ -31,6 +32,8 @@ char	**ft_help(char *s, char c, int len, char **final);
 void	ft_free(char **ptr, int i);
 char	*ft_strndup(char *src, int n);
 int		countword(char *s, char c);
+
+
 int 	ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
