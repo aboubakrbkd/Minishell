@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/14 16:22:19 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/03/15 11:07:23 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }				t_env;
+
+// #define malloc(x) NULL 
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);

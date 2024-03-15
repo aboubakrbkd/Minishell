@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/03/14 15:54:46 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/03/15 11:03:44 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_env	*env_init(char **envp)
 	while (envp[i])
 	{
 		sp = ft_split(envp[i], '=');
+		if (!sp)
+			break ;
 		new = ft_lstnew(sp[0], sp[1]);
 		if (new == NULL)
 			break ;
