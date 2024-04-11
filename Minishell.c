@@ -16,12 +16,12 @@ int	main(int ac, char **av, char **env)
 {
 	char	*temp;
 
-	if (ac < 1)
-		return (0);
+	if (ac != 1)
+		return (1);
 	while (1)
 	{
-		write (0, "~$ ", 3);
-		temp = get_next_line(0);
+		write (0, "Minishell~$ ", 12);
+		temp = readline();
 		if (!temp)
 			break ;
 	}
