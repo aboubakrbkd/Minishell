@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lists.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 18:03:15 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/03/11 18:05:02 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/03/14 15:47:08 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *content)
+void	pwd(void)
 {
-	t_list	*result;
+	char	*pwdir;
 
-	result = (t_list *)malloc(sizeof(t_list));
-	if (!result)
-		return (0);
-	result->value = NULL;
-	result->name = NULL;
-	result->next = NULL;
-	return (result);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*last;
-
-	if (*lst == NULL)
-		*lst = new;
-	else
+	pwdir = getenv("PWD");
+	if (pwdir == NULL)
 	{
-		last = ft_lstlast(*lst);
-		last->next = new;
+		pwdir = getcwd(NULL, 0);
+		if (!pwdir)
+		{
+			perror("eroor");
+			exit(1);
+		}
+		else
+			printf("%s\n", pwdir);
 	}
+	else
+		printf("%s\n", pwdir);
 }
