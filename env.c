@@ -6,11 +6,14 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/03/15 11:03:44 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:46:16 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+// i need to change them to 2d array
 
 t_env	*ft_lstnew(char *name, char *value)
 {
@@ -80,3 +83,8 @@ void	env(t_env *env, char **envp)
 		env = env->next;
 	}
 }
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_env *envm;
+// 	env(envm, envp);
+// }
