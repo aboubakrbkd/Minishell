@@ -6,13 +6,16 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:23:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/11 10:29:41 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:08:22 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int unset(char **argv, char **envp)
+int	unset(char **argv, char **envp)
 {
-	
+	int	i;
+
+	i = 1;
+	return (0);
 }

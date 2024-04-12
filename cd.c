@@ -6,25 +6,17 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/12 06:37:52 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:40:56 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
-/*
-	i need to build 2 functions;
-	1- function to give the env i want like i f i want home it will print me home path;
-	2- FUNCTION TO UPDATE ENV
-	3-i need a fcuntion to update the pwd whenever i make cd 
-	
-*/
-
 char	*my_getenv(char *name, char **envp)
 {
-	t_env *env;
-	
+	t_env	*env;
+
 	env = env_init(envp);
 	while (env)
 	{
@@ -37,7 +29,9 @@ char	*my_getenv(char *name, char **envp)
 
 void	update_env(char *name, char *value, char **envp)
 {
-	t_env *tmp = env_init(envp);
+	t_env	*tmp;
+
+	tmp = env_init(envp);
 	if (!name || !value)
 		return ;
 	while (tmp)
@@ -45,7 +39,7 @@ void	update_env(char *name, char *value, char **envp)
 		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
 		{
 			tmp->value = value;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
@@ -53,16 +47,20 @@ void	update_env(char *name, char *value, char **envp)
 
 void	update_pwd(char *path, char **envp)
 {
+	char	*home;
+
 	update_env("OLDPWD", my_getenv("PWD", envp), envp);
-	char *home = getcwd(NULL, 0);
+	home = getcwd(NULL, 0);
 	update_env("PWD", home, envp);
 }
 
-int cd(char **argv, char **envp)
+int	cd(char **argv, char **envp)
 {
-	int i = 1;
-	char *home;
-	while(argv[i])
+	int		i;
+	char	*home;
+
+	i = 1;
+	while (argv[i])
 		i++;
 	if (i == 1)
 	{
@@ -88,7 +86,7 @@ int cd(char **argv, char **envp)
 
 // int main(int argc, char **argv, char **envp)
 // {
-// 	printf("%s\n", getcwd(NULL, 0));
+// 	pwd(envp);
 // 	cd(argv, envp);
-// 	printf("%s\n", getcwd(NULL, 0));
+// 	pwd(envp);
 // }
