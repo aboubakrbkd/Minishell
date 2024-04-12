@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/17 12:17:03 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/12 06:36:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_minishell
 	t_env	*env;
 }				t_minishell;
 
-// #define malloc(x) NULL 
+ #define malloc(x) NULL 
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);

@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/11 16:34:12 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/12 06:37:52 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	update_env(char *name, char *value, char **envp)
 		tmp = tmp->next;
 	}
 }
+
 void	update_pwd(char *path, char **envp)
 {
 	update_env("OLDPWD", my_getenv("PWD", envp), envp);
@@ -71,6 +72,7 @@ int cd(char **argv, char **envp)
 		if (chdir(home) == -1)
 			printf("cd: %s: No such file or directory\n", home);
 		update_pwd(my_getenv("HOME", envp), envp);
+		return (0);
 	}
 	else
 	{
@@ -84,10 +86,9 @@ int cd(char **argv, char **envp)
 	return (0);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	printf("%s\n", getcwd(NULL, 0));
-	cd(argv, envp);
-	printf("%s\n", getcwd(NULL, 0));
-	
-}
+// int main(int argc, char **argv, char **envp)
+// {
+// 	printf("%s\n", getcwd(NULL, 0));
+// 	cd(argv, envp);
+// 	printf("%s\n", getcwd(NULL, 0));
+// }
