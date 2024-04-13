@@ -30,7 +30,10 @@ char	*check(char *my_argv)
 		if (access(my_argv, F_OK | X_OK) == 0)
 			return (my_argv);
 		else
-			msg_error("error");
+		{
+            printf("error in acces /\n");
+            exit(1);
+        }
 	}
 	return (0);
 }
@@ -104,7 +107,7 @@ int main(int argc,char **argv, char **envp)
             perror("pipe");
             exit(1);
         }
-        id == fork();
+        id = fork();
         if (id == -1)
         {
             perror("fork");
@@ -114,7 +117,7 @@ int main(int argc,char **argv, char **envp)
         {
 
             node->cmd = command(node->argv[0], envp);
-            if (execve(node->cmd, node->argv, envp) == -1);
+            if (execve(node->cmd, node->argv, envp) == -1)
             {
                 perror("execve");
                 exit(1);
@@ -129,7 +132,7 @@ int main(int argc,char **argv, char **envp)
             perror("pipe");
             exit(1);
         }
-        id == fork();
+        id = fork();
         if (id == -1)
         {
             perror("fork");
@@ -138,7 +141,7 @@ int main(int argc,char **argv, char **envp)
         if (id == 0)
         {
             node->cmd = command(node->argv[0], envp);
-            if (execve(node->cmd, node->argv, envp) == -1);
+            if (execve(node->cmd, node->argv, envp) == -1)
             {
                 perror("execve");
                 exit(1);
@@ -147,6 +150,6 @@ int main(int argc,char **argv, char **envp)
     }
     while (wait(NULL) != -1)
         ;
-    close_files(&node);
+    close_files(node);
 }
 
