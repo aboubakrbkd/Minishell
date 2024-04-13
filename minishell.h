@@ -19,6 +19,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
+
 
 typedef struct s_env
 {
@@ -40,6 +42,7 @@ typedef struct s_cmd
 	char	**argv;
 	int		infile;
 	int		outfile;
+	struct s_cmd	*next;
 }				t_cmd;
 
 char	**ft_split(char *s, char c);
