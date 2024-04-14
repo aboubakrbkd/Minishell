@@ -94,9 +94,9 @@ void	close_files(t_cmd *node)
     
 }
 
-int main(int argc,char **argv, char **envp)
+void    execution(t_cmd *node, char **envp)
 {
-    t_cmd *node;
+    // t_cmd *node;
     int fd[2];
     int id;
 
@@ -115,7 +115,7 @@ int main(int argc,char **argv, char **envp)
         }
         if (id == 0)
         {
-
+            
             node->cmd = command(node->argv[0], envp);
             if (execve(node->cmd, node->argv, envp) == -1)
             {
@@ -153,3 +153,23 @@ int main(int argc,char **argv, char **envp)
     close_files(node);
 }
 
+int main(int argc, char **argv,  char **envp)
+{
+    t_cmd *node;
+    node = (t_cmd *)malloc(sizeof(t_cmd));
+    node->argv = (char **)malloc(sizeof(char *) * 3);
+    node->argv[0] = ft_strdup("ls");
+    node->argv[1] = NULL;
+    node->argv[2] = NULL;
+    node->infile = 0;
+    node->outfile = 1;
+    node->next = (t_cmd *)malloc(sizeof(t_cmd));
+    node->next->argv = (char **)malloc(sizeof(char *) * 3);
+    node->next->argv[0] = ft_strdup("wc");
+    node->next->argv[1] = NULL;
+    node->next->argv[2] = NULL;
+    node->next->infile = 0;
+    node->next->outfile = 1;
+    node->next->next = NULL;
+    execution(node, envp);
+}
