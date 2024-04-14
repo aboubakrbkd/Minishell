@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/14 11:55:24 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:44:39 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	cd(char **argv, char **envp)
 	return (0);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	pwd(envp);
-	cd(argv, envp);
-	pwd(envp);
-}
+// int main(int argc, char **argv, char **envp)
+// {
+// 	pwd(envp);
+// 	cd(argv, envp);
+// 	pwd(envp);
+// }
