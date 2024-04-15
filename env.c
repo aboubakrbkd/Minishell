@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/13 18:22:52 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:21:17 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,27 @@ void	env(t_env *env, char **envp)
 		env = env->next;
 	}
 }
+
+// void	dynamic_env(char **envp)
+// {
+// 	int i = 0;
+// 	t_env *env = env_init(envp);
+// 	char **envr;
+// 	while (env)
+// 	{
+// 		i++;
+// 		env = env->next;
+// 	}
+// 	envr = malloc(sizeof(char *) * (i + 1));
+// 	i = 0;
+// 	while (env)
+// 	{
+// 		envr = ft_strjoin(env->name, "=");
+// 		envr = ft_strjoin(envr, env->value);
+// 		i++;
+// 	}
+// 	envr[i] = NULL;
+// }
 // int main(int argc, char **argv, char **envp)
 // {
 // 	t_env *envm;

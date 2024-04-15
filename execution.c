@@ -1,12 +1,6 @@
 #include "minishell.h"
 #include <stdio.h>
-/*
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**argv;
-}				t_cmd;
-*/
+
 
 void	free_all(char **str)
 {
@@ -19,6 +13,28 @@ void	free_all(char **str)
 		i++;
 	}
 	free(str);
+}
+
+char **	dynamic_env(char **envp)
+{
+	int i = 0;
+	t_env *env = env_init(envp);
+	char **envr;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	envr = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (env)
+	{
+		envr[i] = ft_strjoin(env->name, "=");
+		envr[i] = ft_strjoin(envr[i], env->value);
+		i++;
+	}
+	envr[i] = NULL;
+    return (envr);
 }
 
 char	*check(char *my_argv)
@@ -77,24 +93,8 @@ char	*command(char *my_argv, char **envp)
 	return (free_all(path), NULL);
 }
 
-// void	close_files(t_cmd *node)
-// {
-// 	if (close(node->infile) == -1)
-//     {
-//         perror("close");
-//         exit(1);
-//     }
-// 	if (close(node->outfile) == -1)
-//     {
-//         perror("close");
-//         exit(1);
-//     }
-    
-// }
-
 void    execution(t_cmd *node, char **envp)
 {
-    // t_cmd *node;
     int fd[2];
     int id;
     int fd_int = dup(0);
@@ -123,7 +123,7 @@ void    execution(t_cmd *node, char **envp)
             }
             close(fd[1]);
             node->cmd = command(node->argv[0], envp);
-            if (execve(node->cmd, node->argv, envp) == -1)
+            if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
             {
                 perror("execve");
                 exit(1);
@@ -145,7 +145,7 @@ void    execution(t_cmd *node, char **envp)
         if (id == 0)
         {
             node->cmd = command(node->argv[0], envp);
-            if (execve(node->cmd, node->argv, envp) == -1)
+            if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
             {
                 perror("execve");
                 exit(1);
@@ -172,13 +172,13 @@ int main(int argc, char **argv,  char **envp)
     node->argv[2] = NULL;
     node->next = (t_cmd *)malloc(sizeof(t_cmd));
     node->next->argv = (char **)malloc(sizeof(char *) * 3);
-    node->next->argv[0] = ft_strdup("cat");
+    node->next->argv[0] = ft_strdup("ls");
     node->next->argv[1] = NULL;
     node->next->argv[2] = NULL;
     node->next->next = NULL;
     node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
     node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-    node->next->next->argv[0] = ft_strdup("ls");
+    node->next->next->argv[0] = ft_strdup("wc");
     node->next->next->argv[1] = NULL;
     node->next->next->argv[2] = NULL;
     node->next->next->next = NULL;
