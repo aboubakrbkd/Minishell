@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/04/12 14:43:47 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:15:36 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef struct s_cmd
 {
 	char	*cmd;
 	char	**argv;
-	int		infile;
-	int		outfile;
+	// int		infile;
+	// int		outfile;
 	struct s_cmd	*next;
 }				t_cmd;
 

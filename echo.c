@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/13 18:23:49 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:56:33 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	echo(char **argv)
 	if (argv[i] == NULL)
 	{
 		printf("\n");
-		return (0);
+		return (0) ;
 	}
 	while (argv[i] && !ft_strncmp(argv[i], "-n", 2))
 	{
