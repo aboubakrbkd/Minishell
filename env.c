@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/15 17:21:17 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/16 10:46:57 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	env(t_env *env, char **envp)
 // 	}
 // 	envr[i] = NULL;
 // }
+
+
 // int main(int argc, char **argv, char **envp)
 // {
 // 	t_env *envm;

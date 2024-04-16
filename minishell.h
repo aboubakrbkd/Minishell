@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/04/15 10:15:36 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:03:30 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
-
 
 typedef struct s_env
 {
@@ -38,12 +37,12 @@ typedef struct s_minishell
 /* tis is an example of the struct i need */
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**argv;
-	// int		infile;
-	// int		outfile;
+	char			*cmd;
+	char			**argv;
+	// int			infile;
+	// int			outfile;
 	struct s_cmd	*next;
-}				t_cmd;
+}					t_cmd;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
