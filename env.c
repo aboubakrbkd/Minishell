@@ -140,8 +140,8 @@ void	env(t_env *env, char **envp)
 // 	}
 // 	envr[i] = NULL;
 // }
-int main(int argc, char **argv, char **envp)
-{
-	t_env *envm;
-	env(envm, envp);
-}
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_env *envm;
+// 	env(envm, envp);
+// }

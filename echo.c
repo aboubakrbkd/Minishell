@@ -23,7 +23,7 @@ int	check_if_flag(char *argv)
 	if (argv[0] != '-')
 		return (1);
 	i++;
-	while (argv && argv[i])
+	while (argv[i])
 	{
 		if (argv[i] != 'n')
 			return (1);
@@ -44,6 +44,11 @@ int	echo(char **argv)
 		printf("\n");
 		return (0);
 	}
+	if (strcmp(argv[i], "-") == 0)
+	{
+        printf("%s", argv[i]);
+        i++;
+    }
 	while (argv[i] && !check_if_flag(argv[i]))
 	{
 		flag = 1;
@@ -61,7 +66,7 @@ int	echo(char **argv)
 	return (0);
 }
 
-int main(int argc, char **argv)
-{
-	echo(argv);
-}
+// int main(int argc, char **argv)
+// {
+// 	echo(argv);
+// }
