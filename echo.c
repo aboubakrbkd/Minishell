@@ -11,6 +11,26 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
+
+int	check_if_flag(char *argv)
+{
+	int i;
+
+	i = 0;
+	if (!strcmp(argv, "-n"))
+		return (0);
+	if (argv[0] != '-')
+		return (1);
+	i++;
+	while (argv && argv[i])
+	{
+		if (argv[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	echo(char **argv)
 {
@@ -24,7 +44,7 @@ int	echo(char **argv)
 		printf("\n");
 		return (0);
 	}
-	while (argv[i] && !ft_strncmp(argv[i], "-n", 2))
+	while (argv[i] && !check_if_flag(argv[i]))
 	{
 		flag = 1;
 		i++;
@@ -41,7 +61,7 @@ int	echo(char **argv)
 	return (0);
 }
 
-// int main(int argc, char **argv)
-// {
-// 	echo(argv);
-// }
+int main(int argc, char **argv)
+{
+	echo(argv);
+}

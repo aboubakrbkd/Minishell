@@ -178,25 +178,25 @@ void	execution(t_cmd *node, char **envp)
 		;
 }
 
-// int main(int argc, char **argv,  char **envp)
-// {
-//     t_cmd *node;
-//     node = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->argv[0] = ft_strdup("cat");
-//     node->argv[1] = NULL;
-//     node->argv[2] = NULL;
-//     node->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->argv[0] = ft_strdup("ls");
-//     node->next->argv[1] = NULL;
-//     node->next->argv[2] = NULL;
-//     node->next->next = NULL;
-//     node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->next->argv[0] = ft_strdup("wc");
-//     node->next->next->argv[1] = NULL;
-//     node->next->next->argv[2] = NULL;
-//     node->next->next->next = NULL;
-//     execution(node, envp);
-// }
+int main(int argc, char **argv,  char **envp)
+{
+    t_cmd *node;
+    node = (t_cmd *)malloc(sizeof(t_cmd));
+    node->argv = (char **)malloc(sizeof(char *) * 3);
+    node->argv[0] = ft_strdup("cat");
+    node->argv[1] = NULL;
+    node->argv[2] = NULL;
+    node->next = (t_cmd *)malloc(sizeof(t_cmd));
+    node->next->argv = (char **)malloc(sizeof(char *) * 3);
+    node->next->argv[0] = ft_strdup("ls");
+    node->next->argv[1] = NULL;
+    node->next->argv[2] = NULL;
+    node->next->next = NULL;
+    node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
+    node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
+    node->next->next->argv[0] = ft_strdup("wc");
+    node->next->next->argv[1] = NULL;
+    node->next->next->argv[2] = NULL;
+    node->next->next->next = NULL;
+    execution(node, envp);
+}
