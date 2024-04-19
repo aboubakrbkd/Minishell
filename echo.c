@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/16 16:49:34 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:14:06 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	check_if_flag(char *argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!strcmp(argv, "-n"))
@@ -46,9 +46,9 @@ int	echo(char **argv)
 	}
 	if (strcmp(argv[i], "-") == 0)
 	{
-        printf("%s", argv[i]);
-        i++;
-    }
+		printf("%s", argv[i]);
+		i++;
+	}
 	while (argv[i] && !check_if_flag(argv[i]))
 	{
 		flag = 1;
