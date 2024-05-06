@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/19 14:14:17 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:11:57 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,38 +110,28 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(t_env *env, char **envp)
-{
-	env = env_init(envp);
-	while (env)
-	{
-		printf("%s=%s\n", env->name, env->value);
-		env = env->next;
-	}
-}
-
-// void	dynamic_env(char **envp)
+// void	env(t_env *env, char **envp)
 // {
-// 	int i = 0;
-// 	t_env *env = env_init(envp);
-// 	char **envr;
+// 	env = env_init(envp);
 // 	while (env)
 // 	{
-// 		i++;
+// 		printf("%s=%s\n", env->name, env->value);
 // 		env = env->next;
 // 	}
-// 	envr = malloc(sizeof(char *) * (i + 1));
-// 	i = 0;
-// 	while (env)
-// 	{
-// 		envr = ft_strjoin(env->name, "=");
-// 		envr = ft_strjoin(envr, env->value);
-// 		i++;
-// 	}
-// 	envr[i] = NULL;
 // }
+
+// void env(t_env *envps)
+// {
+//     t_env *tmp = envps;
+//     while (tmp != NULL)
+// 	{
+//         printf("%s=%s\n", tmp->name, tmp->value);
+//         tmp = tmp->next;
+//     }
+// }
+
 // int main(int argc, char **argv, char **envp)
 // {
 // 	t_env *envm;
-// 	env(envm, envp);
+// 	env(envm);
 // }

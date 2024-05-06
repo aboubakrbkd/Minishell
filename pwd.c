@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/12 14:40:38 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:10:42 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,5 @@ void	pwd(char **envp)
 
 	pwdir = getcwd(NULL, 0);
 	printf("%s\n", pwdir);
+	free(pwdir);
 }

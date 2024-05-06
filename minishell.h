@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/04/16 11:03:30 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:38:06 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
-void	env(t_env *env, char **envp);
+// void	env(t_env *env, char **envp);
 void	pwd(char **envp);
 t_env	*env_init(char **envp);
 char	*my_getenv(char *name, char **envp);

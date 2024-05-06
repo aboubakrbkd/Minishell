@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/16 14:23:29 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:15:50 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exit_function(char **argv)
 {
 	printf("exit\n");
 	if (argv[1] == NULL)
-		exit(1);
+		exit(0);
 	if (!is_all_num(argv[1]))
 	{
 		if (argv[2] == NULL)
