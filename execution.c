@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 10:47:19 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:58:40 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ char	*command(char *my_argv, char **envp)
 	}
 	return (free_all(path), NULL);
 }
+
+
 
 void	execution(t_cmd *node, char **envp)
 {

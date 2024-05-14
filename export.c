@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 11:20:33 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:37:36 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,32 @@ char	*get_value(char *str)
 	return (find + 1);
 }
 
+void	add_env(t_env **env, char *name, char *value)
+{
+	t_env	*new;
+	t_env	*tmp;
+
+	tmp = *env;
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->name = ft_strdup(name);
+	if (value == NULL)
+		new->value = NULL;
+	else
+		new->value = ft_strdup(value);
+	new->index = 0;
+	new->next = NULL;
+	if (!env || !*env)
+	{
+		*env = new;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
 int	update_the_value(char *name, char *value)
 {
 	t_env	*env;
@@ -212,32 +238,6 @@ int	add_the_value(char *name, char *value)
 		env = env->next;
 	}
 	return (1);
-}
-
-void	add_env(t_env **env, char *name, char *value)
-{
-	t_env	*new;
-	t_env	*tmp;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return ;
-	new->name = ft_strdup(name);
-	if (value == NULL)
-		new->value = NULL;
-	else
-		new->value = ft_strdup(value);
-	new->index = 0;
-	new->next = NULL;
-	if (!env || !*env)
-	{
-		*env = new;
-		return ;
-	}
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
 }
 
 int	is_valid_to_export(char *str)
@@ -306,10 +306,6 @@ void	export(char **argv)
 	}
 }
 
-/*
-	export t=pp t
-	cd test
-*/
 int	main(int argc, char **argv, char **envp)
 {
 	char	*result;
