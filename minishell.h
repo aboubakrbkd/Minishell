@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/06 13:38:06 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:41:36 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	int				index;
 	struct s_env	*next;
 }				t_env;
+
+typedef struct s_global
+{
+	t_env	*envs;
+}				t_global;
 
 typedef struct s_minishell
 {
@@ -53,9 +59,20 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
-// void	env(t_env *env, char **envp);
 void	pwd(char **envp);
 t_env	*env_init(char **envp);
-char	*my_getenv(char *name, char **envp);
+char	*my_getenv(char *name);
+t_env	*ft_lstnew(char *name, char *value);
+int		is_number(char c);
+int		is_upper(char c);
+int		is_lower(char c);
+
+/*************BUILT in**/
+int		echo(char **argv);
+int		cd(char **argv);
+int		exit_function(char **argv);
+void	env(t_env *env);
+int		unset(char **argv, t_env **envps);
+void	pwd(char **argv);
 
 #endif

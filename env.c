@@ -6,13 +6,13 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/06 16:11:57 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:46:20 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// i need to change them to 2d array
+t_global	g_global;
 
 t_env	*ft_lstnew(char *name, char *value)
 {
@@ -101,37 +101,25 @@ t_env	*env_init(char **envp)
 		sp = env_split(envp[i], '=');
 		if (!sp)
 			break ;
-		new = ft_lstnew(sp[0], sp[1]);
-		if (new == NULL)
-			break ;
-		ft_lstadd_back(&head, new);
+		if (sp[1] != NULL)
+		{
+			new = ft_lstnew(sp[0], sp[1]);
+			if (new == NULL)
+				break ;
+			ft_lstadd_back(&head, new);
+		}
 		i++;
 	}
 	return (head);
 }
 
-// void	env(t_env *env, char **envp)
-// {
-// 	env = env_init(envp);
-// 	while (env)
-// 	{
-// 		printf("%s=%s\n", env->name, env->value);
-// 		env = env->next;
-// 	}
-// }
-
-// void env(t_env *envps)
-// {
-//     t_env *tmp = envps;
-//     while (tmp != NULL)
-// 	{
-//         printf("%s=%s\n", tmp->name, tmp->value);
-//         tmp = tmp->next;
-//     }
-// }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_env *envm;
-// 	env(envm);
-// }
+void	env(t_env *env)
+{
+	env = g_global.envs;
+	while (env)
+	{
+		if (env->value)
+			printf("%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
+}

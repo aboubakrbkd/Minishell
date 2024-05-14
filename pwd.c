@@ -6,13 +6,13 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/06 15:10:42 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:40:40 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(char **envp)
+void	pwd(char **argv)
 {
 	char	*pwdir;
 

@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/06 15:05:00 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:40:16 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,3 @@ int	echo(char **argv)
 		printf("\n");
 	return (0);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	echo(argv);
-// }

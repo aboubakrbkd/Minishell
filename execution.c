@@ -6,12 +6,15 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/06 16:12:39 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:47:19 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
+#include <string.h>
+
+t_global	g_global;
 
 void	free_all(char **str)
 {
@@ -159,13 +162,11 @@ void	execution(t_cmd *node, char **envp)
 			exit(1);
 		}
 		if (id == 0)
-		{
 			node->cmd = command(node->argv[0], envp);
-			if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
-			{
-				perror("execve");
-				exit(1);
-			}
+		if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
+		{
+			perror("execve");
+			exit(1);
 		}
 	}
 	close(fd[0]);
@@ -183,20 +184,20 @@ void	execution(t_cmd *node, char **envp)
 //     t_cmd *node;
 //     node = (t_cmd *)malloc(sizeof(t_cmd));
 //     node->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->argv[0] = ft_strdup("cat");
+//     node->argv[0] = ft_strdup("ls");
 //     node->argv[1] = NULL;
 //     node->argv[2] = NULL;
 //     node->next = (t_cmd *)malloc(sizeof(t_cmd));
 //     node->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->argv[0] = ft_strdup("ls");
+//     node->next->argv[0] = ft_strdup("cat");
 //     node->next->argv[1] = NULL;
 //     node->next->argv[2] = NULL;
 //     node->next->next = NULL;
-//     node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->next->argv[0] = ft_strdup("wc");
-//     node->next->next->argv[1] = NULL;
-//     node->next->next->argv[2] = NULL;
-//     node->next->next->next = NULL;
+//     // node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
+//     // node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
+//     // node->next->next->argv[0] = ft_strdup("wc");
+//     // node->next->next->argv[1] = NULL;
+//     // node->next->next->argv[2] = NULL;
+//     // node->next->next->next = NULL;
 //     execution(node, envp);
 // }

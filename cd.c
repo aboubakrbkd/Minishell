@@ -6,18 +6,20 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/06 13:44:50 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:45:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
-char	*my_getenv(char *name, char **envp)
+t_global	g_global;
+
+char	*my_getenv(char *name)
 {
 	t_env	*env;
 
-	env = env_init(envp);
+	env = g_global.envs;
 	while (env)
 	{
 		if (!ft_strncmp(env->name, name, ft_strlen(name)))
@@ -27,11 +29,11 @@ char	*my_getenv(char *name, char **envp)
 	return (NULL);
 }
 
-void	update_env(char *name, char *value, char **envp)
+void	update_env(char *name, char *value)
 {
 	t_env	*tmp;
 
-	tmp = env_init(envp);
+	tmp = g_global.envs;
 	if (!name || !value)
 		return ;
 	while (tmp)
@@ -45,16 +47,16 @@ void	update_env(char *name, char *value, char **envp)
 	}
 }
 
-void	update_pwd(char *path, char **envp)
+void	update_pwd(char *path)
 {
 	char	*home;
 
-	update_env("OLDPWD", my_getenv("PWD", envp), envp);
+	update_env("OLDPWD", my_getenv("PWD"));
 	home = getcwd(NULL, 0);
-	update_env("PWD", home, envp);
+	update_env("PWD", home);
 }
 
-int	cd(char **argv, char **envp)
+int	cd(char **argv)
 {
 	int		i;
 	char	*home;
@@ -64,12 +66,12 @@ int	cd(char **argv, char **envp)
 		i++;
 	if (i == 1)
 	{
-		home = my_getenv("HOME", envp);
+		home = my_getenv("HOME");
 		if (!home)
 			printf("cd: HOME not set\n");
 		if (chdir(home) == -1)
 			printf("cd: %s: No such file or directory\n", home);
-		update_pwd(my_getenv("HOME", envp), envp);
+		update_pwd(my_getenv("HOME"));
 		return (0);
 	}
 	else
@@ -80,13 +82,6 @@ int	cd(char **argv, char **envp)
 			return (1);
 		}
 	}
-	update_pwd(argv[1], envp);
+	update_pwd(argv[1]);
 	return (0);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	pwd(envp);
-// 	cd(argv, envp);
-// 	pwd(envp);
-// }
