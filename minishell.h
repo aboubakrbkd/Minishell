@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
 /*   Updated: 2024/05/15 14:01:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:58:55 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +50,13 @@ typedef struct s_cmd
 	// int			outfile;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_parse
+{
+	char			*data;
+	struct s_list	*left;
+	struct s_list	*right;
+}	t_parse;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
