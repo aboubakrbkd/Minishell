@@ -6,6 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/05/15 14:01:20 by aboukdid         ###   ########.fr       */
 /*   Updated: 2024/05/15 15:58:55 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -19,13 +20,20 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	int				index;
 	struct s_env	*next;
 }				t_env;
+
+typedef struct s_global
+{
+	t_env	*envs;
+}				t_global;
 
 typedef struct s_minishell
 {
@@ -33,7 +41,15 @@ typedef struct s_minishell
 	t_env	*env;
 }				t_minishell;
 
-// #define malloc(x) NULL 
+/* tis is an example of the struct i need */
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**argv;
+	// int			infile;
+	// int			outfile;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_parse
 {
@@ -51,5 +67,21 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
+void	pwd(char **envp);
+t_env	*env_init(char **envp);
+char	*my_getenv(char *name);
+t_env	*ft_lstnew(char *name, char *value);
+int		is_number(char c);
+int		is_upper(char c);
+int		is_lower(char c);
+void	execution(t_cmd *node, char **envp);
+
+/*************BUILT in**/
+int		echo(char **argv);
+int		cd(char **argv);
+int		exit_function(char **argv);
+void	env(t_env *env);
+int		unset(char **argv, t_env **envps);
+void	pwd(char **argv);
 
 #endif

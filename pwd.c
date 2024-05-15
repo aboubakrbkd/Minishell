@@ -6,28 +6,17 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/03/14 15:47:08 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 10:44:00 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
 
-void	pwd(void)
+void	pwd(char **args)
 {
 	char	*pwdir;
 
-	pwdir = getenv("PWD");
-	if (pwdir == NULL)
-	{
-		pwdir = getcwd(NULL, 0);
-		if (!pwdir)
-		{
-			perror("eroor");
-			exit(1);
-		}
-		else
-			printf("%s\n", pwdir);
-	}
-	else
-		printf("%s\n", pwdir);
+	pwdir = my_getenv("PWD");
+	printf("%s\n", pwdir);
 }

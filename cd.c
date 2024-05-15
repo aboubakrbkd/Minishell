@@ -6,26 +6,20 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/04/11 09:54:39 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:37:29 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
-/*
-	i need to build 2 functions;
-	1- function to give the env i want like i f i want home it will print me home path;
-	2- FUNCTION TO UPDATE ENV
-	3-i need a fcuntion to update the pwd whenever i make cd 
-	
-*/
+t_global	g_global;
 
-char	*my_getenv(char *name, char **envp)
+char	*my_getenv(char *name)
 {
-	t_env *env;
-	
-	env = env_init(envp);
+	t_env	*env;
+
+	env = g_global.envs;
 	while (env)
 	{
 		if (!ft_strncmp(env->name, name, ft_strlen(name)))
@@ -35,23 +29,101 @@ char	*my_getenv(char *name, char **envp)
 	return (NULL);
 }
 
-int cd(char **argv, char **envp)
+void	update_env(char *name, char *value)
 {
-	int i = 1;
-	char *home;
-	while(argv[i])
-		i++;
-	if (i == 1)
+	t_env	*tmp;
+
+	tmp = g_global.envs;
+	if (!name || !value)
+		return ;
+	while (tmp)
 	{
-		home = my_getenv("HOME", envp);
-		if (chdir(home) == -1)
-			printf("cd: %s: No such file or directory\n", home);
-		
+		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
+		{
+			tmp->value = ft_strdup(value);
+			break ;
+		}
+		tmp = tmp->next;
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+void	update_pwd(char *path)
 {
-	// printf("%s\n", my_getenv("HOME", envp));
-	cd(argv, envp);
+	char	*home;
+
+	update_env("OLDPWD", my_getenv("PWD"));
+	home = getcwd(NULL, 0);
+	update_env("PWD", home);
+}
+
+void	home_function(char *home)
+{
+	home = my_getenv("HOME");
+	if (!home)
+		printf("cd: HOME not set\n");
+	if (chdir(home) == -1)
+		printf("cd: %s: No such file or directory\n", home);
+	update_pwd(my_getenv("HOME"));
+}
+int	cd(char **argv)
+{
+	int		i;
+	char	*home;
+
+	i = 1;
+	while (argv[i])
+		i++;
+	if (i == 1)
+	{
+		// home = my_getenv("HOME");
+		// if (!home)
+		// 	printf("cd: HOME not set\n");
+		// if (chdir(home) == -1)
+		// 	printf("cd: %s: No such file or directory\n", home);
+		// update_pwd(my_getenv("HOME"));
+		home_function(home);
+		return (0);
+	}
+	else
+	{
+		if (!strcmp(argv[1], "~"))
+		{
+			// home = my_getenv("HOME");
+			// if (!home)
+			// 	printf("cd: HOME not set\n");
+			// if (chdir(home) == -1)
+			// 	printf("cd: %s: No such file or directory\n", home);
+			// update_pwd(my_getenv("HOME"));
+			home_function(home);
+			return (0);
+		}
+		else if (!strcmp(argv[1], "-"))
+		{
+			if (chdir(my_getenv("OLDPWD")) == -1)
+				printf("cd: %s: No such file or directory\n",
+					my_getenv("OLDPWD"));
+			update_pwd(my_getenv("OLDPWD"));
+			printf("%s\n", my_getenv("PWD"));
+			return (0);
+		}
+		else if (chdir(argv[1]) == -1)
+		{
+			if (!strcmp(argv[1], ".."))
+			{
+				home = my_getenv("HOME");
+				if (!home)
+					printf("cd: HOME not set\n");
+				if (chdir(home) == -1)
+					printf("cd: %s: No such file or directory\n", home);
+				printf("cd: error retrieving current directory: ");
+				printf("getcwd: cannot access parent directories: No such file or directory\n");
+				update_pwd(my_getenv("HOME"));
+				return (0);
+			}
+			printf("cd: %s: No such file or directory\n", argv[1]);
+			return (1);
+		}
+	}
+	update_pwd(argv[1]);
+	return (0);
 }
