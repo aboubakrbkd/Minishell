@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/12 13:30:46 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/15 15:58:55 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,5 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
-<<<<<<< HEAD
-t_list	*ft_lstnew(char *content);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_strlen(char *s);
-char	*ft_strdup(char *str);
-=======
-
-
-void	env(t_env *env, char **envp);
-void	pwd(void);
-t_env	*env_init(char **envp);
->>>>>>> f343ddced3d30c1a5f1736c7b84cb1e51c7da1d4
 
 #endif
