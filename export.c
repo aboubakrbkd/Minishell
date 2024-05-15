@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 17:37:36 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:01:38 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,31 +173,8 @@ char	*get_value(char *str)
 	return (find + 1);
 }
 
-void	add_env(t_env **env, char *name, char *value)
-{
-	t_env	*new;
-	t_env	*tmp;
 
-	tmp = *env;
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return ;
-	new->name = ft_strdup(name);
-	if (value == NULL)
-		new->value = NULL;
-	else
-		new->value = ft_strdup(value);
-	new->index = 0;
-	new->next = NULL;
-	if (!env || !*env)
-	{
-		*env = new;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
+// export z x-= y=oooo 
 
 int	update_the_value(char *name, char *value)
 {
@@ -225,7 +202,6 @@ int	add_the_value(char *name, char *value)
 	t_env	*env;
 
 	env = g_global.envs;
-	
 	if (!value)
 		return (1);
 	while (env)
@@ -238,6 +214,45 @@ int	add_the_value(char *name, char *value)
 		env = env->next;
 	}
 	return (1);
+}
+void	add_env(t_env **env, char *name, char *value)
+{
+	t_env	*new_node;
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (!strcmp(tmp->name, name))
+		{
+			if (value != NULL)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(value);
+			}
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return ;
+	new_node->name = ft_strdup(name);
+	if (!value)
+		new_node->value = NULL;
+	else
+		new_node->value = ft_strdup(value);
+	new_node->index = 0;
+	new_node->next = NULL;
+	if (!*env)
+	{
+		*env = new_node;
+		return ;
+	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
 }
 
 int	is_valid_to_export(char *str)
@@ -270,7 +285,6 @@ void	checking_and_add(int is_valid, char *argv)
 	name = get_name(argv);
 	value = get_value(argv);
 	is_valid = ft_strlen(name);
-
 	if (!(*argv + is_valid))
 		is_modified = 1;
 	else if (*(argv + is_valid) == '+')
@@ -297,11 +311,9 @@ void	export(char **argv)
 	{
 		is_valid = is_valid_to_export(*argv);
 		if (is_valid == -1)
-		{
 			printf("minishell: export: `%s': not a valid identifier\n", *argv);
-			return ;
-		}
-		checking_and_add(is_valid, *argv);
+		else
+			checking_and_add(is_valid, *argv);
 		argv++;
 	}
 }
@@ -309,7 +321,12 @@ void	export(char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*result;
-
+	t_cmd	*cmd;
+	
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	
 	g_global.envs = env_init(envp);
 	while (1)
 	{
@@ -334,7 +351,10 @@ int	main(int argc, char **argv, char **envp)
 			unset(argv, &g_global.envs);
 		else if (!strcmp(*argv, "env"))
 			env(g_global.envs);
+		// else
+		// 	printf("minishell: %s: command not found\n", *argv);
 		else
-			printf("minishell: %s: command not found\n", *argv);
+			execution(cmd, envp);
+
 	}
 }

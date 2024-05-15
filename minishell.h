@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/14 17:29:32 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:01:20 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_env	*ft_lstnew(char *name, char *value);
 int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
+void	execution(t_cmd *node, char **envp);
 
 /*************BUILT in**/
 int		echo(char **argv);

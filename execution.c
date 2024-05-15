@@ -6,13 +6,12 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 19:58:40 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:37:53 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
-#include <string.h>
 
 t_global	g_global;
 
@@ -71,45 +70,46 @@ char	*check(char *my_argv)
 
 char	**get_path(char **envp)
 {
-	int		i;
-	char	**s;
-
-	i = 0;
+	int		i = 0;
+	char	**s = NULL;
+	
 	while (envp[i])
 	{
 		if (!ft_strncmp("PATH=", envp[i], 5))
-			break ;
+		{
+			s = ft_split(envp[i] + 5, ':');
+			break;
+		}
 		i++;
 	}
-	s = ft_split(envp[i] + 5, ':');
-	return (s);
+	return s;
 }
-
 char	*command(char *my_argv, char **envp)
 {
-	char	**path;
-	char	*joiner;
-	char	*command_path;
-	int		i;
+    char	**path = NULL;
+    char	*command_path = NULL;
+    char	*joiner = NULL;
+    int		i = 0;
 
-	path = get_path(envp);
-	i = 0;
-	check(my_argv);
-	while (path[i])
+    path = get_path(envp);
+    if (!path)
+        return NULL;
+    check(my_argv);
+    while (path && path[i])
 	{
-		if (access(my_argv, F_OK | X_OK) == 0)
-			return (my_argv);
-		joiner = ft_strjoin(path[i], "/");
-		command_path = ft_strjoin(joiner, my_argv);
-		free(joiner);
-		if (access(command_path, F_OK | X_OK) == 0)
-			return (free_all(path), command_path);
-		free(command_path);
-		i++;
-	}
-	return (free_all(path), NULL);
+        joiner = ft_strjoin(path[i], "/");
+        command_path = ft_strjoin(joiner, my_argv);
+        free(joiner);
+        if (access(command_path, F_OK | X_OK) == 0) {
+            free_all(path);
+            return command_path;
+        }
+        free(command_path);
+        i++;
+    }
+    free_all(path);
+    return NULL;
 }
-
 
 
 void	execution(t_cmd *node, char **envp)
@@ -164,11 +164,13 @@ void	execution(t_cmd *node, char **envp)
 			exit(1);
 		}
 		if (id == 0)
-			node->cmd = command(node->argv[0], envp);
-		if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
 		{
-			perror("execve");
-			exit(1);
+			node->cmd = command(node->argv[0], envp);
+			if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
 	}
 	close(fd[0]);
@@ -186,20 +188,20 @@ void	execution(t_cmd *node, char **envp)
 //     t_cmd *node;
 //     node = (t_cmd *)malloc(sizeof(t_cmd));
 //     node->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->argv[0] = ft_strdup("ls");
+//     node->argv[0] = ft_strdup("cat");
 //     node->argv[1] = NULL;
 //     node->argv[2] = NULL;
 //     node->next = (t_cmd *)malloc(sizeof(t_cmd));
 //     node->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->argv[0] = ft_strdup("cat");
+//     node->next->argv[0] = ft_strdup("ls");
 //     node->next->argv[1] = NULL;
 //     node->next->argv[2] = NULL;
 //     node->next->next = NULL;
-//     // node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     // node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     // node->next->next->argv[0] = ft_strdup("wc");
-//     // node->next->next->argv[1] = NULL;
-//     // node->next->next->argv[2] = NULL;
-//     // node->next->next->next = NULL;
+//     node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
+//     node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
+//     node->next->next->argv[0] = ft_strdup("wc");
+//     node->next->next->argv[1] = NULL;
+//     node->next->next->argv[2] = NULL;
+//     node->next->next->next = NULL;
 //     execution(node, envp);
 // }
