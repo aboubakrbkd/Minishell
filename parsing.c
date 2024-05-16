@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/16 17:03:25 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/16 18:58:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,8 @@ void	syn_error(char *line)
 
 void	parsing(char *line)
 {
+	char	*str;
+
 	syn_error(line);
+	str = add_space(line);
 }
