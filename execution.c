@@ -6,32 +6,16 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 13:27:59 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:26:29 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
-t_global	g_global;
-
-char	**env_to_char_array(t_env *head)
+void	env_to_char_array_helper(t_env *current, char **envp)
 {
-	int		i;
-	char	**envp;
-	t_env	*current;
+	int	i;
 
-	i = 0;
-	current = head;
-	while (current != NULL)
-	{
-		i++;
-		current = current->next;
-	}
-	envp = malloc((i + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
-	current = head;
 	i = 0;
 	while (current)
 	{
@@ -39,14 +23,54 @@ char	**env_to_char_array(t_env *head)
 			envp[i] = ft_strjoin_with_sep(current->name, "", '=');
 		else
 			envp[i] = ft_strjoin_with_sep(current->name, current->value, '=');
+		if (!envp[i])
+		{
+			free_all(envp);
+			return ;
+		}
 		i++;
 		current = current->next;
 	}
+}
+
+char	**env_to_char_array(t_env *head)
+{
+	int		i;
+	t_env	*current;
+	char	**envp;
+
+	i = 0;
+	current = head;
+	i = env_size(head);
+	envp = malloc((i + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
+	current = head;
+	env_to_char_array_helper(current, envp);
 	envp[i] = NULL;
 	return (envp);
 }
 
-void	execution(t_cmd *node, char **envp)
+int	is_builtin(t_cmd *cmd, t_list *list)
+{
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (echo(cmd->argv), 1);
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (cd(cmd->argv, list), 1);
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return (pwd(cmd->argv, list), 1);
+	if (!ft_strcmp(cmd->argv[0], "export"))
+		return (export(cmd->argv, list), 1);
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (unset(cmd->argv, &list->envs), 1);
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return (env(cmd->argv, list), 1);
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (exit_function(cmd->argv), 1);
+	return (0);
+}
+
+void	execution(t_cmd *node, t_list *list)
 {
 	int		fd[2];
 	int		id;
@@ -56,7 +80,7 @@ void	execution(t_cmd *node, char **envp)
 
 	fd_int = dup(0);
 	fd_out = dup(1);
-	envr = env_to_char_array(g_global.envs);
+	envr = env_to_char_array(list->envs);
 	while (node->next)
 	{
 		if (pipe(fd) == -1)
@@ -79,6 +103,9 @@ void	execution(t_cmd *node, char **envp)
 				exit(1);
 			}
 			close(fd[1]);
+			//redirection
+			if (is_builtin(node, list))
+				exit(0);
 			node->cmd = command(node->argv[0], envr);
 			if (execve(node->cmd, node->argv, envr) == -1)
 			{
@@ -93,6 +120,9 @@ void	execution(t_cmd *node, char **envp)
 	}
 	if (node)
 	{
+		//redirection
+		if (is_builtin(node, list))
+			return ;
 		id = fork();
 		if (id == -1)
 		{
@@ -118,27 +148,3 @@ void	execution(t_cmd *node, char **envp)
 	while (wait(NULL) != -1)
 		;
 }
-
-// int main(int argc, char **argv,  char **envp)
-// {
-// 	g_global.envs = env_init(envp);
-// 	t_cmd *node;
-// 	node = (t_cmd *)malloc(sizeof(t_cmd));
-// 	node->argv = (char **)malloc(sizeof(char *) * 3);
-// 	node->argv[0] = ft_strdup("cat");
-// 	node->argv[1] = NULL;
-// 	node->argv[2] = NULL;
-// 	node->next = (t_cmd *)malloc(sizeof(t_cmd));
-// 	node->next->argv = (char **)malloc(sizeof(char *) * 3);
-// 	node->next->argv[0] = ft_strdup("ls");
-// 	node->next->argv[1] = NULL;
-// 	node->next->argv[2] = NULL;
-// 	node->next->next = NULL;
-// 	node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-// 	node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-// 	node->next->next->argv[0] = ft_strdup("wc");
-// 	node->next->next->argv[1] = NULL;
-// 	node->next->next->argv[2] = NULL;
-// 	node->next->next->next = NULL;
-// 	execution(node, envp);
-// }

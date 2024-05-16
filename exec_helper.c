@@ -6,13 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 13:27:31 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:11:12 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_global	g_global;
 
 char	*ft_strjoin_with_sep(char *s1, char *s2, char sep)
 {

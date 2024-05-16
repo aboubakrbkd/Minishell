@@ -6,13 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:30:15 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:02:04 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_global	g_global;
 
 char	**env_split(char *s, char c)
 {
@@ -77,9 +75,11 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(t_env *env)
+void	env(char **argv, t_list *list)
 {
-	env = g_global.envs;
+	t_env	*env;
+
+	env = list->envs;
 	while (env)
 	{
 		if (env->value)

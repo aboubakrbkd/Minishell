@@ -6,14 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 16:46:59 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:26:41 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
-
-t_global	g_global;
 
 void	print_export(t_env *env)
 {
@@ -59,7 +56,7 @@ int	is_valid_to_export(char *str)
 	return (0);
 }
 
-void	checking_and_add(int is_valid, char *argv)
+void	checking_and_add(int is_valid, char *argv, t_list *list)
 {
 	char	*name;
 	char	*value;
@@ -71,21 +68,21 @@ void	checking_and_add(int is_valid, char *argv)
 	if (!(*argv + is_valid))
 		is_modified = 1;
 	else if (*(argv + is_valid) == '+')
-		is_modified = update_the_value(name, value);
+		is_modified = update_the_value(name, value, list);
 	else
-		is_modified = add_the_value(name, value);
+		is_modified = add_the_value(name, value, list);
 	if (is_modified == 1)
-		add_env(&g_global.envs, name, value);
+		add_env(&list->envs, name, value);
 }
 
-void	export(char **argv)
+void	export(char **argv, t_list *list)
 {
 	int		is_valid;
 	t_env	*env;
 
 	if (!*(argv + 1))
 	{
-		env = g_global.envs;
+		env = list->envs;
 		print_export(env);
 		return ;
 	}
@@ -96,7 +93,7 @@ void	export(char **argv)
 		if (is_valid == -1)
 			printf("minishell: export: `%s': not a valid identifier\n", *argv);
 		else
-			checking_and_add(is_valid, *argv);
+			checking_and_add(is_valid, *argv, list);
 		argv++;
 	}
 }

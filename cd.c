@@ -6,35 +6,34 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:23:23 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:26:12 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
-void	home_function(char *home)
+void	home_function(char *home, t_list *list)
 {
-	home = my_getenv("HOME");
+	home = my_getenv("HOME", list);
 	if (!home)
 		printf("cd: HOME not set\n");
 	if (chdir(home) == -1)
 		printf("cd: %s: No such file or directory\n", home);
-	update_pwd(my_getenv("HOME"));
+	update_pwd(my_getenv("HOME", list), list);
 }
 
-void	old_pwd_function(char *home)
+void	old_pwd_function(char *home, t_list *list)
 {
-	if (chdir(my_getenv("OLDPWD")) == -1)
+	if (chdir(my_getenv("OLDPWD", list)) == -1)
 		printf("cd: %s: No such file or directory\n",
-			my_getenv("OLDPWD"));
-	update_pwd(my_getenv("OLDPWD"));
-	printf("%s\n", my_getenv("PWD"));
+			my_getenv("OLDPWD", list));
+	update_pwd(my_getenv("OLDPWD", list), list);
+	printf("%s\n", my_getenv("PWD", list));
 }
 
-void	error_function(char *home)
+void	error_function(char *home, t_list *list)
 {
-	home = my_getenv("HOME");
+	home = my_getenv("HOME", list);
 	if (!home)
 		printf("cd: HOME not set\n");
 	if (chdir(home) == -1)
@@ -42,10 +41,10 @@ void	error_function(char *home)
 	printf("cd: error retrieving current directory: ");
 	printf("getcwd: cannot access parent directories: ");
 	printf ("No such file or directory\n");
-	update_pwd(my_getenv("HOME"));
+	update_pwd(my_getenv("HOME", list), list);
 }
 
-int	cd(char **argv)
+int	cd(char **argv, t_list *list)
 {
 	int		i;
 	char	*home;
@@ -54,21 +53,21 @@ int	cd(char **argv)
 	while (argv[i])
 		i++;
 	if (i == 1)
-		return (home_function(home), 0);
+		return (home_function(home, list), 0);
 	else
 	{
 		if (!ft_strcmp(argv[1], "~"))
-			return (home_function(home), 0);
+			return (home_function(home, list), 0);
 		else if (!ft_strcmp(argv[1], "-"))
-			return (old_pwd_function(home), 0);
+			return (old_pwd_function(home, list), 0);
 		else if (chdir(argv[1]) == -1)
 		{
 			if (!ft_strcmp(argv[1], ".."))
-				return (error_function(home), 0);
+				return (error_function(home, list), 0);
 			printf("cd: %s: No such file or directory\n", argv[1]);
 			return (1);
 		}
 	}
-	update_pwd(argv[1]);
+	update_pwd(argv[1], list);
 	return (0);
 }

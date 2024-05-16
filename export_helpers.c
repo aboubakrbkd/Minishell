@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:36:23 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:15:46 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:29:11 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*get_value(char *str)
 {
 	char	*find;
 
-	find = strchr(str, '=');
+	find = ft_strchr(str, '=');
 	if (!find)
 		return (NULL);
 	return (find + 1);

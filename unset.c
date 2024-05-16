@@ -6,14 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 21:07:01 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:12:22 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:27:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
 
 void	free_env(char *name, t_env **envps)
 {

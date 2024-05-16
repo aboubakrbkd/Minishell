@@ -6,18 +6,17 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:16:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:29:36 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <ctype.h>
 
 int	is_all_num(char *s)
 {
 	while (*s)
 	{
-		if (!isdigit(*s))
+		if (!is_number(*s))
 			return (0);
 		s++;
 	}
