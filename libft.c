@@ -1,48 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 20:16:58 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/15 16:49:16 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <ctype.h>
 
-int	is_all_num(char *s)
+int	is_upper(char c)
 {
-	while (*s)
-	{
-		if (!isdigit(*s))
-			return (0);
-		s++;
-	}
-	return (1);
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	return (0);
 }
 
-int	exit_function(char **argv)
+int	is_lower(char c)
 {
-	printf("exit\n");
-	if (argv[1] == NULL)
-		exit(0);
-	if (is_all_num(argv[1]))
-	{
-		if (argv[2] == NULL)
-			exit(ft_atoi(argv[1]));
-		else
-		{
-			printf("too many arguments\n");
-			return (1);
-		}
-	}
-	else
-	{
-		printf("%s: %s: numeric argument required\n", argv[0], argv[1]);
-		exit(255);
-	}
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	return (0);
+}
+
+int	is_number(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
 	return (0);
 }

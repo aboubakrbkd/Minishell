@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/13 20:40:16 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:14:51 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_if_flag(char *argv)
 	int	i;
 
 	i = 0;
-	if (!strcmp(argv, "-n"))
+	if (!ft_strcmp(argv, "-n"))
 		return (0);
 	if (argv[0] != '-')
 		return (1);
@@ -30,6 +30,20 @@ int	check_if_flag(char *argv)
 		i++;
 	}
 	return (0);
+}
+
+void	print_arguments(char **argv, int start)
+{
+	int	i;
+
+	i = start;
+	while (argv[i])
+	{
+		printf("%s", argv[i]);
+		if (argv[i + 1])
+			printf(" ");
+		i++;
+	}
 }
 
 int	echo(char **argv)
@@ -44,7 +58,7 @@ int	echo(char **argv)
 		printf("\n");
 		return (0);
 	}
-	if (strcmp(argv[i], "-") == 0)
+	if (ft_strcmp(argv[i], "-") == 0)
 	{
 		printf("%s", argv[i]);
 		printf(" ");
@@ -55,13 +69,7 @@ int	echo(char **argv)
 		flag = 1;
 		i++;
 	}
-	while (argv[i])
-	{
-		printf("%s", argv[i]);
-		if (argv[i + 1])
-			printf(" ");
-		i++;
-	}
+	print_arguments(argv, i);
 	if (!flag)
 		printf("\n");
 	return (0);

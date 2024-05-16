@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 14:37:53 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:27:59 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,112 +15,48 @@
 
 t_global	g_global;
 
-void	free_all(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-char	**dynamic_env(char **envp)
+char	**env_to_char_array(t_env *head)
 {
 	int		i;
-	t_env	*env;
-	char	**envr;
+	char	**envp;
+	t_env	*current;
 
 	i = 0;
-	env = env_init(envp);
-	while (env)
+	current = head;
+	while (current != NULL)
 	{
 		i++;
-		env = env->next;
+		current = current->next;
 	}
-	envr = malloc(sizeof(char *) * (i + 1));
+	envp = malloc((i + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
+	current = head;
 	i = 0;
-	while (env)
+	while (current)
 	{
-		envr[i] = ft_strjoin(env->name, "=");
-		envr[i] = ft_strjoin(envr[i], env->value);
-		i++;
-	}
-	envr[i] = NULL;
-	return (envr);
-}
-
-char	*check(char *my_argv)
-{
-	if (my_argv[0] == '/')
-	{
-		if (access(my_argv, F_OK | X_OK) == 0)
-			return (my_argv);
+		if (!current->value)
+			envp[i] = ft_strjoin_with_sep(current->name, "", '=');
 		else
-		{
-			printf("error in acces /\n");
-			exit(1);
-		}
-	}
-	return (0);
-}
-
-char	**get_path(char **envp)
-{
-	int		i = 0;
-	char	**s = NULL;
-	
-	while (envp[i])
-	{
-		if (!ft_strncmp("PATH=", envp[i], 5))
-		{
-			s = ft_split(envp[i] + 5, ':');
-			break;
-		}
+			envp[i] = ft_strjoin_with_sep(current->name, current->value, '=');
 		i++;
+		current = current->next;
 	}
-	return s;
+	envp[i] = NULL;
+	return (envp);
 }
-char	*command(char *my_argv, char **envp)
-{
-    char	**path = NULL;
-    char	*command_path = NULL;
-    char	*joiner = NULL;
-    int		i = 0;
-
-    path = get_path(envp);
-    if (!path)
-        return NULL;
-    check(my_argv);
-    while (path && path[i])
-	{
-        joiner = ft_strjoin(path[i], "/");
-        command_path = ft_strjoin(joiner, my_argv);
-        free(joiner);
-        if (access(command_path, F_OK | X_OK) == 0) {
-            free_all(path);
-            return command_path;
-        }
-        free(command_path);
-        i++;
-    }
-    free_all(path);
-    return NULL;
-}
-
 
 void	execution(t_cmd *node, char **envp)
 {
-	int	fd[2];
-	int	id;
-	int	fd_int;
-	int	fd_out;
+	int		fd[2];
+	int		id;
+	int		fd_int;
+	int		fd_out;
+	char	**envr;
 
 	fd_int = dup(0);
 	fd_out = dup(1);
+	envr = env_to_char_array(g_global.envs);
 	while (node->next)
 	{
 		if (pipe(fd) == -1)
@@ -143,8 +79,8 @@ void	execution(t_cmd *node, char **envp)
 				exit(1);
 			}
 			close(fd[1]);
-			node->cmd = command(node->argv[0], envp);
-			if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
+			node->cmd = command(node->argv[0], envr);
+			if (execve(node->cmd, node->argv, envr) == -1)
 			{
 				perror("execve");
 				exit(1);
@@ -165,8 +101,8 @@ void	execution(t_cmd *node, char **envp)
 		}
 		if (id == 0)
 		{
-			node->cmd = command(node->argv[0], envp);
-			if (execve(node->cmd, node->argv, dynamic_env(envp)) == -1)
+			node->cmd = command(node->argv[0], envr);
+			if (execve(node->cmd, node->argv, envr) == -1)
 			{
 				perror("execve");
 				exit(1);
@@ -185,23 +121,24 @@ void	execution(t_cmd *node, char **envp)
 
 // int main(int argc, char **argv,  char **envp)
 // {
-//     t_cmd *node;
-//     node = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->argv[0] = ft_strdup("cat");
-//     node->argv[1] = NULL;
-//     node->argv[2] = NULL;
-//     node->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->argv[0] = ft_strdup("ls");
-//     node->next->argv[1] = NULL;
-//     node->next->argv[2] = NULL;
-//     node->next->next = NULL;
-//     node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-//     node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
-//     node->next->next->argv[0] = ft_strdup("wc");
-//     node->next->next->argv[1] = NULL;
-//     node->next->next->argv[2] = NULL;
-//     node->next->next->next = NULL;
-//     execution(node, envp);
+// 	g_global.envs = env_init(envp);
+// 	t_cmd *node;
+// 	node = (t_cmd *)malloc(sizeof(t_cmd));
+// 	node->argv = (char **)malloc(sizeof(char *) * 3);
+// 	node->argv[0] = ft_strdup("cat");
+// 	node->argv[1] = NULL;
+// 	node->argv[2] = NULL;
+// 	node->next = (t_cmd *)malloc(sizeof(t_cmd));
+// 	node->next->argv = (char **)malloc(sizeof(char *) * 3);
+// 	node->next->argv[0] = ft_strdup("ls");
+// 	node->next->argv[1] = NULL;
+// 	node->next->argv[2] = NULL;
+// 	node->next->next = NULL;
+// 	node->next->next = (t_cmd *)malloc(sizeof(t_cmd));
+// 	node->next->next->argv = (char **)malloc(sizeof(char *) * 3);
+// 	node->next->next->argv[0] = ft_strdup("wc");
+// 	node->next->next->argv[1] = NULL;
+// 	node->next->next->argv[2] = NULL;
+// 	node->next->next->next = NULL;
+// 	execution(node, envp);
 // }

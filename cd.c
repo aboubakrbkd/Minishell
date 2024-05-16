@@ -6,55 +6,12 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 14:37:29 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:23:23 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
-
-t_global	g_global;
-
-char	*my_getenv(char *name)
-{
-	t_env	*env;
-
-	env = g_global.envs;
-	while (env)
-	{
-		if (!ft_strncmp(env->name, name, ft_strlen(name)))
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-void	update_env(char *name, char *value)
-{
-	t_env	*tmp;
-
-	tmp = g_global.envs;
-	if (!name || !value)
-		return ;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
-		{
-			tmp->value = ft_strdup(value);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	update_pwd(char *path)
-{
-	char	*home;
-
-	update_env("OLDPWD", my_getenv("PWD"));
-	home = getcwd(NULL, 0);
-	update_env("PWD", home);
-}
 
 void	home_function(char *home)
 {
@@ -65,6 +22,29 @@ void	home_function(char *home)
 		printf("cd: %s: No such file or directory\n", home);
 	update_pwd(my_getenv("HOME"));
 }
+
+void	old_pwd_function(char *home)
+{
+	if (chdir(my_getenv("OLDPWD")) == -1)
+		printf("cd: %s: No such file or directory\n",
+			my_getenv("OLDPWD"));
+	update_pwd(my_getenv("OLDPWD"));
+	printf("%s\n", my_getenv("PWD"));
+}
+
+void	error_function(char *home)
+{
+	home = my_getenv("HOME");
+	if (!home)
+		printf("cd: HOME not set\n");
+	if (chdir(home) == -1)
+		printf("cd: %s: No such file or directory\n", home);
+	printf("cd: error retrieving current directory: ");
+	printf("getcwd: cannot access parent directories: ");
+	printf ("No such file or directory\n");
+	update_pwd(my_getenv("HOME"));
+}
+
 int	cd(char **argv)
 {
 	int		i;
@@ -74,52 +54,17 @@ int	cd(char **argv)
 	while (argv[i])
 		i++;
 	if (i == 1)
-	{
-		// home = my_getenv("HOME");
-		// if (!home)
-		// 	printf("cd: HOME not set\n");
-		// if (chdir(home) == -1)
-		// 	printf("cd: %s: No such file or directory\n", home);
-		// update_pwd(my_getenv("HOME"));
-		home_function(home);
-		return (0);
-	}
+		return (home_function(home), 0);
 	else
 	{
-		if (!strcmp(argv[1], "~"))
-		{
-			// home = my_getenv("HOME");
-			// if (!home)
-			// 	printf("cd: HOME not set\n");
-			// if (chdir(home) == -1)
-			// 	printf("cd: %s: No such file or directory\n", home);
-			// update_pwd(my_getenv("HOME"));
-			home_function(home);
-			return (0);
-		}
-		else if (!strcmp(argv[1], "-"))
-		{
-			if (chdir(my_getenv("OLDPWD")) == -1)
-				printf("cd: %s: No such file or directory\n",
-					my_getenv("OLDPWD"));
-			update_pwd(my_getenv("OLDPWD"));
-			printf("%s\n", my_getenv("PWD"));
-			return (0);
-		}
+		if (!ft_strcmp(argv[1], "~"))
+			return (home_function(home), 0);
+		else if (!ft_strcmp(argv[1], "-"))
+			return (old_pwd_function(home), 0);
 		else if (chdir(argv[1]) == -1)
 		{
-			if (!strcmp(argv[1], ".."))
-			{
-				home = my_getenv("HOME");
-				if (!home)
-					printf("cd: HOME not set\n");
-				if (chdir(home) == -1)
-					printf("cd: %s: No such file or directory\n", home);
-				printf("cd: error retrieving current directory: ");
-				printf("getcwd: cannot access parent directories: No such file or directory\n");
-				update_pwd(my_getenv("HOME"));
-				return (0);
-			}
+			if (!ft_strcmp(argv[1], ".."))
+				return (error_function(home), 0);
 			printf("cd: %s: No such file or directory\n", argv[1]);
 			return (1);
 		}
