@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/12 12:01:32 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:05:04 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	while (1)
 	{
-		write (0, "Minishell~$ ", 12);
-		temp = readline();
+		temp = readline("Minishell-$ ");
 		if (!temp)
 			break ;
+		parsing(temp);
+		add_history(temp);
 	}
 }

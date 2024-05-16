@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 10:44:00 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/05/16 16:50:50 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/05/16 17:01:24 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
-void	pwd(char **args)
+void	free_array(char **arr)
 {
-	char	*pwdir;
+	int	i;
 
-	pwdir = my_getenv("PWD");
-	printf("%s\n", pwdir);
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

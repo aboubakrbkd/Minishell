@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/12 13:30:46 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:04:12 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,20 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	int				index;
 	struct s_env	*next;
 }				t_env;
+
+typedef struct s_global
+{
+	t_env	*envs;
+}				t_global;
 
 typedef struct s_minishell
 {
@@ -33,7 +40,15 @@ typedef struct s_minishell
 	t_env	*env;
 }				t_minishell;
 
-// #define malloc(x) NULL 
+/* tis is an example of the struct i need */
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**argv;
+	// int			infile;
+	// int			outfile;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_parse
 {
@@ -51,18 +66,29 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
-<<<<<<< HEAD
-t_list	*ft_lstnew(char *content);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_strlen(char *s);
-char	*ft_strdup(char *str);
-=======
-
-
-void	env(t_env *env, char **envp);
-void	pwd(void);
+char	*ft_strchr(char *s, int c);
+char	*ft_strnstr(char *str, char *to_find, int len);
+void	pwd(char **envp);
 t_env	*env_init(char **envp);
->>>>>>> f343ddced3d30c1a5f1736c7b84cb1e51c7da1d4
+char	*my_getenv(char *name);
+t_env	*ft_lstnew(char *name, char *value);
+int		is_number(char c);
+int		is_upper(char c);
+int		is_lower(char c);
+void	execution(t_cmd *node, char **envp);
 
+/*************BUILT in**/
+int		echo(char **argv);
+int		cd(char **argv);
+int		exit_function(char **argv);
+void	env(t_env *env);
+int		unset(char **argv, t_env **envps);
+void	pwd(char **argv);
+
+// parsing func
+void	parsing(char *line);
+void	syn_error(char *line);
+void	syn_error2(char **res);
+void	syn_error3(char **res);
+void	free_array(char **arr);
 #endif

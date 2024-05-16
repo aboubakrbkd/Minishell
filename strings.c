@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/11 14:53:56 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:44:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,63 @@ int	ft_strncmp(char *s1, char *s2, int len)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_atoi(char *str)
+{
+	int	r;
+	int	i;
+	int	s;
+
+	r = 0;
+	i = 0;
+	s = 1;
+	while (str[i] && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			s *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		r = r * 10 + (str[i] - '0');
+		i++;
+	}
+	return (r * s);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (i < ft_strlen(s) + 1)
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strnstr(char *str, char *to_find, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (to_find[0] == '\0')
+		return ((char *)str);
+	while (str[i] && i < len)
+	{
+		j = 0;
+		while (str[i + j] && (str[i + j] == to_find[j]) && i + j < len)
+			j++;
+		if (to_find[j] == '\0')
+			return ((char *)str + i);
+		i++;
+	}
+	return (NULL);
 }
