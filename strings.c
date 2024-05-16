@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/04/16 12:07:27 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:44:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,38 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (r * s);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (i < ft_strlen(s) + 1)
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strnstr(char *str, char *to_find, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (to_find[0] == '\0')
+		return ((char *)str);
+	while (str[i] && i < len)
+	{
+		j = 0;
+		while (str[i + j] && (str[i + j] == to_find[j]) && i + j < len)
+			j++;
+		if (to_find[j] == '\0')
+			return ((char *)str + i);
+		i++;
+	}
+	return (NULL);
 }

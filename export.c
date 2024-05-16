@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 14:01:38 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:55:50 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char	*get_value(char *str)
 {
 	char	*find;
 
-	find = strchr(str, '=');
+	find = ft_strchr(str, '=');
 	if (!find)
 		return (NULL);
 	return (find + 1);

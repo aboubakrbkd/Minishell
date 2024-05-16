@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Minishell.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/16 17:05:04 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/05/16 16:50:50 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/05/16 17:01:24 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	free_array(char **arr)
 {
-	char	*temp;
+	int	i;
 
-	if (ac != 1)
-		return (1);
-	while (1)
+	i = 0;
+	while (arr[i])
 	{
-		temp = readline("Minishell-$ ");
-		if (!temp)
-			break ;
-		parsing(temp);
-		add_history(temp);
+		free(arr[i]);
+		i++;
 	}
+	free(arr);
 }
