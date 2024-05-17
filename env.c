@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:02:04 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:25:44 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(char **argv, t_list *list)
+void	env(char **argv, t_list *list, int outfile)
 {
 	t_env	*env;
 
@@ -83,7 +83,12 @@ void	env(char **argv, t_list *list)
 	while (env)
 	{
 		if (env->value)
-			printf("%s=%s\n", env->name, env->value);
+		{
+			write(outfile, env->name, ft_strlen(env->name));
+			write(outfile, "=", 1);
+			write(outfile, env->value, ft_strlen(env->value));
+			write(outfile, "\n", 1);
+		}
 		env = env->next;
 	}
 }

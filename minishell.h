@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/16 17:29:00 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:23:49 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argv;
-	// int			infile;
-	// int			outfile;
+	int				infile;
+	int				outfile;
 	struct s_cmd	*next;
 }					t_cmd;
 
 /*************BUILT in**/
-int		echo(char **argv);
+int		echo(char **argv, int outfile);
 int		cd(char **argv, t_list *list);
 int		exit_function(char **argv);
-void	env(char **argv, t_list *list);
+void	env(char **argv, t_list *list, int outfile);
 int		unset(char **argv, t_env **envps);
-void	pwd(char **args, t_list *list);
-void	export(char **argv, t_list *list);
+void	pwd(char **args, t_list *list, int outfile);
+void	export(char **argv, t_list *list, int outfile);
 /************************/
 
 char	**ft_split(char *s, char c);

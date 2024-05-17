@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:26:23 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:39:43 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ int	check_if_flag(char *argv)
 	return (0);
 }
 
-void	print_arguments(char **argv, int start)
+void	print_arguments(char **argv, int start, int outfile)
 {
 	int	i;
 
 	i = start;
 	while (argv[i])
 	{
-		printf("%s", argv[i]);
+		write(outfile, argv[i], ft_strlen(argv[i]));
 		if (argv[i + 1])
 			printf(" ");
 		i++;
 	}
 }
 
-int	echo(char **argv)
+int	echo(char **argv, int outfile)
 {
 	int	i;
 	int	flag;
@@ -54,13 +54,13 @@ int	echo(char **argv)
 	flag = 0;
 	if (argv[i] == NULL)
 	{
-		printf("\n");
+		write(outfile, "\n", 1);
 		return (0);
 	}
 	if (ft_strcmp(argv[i], "-") == 0)
 	{
-		printf("%s", argv[i]);
-		printf(" ");
+		write(outfile, argv[i], ft_strlen(argv[i]));
+		write(outfile, " ", 1);
 		i++;
 	}
 	while (argv[i] && !check_if_flag(argv[i]))
@@ -68,8 +68,8 @@ int	echo(char **argv)
 		flag = 1;
 		i++;
 	}
-	print_arguments(argv, i);
+	print_arguments(argv, i, outfile);
 	if (!flag)
-		printf("\n");
+		write(outfile, "\n", 1);
 	return (0);
 }

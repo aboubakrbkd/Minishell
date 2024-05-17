@@ -6,29 +6,33 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:26:41 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:24:32 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_export(t_env *env)
+void	print_export(t_env *env, int outfile)
 {
-	int	size;
-	int	i;
+	int		size;
+	int		i;
 
 	i = 0;
 	size = env_size(env);
 	index_env(env);
 	while (i < size)
 	{
-		if (env && env->index != size)
+		if (env && env->index == i)
 		{
-			printf("declare -x %s", env->name);
+			write(outfile, "declare -x ", 11);
+			write(outfile, env->name, ft_strlen(env->name));
 			if (env->value)
-				printf("=\"%s\"\n", env->value);
-			else
-				printf("\n");
+			{
+				write(outfile, "=\"", 2);
+				write(outfile, env->value, ft_strlen(env->value));
+				write(outfile, "\"", 1);
+			}
+			write(outfile, "\n", 1);
 			i++;
 		}
 		env = env->next;
@@ -75,7 +79,7 @@ void	checking_and_add(int is_valid, char *argv, t_list *list)
 		add_env(&list->envs, name, value);
 }
 
-void	export(char **argv, t_list *list)
+void	export(char **argv, t_list *list, int outfile)
 {
 	int		is_valid;
 	t_env	*env;
@@ -83,7 +87,7 @@ void	export(char **argv, t_list *list)
 	if (!*(argv + 1))
 	{
 		env = list->envs;
-		print_export(env);
+		print_export(env, outfile);
 		return ;
 	}
 	argv++;
