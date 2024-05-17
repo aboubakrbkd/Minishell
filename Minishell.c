@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/16 17:05:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/17 18:03:30 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	main(int ac, char **av, char **env)
 {
+	(void) ac;
+	(void) av;
+	(void) env;
 	char	*temp;
 
 	if (ac != 1)

@@ -1,0 +1,26 @@
+total 272
+drwxr-xr-x  25 mkimdil  candidate    850 May 17 18:07 .
+drwxr-xr-x   6 mkimdil  candidate    204 May 16 17:07 ..
+drwxr-xr-x  14 mkimdil  candidate    476 May 16 19:01 .git
+-rw-r--r--   1 mkimdil  candidate    439 May 17 18:04 Makefile
+-rw-r--r--   1 mkimdil  candidate   1153 May 17 18:03 Minishell.c
+-rw-r--r--   1 mkimdil  candidate   1973 May 16 18:58 add_space.c
+-rw-r--r--   1 mkimdil  candidate      0 May 17 18:07 b
+-rw-r--r--   1 mkimdil  candidate   3208 May 16 17:10 cd.c
+-rw-r--r--   1 mkimdil  candidate   1557 May 16 17:10 echo.c
+-rw-r--r--   1 mkimdil  candidate   2462 May 16 17:10 env.c
+-rw-r--r--   1 mkimdil  candidate   1022 May 16 17:10 error.c
+-rw-r--r--   1 mkimdil  candidate   4289 May 16 17:10 execution.c
+-rw-r--r--   1 mkimdil  candidate   1373 May 16 17:10 exit.c
+-rw-r--r--   1 mkimdil  candidate   6183 May 16 17:10 export.c
+-rw-r--r--   1 mkimdil  candidate      0 May 17 18:07 h
+-rwxr-xr-x   1 mkimdil  candidate  50704 May 17 18:04 minishell
+-rw-r--r--   1 mkimdil  candidate   2840 May 17 17:45 minishell.h
+drwxr-xr-x   9 mkimdil  candidate    306 May 17 18:04 obj
+-rw-r--r--   1 mkimdil  candidate   4266 May 17 18:03 parsing.c
+-rw-r--r--   1 mkimdil  candidate   1028 May 16 17:10 pwd.c
+-rw-r--r--   1 mkimdil  candidate   1642 May 17 17:46 qoutes.c
+-rw-r--r--   1 mkimdil  candidate   2027 May 16 17:10 split.c
+-rw-r--r--   1 mkimdil  candidate   2615 May 16 17:10 strings.c
+-rw-r--r--   1 mkimdil  candidate   1445 May 17 17:41 test.c
+-rw-r--r--   1 mkimdil  candidate   1988 May 16 17:10 unset.c
