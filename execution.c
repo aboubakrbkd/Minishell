@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:26:29 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:27:30 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	is_builtin(t_cmd *cmd, t_list *list)
 	return (0);
 }
 
+
 void	execution(t_cmd *node, t_list *list)
 {
 	int		fd[2];
@@ -103,10 +104,14 @@ void	execution(t_cmd *node, t_list *list)
 				exit(1);
 			}
 			close(fd[1]);
-			//redirection
 			if (is_builtin(node, list))
 				exit(0);
 			node->cmd = command(node->argv[0], envr);
+			if (!node->cmd)
+			{
+				perror("command");
+				exit(127);
+			}
 			if (execve(node->cmd, node->argv, envr) == -1)
 			{
 				perror("execve");
@@ -120,7 +125,6 @@ void	execution(t_cmd *node, t_list *list)
 	}
 	if (node)
 	{
-		//redirection
 		if (is_builtin(node, list))
 			return ;
 		id = fork();
@@ -132,6 +136,11 @@ void	execution(t_cmd *node, t_list *list)
 		if (id == 0)
 		{
 			node->cmd = command(node->argv[0], envr);
+			if (!node->cmd)
+			{
+				perror("command");
+				exit(127);
+			}
 			if (execve(node->cmd, node->argv, envr) == -1)
 			{
 				perror("execve");

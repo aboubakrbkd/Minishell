@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 14:11:12 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:52:14 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void	free_all(char **str)
 
 char	*check(char *my_argv)
 {
-	if (my_argv[0] == '/')
+	if (my_argv[0] == '/' || my_argv[0] == '.')
 	{
 		if (access(my_argv, F_OK | X_OK) == 0)
 			return (my_argv);
 		else
 		{
-			printf("error in acces /\n");
+			printf("error in acces\n");
 			exit(1);
 		}
 	}

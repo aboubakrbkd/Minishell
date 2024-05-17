@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:45:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 19:19:39 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:49:07 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*list;
 	t_cmd	*cmd;
 	t_cmd	*head;
+	char	**commands;
 
 	list = malloc(sizeof(t_list));
 	if (!list)
@@ -29,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!result)
 			break ;
 		add_history(result);
-		char **commands = ft_split(result, '|');
+		commands = ft_split(result, '|');
 		if (!commands)
 			break ;
 		head = NULL;
@@ -52,6 +53,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (head)
 			execution(head, list);
+		free(commands);
+		free(result);
 	}
 	return (0);
 }
