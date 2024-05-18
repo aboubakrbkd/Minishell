@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/17 17:45:00 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/18 14:02:15 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef struct s_parse
 	struct s_list	*right;
 }	t_parse;
 
+typedef struct s_list
+{
+	char	*str;
+	char	**res;
+	struct s_list	*next;
+}	t_list;
+
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
 void	ft_free(char **ptr, int i);
@@ -86,16 +93,17 @@ int		unset(char **argv, t_env **envps);
 void	pwd(char **argv);
 
 // parsing func
-void	parsing(char *line);
-void	syn_error(char *line);
-void	syn_error2(char **res);
-void	syn_error3(char **res);
+int		parsing(char *line);
+int		syn_error(char *line);
+int		syn_error2(char **res);
+int		syn_error3(char **res);
 void	free_array(char **arr);
 char	*add_space(char *line);
 void	second_case(char *str, char *line, int *i, int *j);
 int		count_num_of_special(char *line);
 int		is_special_char(char c);
-void	handle_single_double(char *line);
+int		handle_single_double(char *line);
 void	change_to_garb(char *line);
+void	build_arr(t_list **lst, char **res);
 
 #endif
