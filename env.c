@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/17 21:25:44 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:16:06 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	env(char **argv, t_list *list, int outfile)
 {
 	t_env	*env;
 
+	(void)argv;
 	env = list->envs;
 	while (env)
 	{

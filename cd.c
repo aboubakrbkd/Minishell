@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:26:12 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:15:40 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	home_function(char *home, t_list *list)
 
 void	old_pwd_function(char *home, t_list *list)
 {
+	(void)home;
 	if (chdir(my_getenv("OLDPWD", list)) == -1)
 		printf("cd: %s: No such file or directory\n",
 			my_getenv("OLDPWD", list));
@@ -50,6 +51,7 @@ int	cd(char **argv, t_list *list)
 	char	*home;
 
 	i = 1;
+	home = NULL;
 	while (argv[i])
 		i++;
 	if (i == 1)

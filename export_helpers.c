@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:36:23 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:29:11 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:16:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ void	sort_env(t_env *env)
 {
 	t_env	*tmp1;
 	t_env	*tmp2;
-	char	*temp_name;
-	char	*temp_value;
-	int		temp_index;
 
 	tmp1 = env;
 	while (tmp1)

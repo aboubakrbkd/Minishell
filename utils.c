@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:20:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:28:46 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:21:00 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	update_pwd(char *path, t_list *list)
 {
 	char	*home;
 
+	path = NULL;
 	update_env("OLDPWD", my_getenv("PWD", list), list);
 	home = getcwd(NULL, 0);
 	update_env("PWD", home, list);

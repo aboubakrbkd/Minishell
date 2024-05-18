@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/17 21:38:13 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:41:18 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,73 +71,96 @@ int	is_builtin(t_cmd *cmd, t_list *list)
 	return (0);
 }
 
-void	check_for_redirection(t_cmd *node)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	while (node->argv[i])
-	{
-		if (!strcmp(node->argv[i], ">"))
-		{
-			if (node->argv[i + 1])
-			{
-				node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (node->outfile == -1)
-				{
-					perror("open");
-					exit(1);
-				}
-				j = i;
-				while (node->argv[j])
-				{
-					node->argv[j] = node->argv[j + 2];
-					j++;
-				}
-				i--;
-			}
-		}
-		else if (!strcmp(node->argv[i], ">>"))
-		{
-			if (node->argv[i + 1])
-			{
-				node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-				if (node->outfile == -1)
-				{
-					perror("open");
-					exit(1);
-				}
-				j = i;
-				while (node->argv[j])
-				{
-					node->argv[j] = node->argv[j + 2];
-					j++;
-				}
-				i--;
-			}
-		}
-		else if (!strcmp(node->argv[i], "<"))
-		{
-			if (node->argv[i + 1])
-			{
-				node->infile = open(node->argv[i + 1], O_RDONLY);
-				if (node->infile == -1)
-				{
-					perror("open");
-					exit(1);
-				}
-				j = i;
-				while (node->argv[j])
-				{
-					node->argv[j] = node->argv[j + 2];
-					j++;
-				}
-				i--;
-			}
-		}
-		i++;
-	}
+void check_for_redirection(t_cmd *node)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (node->argv[i])
+    {
+        if (!strcmp(node->argv[i], ">"))
+        {
+            if (node->argv[i + 1])
+            {
+                if (node->outfile != 1)
+                    close(node->outfile);
+                node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (node->outfile == -1)
+                {
+                    perror("open");
+                    exit(1);
+                }
+                j = i;
+                while (node->argv[j])
+                {
+                    if (!node->argv[j + 2])
+					{
+						node->argv[j] = NULL;
+						break ;
+					}
+                    else
+                        node->argv[j] = node->argv[j + 2];
+                    j++;
+                }
+                i--;
+            }
+        }
+        else if (!strcmp(node->argv[i], ">>"))
+        {
+            if (node->argv[i + 1])
+            {
+                if (node->outfile != 1)
+                    close(node->outfile);
+                node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+                if (node->outfile == -1)
+                {
+                    perror("open");
+                    exit(1);
+                }
+                j = i;
+                while (node->argv[j])
+                {
+                    if (!node->argv[j + 2])
+					{
+						node->argv[j] = NULL;
+						break ;
+					}
+                    else
+                        node->argv[j] = node->argv[j + 2];
+                    j++;
+                }
+                i--;
+            }
+        }
+        else if (!strcmp(node->argv[i], "<"))
+        {
+            if (node->argv[i + 1])
+            {
+                node->infile = open(node->argv[i + 1], O_RDONLY);
+                if (node->infile == -1)
+                {
+                    perror("open");
+                    exit(1);
+                }
+                j = i;
+                while (node->argv[j])
+                {
+                    if (!node->argv[j + 2])
+					{
+						node->argv[j] = NULL;
+						break ;
+					}
+                    else
+                        node->argv[j] = node->argv[j + 2];
+                    j++;
+                }
+                i--;
+            }
+        }
+        i++;
+    }
 }
 
 void	msg_error(char *str)
@@ -176,10 +199,13 @@ void	execution(t_cmd *node, t_list *list)
 					msg_error("dup2 in outfile");
 				close(node->outfile);
 			}
-			close(fd[0]);
-			if (dup2(fd[1], 1) == -1)
-				msg_error("dup2 in fd[1]");
-			close(fd[1]);
+			else
+			{
+				close(fd[0]);
+				if (dup2(fd[1], 1) == -1)
+					msg_error("dup2 in fd[1]");
+				close(fd[1]);
+			}
 			if (is_builtin(node, list))
 				exit(0);
 			node->cmd = command(node->argv[0], envr);

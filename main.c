@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:45:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/17 21:42:17 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:16:44 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	char	*result;
 	t_list	*list;
 	t_cmd	*cmd;
