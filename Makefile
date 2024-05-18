@@ -1,4 +1,5 @@
-SRCS = Minishell.c parsing.c split.c strings.c error.c add_space.c qoutes.c
+SRCS = Minishell.c parsing.c split.c strings.c error.c add_space.c qoutes.c \
+		build.c
 INC = minishell.h
 NAME = minishell
 CC = cc

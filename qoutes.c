@@ -6,13 +6,13 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:44:40 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/17 17:46:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/17 22:26:44 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_single_double(char *line)
+int	handle_single_double(char *line)
 {
 	int	i;
 	int	tr;
@@ -32,7 +32,8 @@ void	handle_single_double(char *line)
 		i++;
 	}
 	if (tr == 1 || tr == 2)
-		printf("syntax error\n");
+		return (printf("syntax error\n"), 1);
+	return (0);
 }
 
 void	change_to_garb(char *line)
