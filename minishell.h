@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/18 14:02:15 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/18 16:40:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int		is_special_char(char c);
 int		handle_single_double(char *line);
 void	change_to_garb(char *line);
 void	build_arr(t_list **lst, char **res);
+int		count_num_of_command(char **res);
 
 #endif

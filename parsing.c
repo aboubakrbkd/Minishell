@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/18 15:50:57 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/18 18:05:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ int	parsing(char *line)
 		return (1);
 	res = ft_split(str, '|');
 	build_arr(&lst, res);
-	int i = 0;
-	while (lst)
-	{
-		printf("str-> %s\n", lst->str);
-		printf("res[%d]-> %s\n", i, lst->res[i]);	
-		lst = lst->next;
-		i++;
-	}
+	// int i = 0;
+	// while (lst)
+	// {
+	// 	printf("str-> %s\n", lst->str);
+	// 	printf("res[%d]-> %s\n", i, lst->res[i]);	
+	// 	lst = lst->next;
+	// 	i++;
+	// }
 	return (0);
 }
