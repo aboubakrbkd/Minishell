@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 17:59:36 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:06:47 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,15 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_minishell
-{
-	char	**cmd;
-	t_env	*env;
-}				t_minishell;
-
 /* tis is an example of the struct i need */
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**argv;
+	char			*cmd; // ls -la
+	char			**argv; // argv[0] ls argv[1] = -la argv[2] = NULL
 	// int			infile;
 	// int			outfile;
 	struct s_cmd	*next;
 }					t_cmd;
-
-typedef struct s_parse
-{
-	char			*data;
-	struct s_list	*left;
-	struct s_list	*right;
-}	t_parse;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);

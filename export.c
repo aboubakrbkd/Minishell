@@ -6,12 +6,14 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 18:00:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:55:50 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
+
+t_global	g_global;
 
 int	is_upper(char c)
 {
@@ -164,8 +166,8 @@ char	*get_name(char *str)
 char	*get_value(char *str)
 {
 	char	*find;
+
 	find = ft_strchr(str, '=');
-	find = strchr(str, '=');
 	if (!find)
 		return (NULL);
 	return (find + 1);
