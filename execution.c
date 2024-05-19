@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/18 20:41:18 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:06:48 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,98 +71,6 @@ int	is_builtin(t_cmd *cmd, t_list *list)
 	return (0);
 }
 
-
-void check_for_redirection(t_cmd *node)
-{
-    int i;
-    int j;
-
-    i = 0;
-    while (node->argv[i])
-    {
-        if (!strcmp(node->argv[i], ">"))
-        {
-            if (node->argv[i + 1])
-            {
-                if (node->outfile != 1)
-                    close(node->outfile);
-                node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-                if (node->outfile == -1)
-                {
-                    perror("open");
-                    exit(1);
-                }
-                j = i;
-                while (node->argv[j])
-                {
-                    if (!node->argv[j + 2])
-					{
-						node->argv[j] = NULL;
-						break ;
-					}
-                    else
-                        node->argv[j] = node->argv[j + 2];
-                    j++;
-                }
-                i--;
-            }
-        }
-        else if (!strcmp(node->argv[i], ">>"))
-        {
-            if (node->argv[i + 1])
-            {
-                if (node->outfile != 1)
-                    close(node->outfile);
-                node->outfile = open(node->argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-                if (node->outfile == -1)
-                {
-                    perror("open");
-                    exit(1);
-                }
-                j = i;
-                while (node->argv[j])
-                {
-                    if (!node->argv[j + 2])
-					{
-						node->argv[j] = NULL;
-						break ;
-					}
-                    else
-                        node->argv[j] = node->argv[j + 2];
-                    j++;
-                }
-                i--;
-            }
-        }
-        else if (!strcmp(node->argv[i], "<"))
-        {
-            if (node->argv[i + 1])
-            {
-                node->infile = open(node->argv[i + 1], O_RDONLY);
-                if (node->infile == -1)
-                {
-                    perror("open");
-                    exit(1);
-                }
-                j = i;
-                while (node->argv[j])
-                {
-                    if (!node->argv[j + 2])
-					{
-						node->argv[j] = NULL;
-						break ;
-					}
-                    else
-                        node->argv[j] = node->argv[j + 2];
-                    j++;
-                }
-                i--;
-            }
-        }
-        i++;
-    }
-}
-
 void	msg_error(char *str)
 {
 	perror(str);
@@ -173,10 +81,16 @@ void	execution(t_cmd *node, t_list *list)
 {
 	int		fd[2];
 	int		id;
-	int		fd_int = dup(0);
-	int		fd_out = dup(1);
-	char	**envr = env_to_char_array(list->envs);
+	int		fd_int;
+	int		fd_out;
+	char	**envr;
 
+	fd_int = dup(0);
+	fd_out = dup(1);
+	envr = env_to_char_array(list->envs);
+	puts("---------------s--");
+	printf("envr = %s\n", envr[0]);
+	puts("----------------e-");
 	while (node->next)
 	{
 		check_for_redirection(node);
@@ -187,6 +101,7 @@ void	execution(t_cmd *node, t_list *list)
 			msg_error("fork");
 		if (id == 0)
 		{
+			// funstion for dup
 			if (node->infile != 0)
 			{
 				if (dup2(node->infile, 0) == -1)
@@ -206,6 +121,7 @@ void	execution(t_cmd *node, t_list *list)
 					msg_error("dup2 in fd[1]");
 				close(fd[1]);
 			}
+			//end of function of dup
 			if (is_builtin(node, list))
 				exit(0);
 			node->cmd = command(node->argv[0], envr);
@@ -232,6 +148,10 @@ void	execution(t_cmd *node, t_list *list)
 		check_for_redirection(node);
 		if (is_builtin(node, list))
 		{
+			if (node->infile != 0)
+				close(node->infile);
+			if (node->outfile != 1)
+				close(node->outfile);
 			dup2(fd_int, 0);
 			close(fd_int);
 			dup2(fd_out, 1);
@@ -255,8 +175,6 @@ void	execution(t_cmd *node, t_list *list)
 					msg_error("dup2 in outfile2");
 				close(node->outfile);
 			}
-			if (is_builtin(node, list))
-				return ;
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{

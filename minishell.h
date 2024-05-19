@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/18 19:09:54 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:01:01 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
-
+ 
 typedef struct s_env
 {
 	char			*name;
@@ -34,12 +34,6 @@ typedef struct s_list
 	t_env	*envs;
 }				t_list;
 
-typedef struct s_minishell
-{
-	char	**cmd;
-	t_env	*env;
-}				t_minishell;
-
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -48,10 +42,6 @@ typedef struct s_cmd
 	int				outfile;
 	struct s_cmd	*next;
 }					t_cmd;
-
-
-
-
 
 /*************BUILT in**/
 int		echo(char **argv, int outfile);
@@ -106,4 +96,9 @@ int		ft_atoi(char *str);
 char	*ft_strjoin_with_sep(char *s1, char *s2, char sep);
 char	**get_path(char **envr);
 char	*ft_strchr(const char *s, int c);
+void	redirect_out(t_cmd *node, int *index, int flags);
+void	redirect_out_append(t_cmd *node, int *index, int flags);
+void	redirect_in(t_cmd *node, int *index, int flags);
+void	check_for_redirection(t_cmd *node);
+void	msg_error(char *str);
 #endif

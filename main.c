@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:45:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/18 20:16:44 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:05:17 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int main(int argc, char **argv, char **envp)
 	list = malloc(sizeof(t_list));
 	if (!list)
 		return (1);
-	list->envs = env_init(envp);
+	if(envp)
+		list->envs = env_init(envp);
+	else
+		list->envs = NULL;
 	while (1)
 	{
 		result = readline("minishell$ ");

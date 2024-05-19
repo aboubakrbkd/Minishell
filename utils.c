@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:20:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/18 20:21:00 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 15:40:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*my_getenv(char *name, t_list *list)
 	env = list->envs;
 	while (env)
 	{
-		if (!ft_strncmp(env->name, name, ft_strlen(name)))
+		if (!ft_strcmp(env->name, name))
 			return (env->value);
 		env = env->next;
 	}
