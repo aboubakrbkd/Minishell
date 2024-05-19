@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/15 16:55:50 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 18:30:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ char	*get_value(char *str)
 	return (find + 1);
 }
 
-
+ 
 // export z x-= y=oooo 
 
 int	update_the_value(char *name, char *value)
