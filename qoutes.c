@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:44:40 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/17 22:26:44 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 16:53:52 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,22 @@ void	change_to_garb(char *line)
 		else if (tr == 1)
 			line[i] = line[i] * -1;
 		i++;
+	}
+}
+
+void	back_to_ascii(t_cmd *lst)
+{
+	int	i;
+
+	while (lst)
+	{
+		change_to_garb(lst->cmd);
+		i = 0;
+		while (lst->argv[i])
+		{
+			change_to_garb(lst->argv[i]);
+			i++;
+		}
+		lst = lst->next;
 	}
 }

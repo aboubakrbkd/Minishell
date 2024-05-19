@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/15 19:44:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:08:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,55 @@ char	*ft_strnstr(char *str, char *to_find, int len)
 		i++;
 	}
 	return (NULL);
+}
+
+int	ft_strcpy(char *dest, char *src)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen((char *)src);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (len);
+}
+
+t_cmd	*new_list(void *cmd)
+{
+	t_cmd	*ptr;
+
+	ptr = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!ptr)
+		return (NULL);
+	ptr->cmd = cmd;
+	ptr->next = NULL;
+	return (ptr);
+}
+
+char	*nops_strdup(char *str)
+{
+	int		i;
+	int		j;
+	char	*ptr;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	ptr = (char *)malloc(ft_strlen(str) + 2 - i);
+	if (!ptr)
+		return (NULL);
+	j = 0;
+	while (str[i])
+	{
+		ptr[j] = str[i];
+		i++;
+		j++;
+	}
+	ptr[j] = '\0';
+	return (ptr);
 }

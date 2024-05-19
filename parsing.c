@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/18 18:05:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:04:30 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	parsing(char *line)
 {
 	char	*str;
 	char	**res;
-	t_list	*lst;
+	t_cmd	*lst;
 
 	lst = NULL;
 	if (syn_error(line))
@@ -99,14 +99,16 @@ int	parsing(char *line)
 	if (handle_single_double(str))
 		return (1);
 	res = ft_split(str, '|');
-	build_arr(&lst, res);
-	// int i = 0;
-	// while (lst)
-	// {
-	// 	printf("str-> %s\n", lst->str);
-	// 	printf("res[%d]-> %s\n", i, lst->res[i]);	
-	// 	lst = lst->next;
-	// 	i++;
-	// }
+	if (build_arr(&lst, res))
+		return (1);
+	fill_arr(lst);
+	back_to_ascii(lst);
+	while (lst)
+	{
+		printf("%s\n", lst->cmd);
+		printf("%s\n", lst->argv[0]);
+		printf("%s\n", lst->argv[1]);
+		lst = lst->next;
+	}
 	return (0);
 }

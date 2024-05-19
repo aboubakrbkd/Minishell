@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/18 16:40:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:06:47 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,15 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_global
-{
-	t_env	*envs;
-}				t_global;
-
-typedef struct s_minishell
-{
-	char	**cmd;
-	t_env	*env;
-}				t_minishell;
-
 /* tis is an example of the struct i need */
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**argv;
+	char			*cmd; // ls -la
+	char			**argv; // argv[0] ls argv[1] = -la argv[2] = NULL
 	// int			infile;
 	// int			outfile;
 	struct s_cmd	*next;
 }					t_cmd;
-
-typedef struct s_parse
-{
-	char			*data;
-	struct s_list	*left;
-	struct s_list	*right;
-}	t_parse;
-
-typedef struct s_list
-{
-	char	*str;
-	char	**res;
-	struct s_list	*next;
-}	t_list;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
@@ -104,7 +79,11 @@ int		count_num_of_special(char *line);
 int		is_special_char(char c);
 int		handle_single_double(char *line);
 void	change_to_garb(char *line);
-void	build_arr(t_list **lst, char **res);
-int		count_num_of_command(char **res);
+int		build_arr(t_cmd **lst, char **res);
+int		ft_strcpy(char *dest, char *src);
+void	fill_arr(t_cmd *lst);
+t_cmd	*new_list(void *cmd);
+void	back_to_ascii(t_cmd *lst);
+char	*nops_strdup(char *str);
 
 #endif
