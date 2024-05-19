@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Minishell.c                                        :+:      :+:    :+:   */
+/*   t.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/03/12 12:01:32 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/05/17 14:04:49 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/17 14:04:51 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
-{
-	char	*temp;
-
-	if (ac != 1)
-		return (1);
-	while (1)
-	{
-		write (0, "Minishell~$ ", 12);
-		temp = readline();
-		if (!temp)
-			break ;
-	}
-}
+/*
+  for > i need to open with the flags O_WRONLY | O_CREAT | O_TRUNC
+  for >> i need to open with the flags O_WRONLY | O_CREAT | O_APPEND
+  for << its a herdoc
+  for < i just need to open the file
+*/

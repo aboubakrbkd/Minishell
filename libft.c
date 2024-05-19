@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 11:21:28 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/15 16:49:16 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(char **args, t_list *list, int outfile)
+int	is_upper(char c)
 {
-	char	*pwdir;
-	char	*tmp;
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	return (0);
+}
 
-	(void)args;
-	pwdir = my_getenv("PWD", list);
-	if (!pwdir)
-	{
-		pwdir = getcwd(NULL, 0);
-		tmp = my_getenv("OLDPWD", list);
-		if (!pwdir)
-		{
-			printf("%s\n", tmp);
-			return ;
-		}
-	}
-	write(outfile, pwdir, ft_strlen(pwdir));
-	write(outfile, "\n", 1);
+int	is_lower(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	return (0);
+}
+
+int	is_number(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

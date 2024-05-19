@@ -6,49 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 10:46:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:16:06 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_global	g_global;
-
-t_env	*ft_lstnew(char *name, char *value)
-{
-	t_env	*new;
-
-	new = malloc(sizeof(t_env));
-	if (new)
-	{
-		new->name = ft_strdup(name);
-		new->value = ft_strdup(value);
-		new->next = NULL;
-	}
-	return (new);
-}
-
-t_env	*ft_lstlast(t_env *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_back(t_env **lst, t_env *new)
-{
-	t_env	*last;
-
-	if (*lst == NULL)
-		*lst = new;
-	else
-	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-	}
-}
 
 char	**env_split(char *s, char c)
 {
@@ -113,13 +75,21 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(t_env *env)
+void	env(char **argv, t_list *list, int outfile)
 {
-	env = g_global.envs;
+	t_env	*env;
+
+	(void)argv;
+	env = list->envs;
 	while (env)
 	{
 		if (env->value)
-			printf("%s=%s\n", env->name, env->value);
+		{
+			write(outfile, env->name, ft_strlen(env->name));
+			write(outfile, "=", 1);
+			write(outfile, env->value, ft_strlen(env->value));
+			write(outfile, "\n", 1);
+		}
 		env = env->next;
 	}
 }
