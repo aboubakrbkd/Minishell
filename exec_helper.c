@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/17 12:52:14 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:53:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ char	*command(char *my_argv, char **envr)
 	char	*command_path;
 	int		i;
 
+	if (check(my_argv))
+		return (my_argv);
+	if (!envr)
+		return (NULL);
 	path = get_path(envr);
 	i = 0;
-	check(my_argv);
 	while (path[i])
 	{
 		if (access(my_argv, F_OK | X_OK) == 0)
@@ -73,12 +76,12 @@ void	free_all(char **str)
 	free(str);
 }
 
-char	*check(char *my_argv)
+int	check(char *my_argv)
 {
 	if (my_argv[0] == '/' || my_argv[0] == '.')
 	{
 		if (access(my_argv, F_OK | X_OK) == 0)
-			return (my_argv);
+			return (1);
 		else
 		{
 			printf("error in acces\n");

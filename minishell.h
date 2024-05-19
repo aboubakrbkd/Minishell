@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 16:01:01 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:58:14 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
- 
+
 typedef struct s_env
 {
 	char			*name;
@@ -66,7 +66,7 @@ t_env	*env_init(char **envp);
 int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
-void	execution(t_cmd *node, t_list *list);
+int		execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
 void	error_function(char *home, t_list *list);
@@ -88,7 +88,7 @@ void	add_env(t_env **env, char *name, char *value);
 int		add_the_value(char *name, char *value, t_list *list);
 int		update_the_value(char *name, char *value, t_list *list);
 void	free_all(char **str);
-char	*check(char *my_argv);
+int		check(char *my_argv);
 char	*command(char *my_argv, char **env);
 int		checking(t_env *tmp, char *name, char *value);
 int		ft_strcmp(char *s1, char *s2);
@@ -101,4 +101,12 @@ void	redirect_out_append(t_cmd *node, int *index, int flags);
 void	redirect_in(t_cmd *node, int *index, int flags);
 void	check_for_redirection(t_cmd *node);
 void	msg_error(char *str);
+void	close_files(t_cmd *node);
+void	handle_builtin_command(t_cmd *node, int fd_int, int fd_out);
+void	safe_pipe(int fd[2]);
+int		safe_fork(void);
+void	handle_duplications(t_cmd *node, int *fd);
+int		is_builtin(t_cmd *cmd, t_list *list);
+void	env_to_char_array_helper(t_env *current, char **envp);
+char	**env_to_char_array(t_env *head);
 #endif

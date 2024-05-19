@@ -4,7 +4,7 @@ LFLAGFS = -lreadline
 RM = rm -rf
 NAME = minishell
 SRCS = cd.c echo.c env.c exec_helper.c execution.c exit.c export_helper1.c export_helpers.c export.c \
-	libft.c linked_list.c main.c pwd.c split.c strings.c unset.c utils.c redirections.c
+	libft.c linked_list.c main.c pwd.c split.c strings.c unset.c utils.c redirections.c helpers.c helpers1.c
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)

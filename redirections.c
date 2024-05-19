@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 15:49:56 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:51:47 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,23 @@ void	redirect_out_append(t_cmd *node, int *index, int flags)
 	}
 }
 
+void	error_open(char *str)
+{
+	perror(str);
+	return ;
+}
+
 void	redirect_in(t_cmd *node, int *index, int flags)
 {
 	int	j;
 
 	if (node->argv[*index + 1])
 	{
+		if (node->infile != 0)
+			close(node->infile);
 		node->infile = open(node->argv[*index + 1], flags);
 		if (node->infile == -1)
-		{
-			perror("open");
-			return ;
-		}
+			error_open("open");
 		j = *index;
 		while (node->argv[j])
 		{
