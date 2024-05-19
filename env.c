@@ -6,11 +6,30 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/18 20:16:06 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:16:03 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	env_split_helper(char *s, char c, char **result, int *i)
+{
+	while (s[*i] && s[*i] != c)
+	{
+		result[0][*i] = s[*i];
+		(*i)++;
+	}
+	result[0][*i] = '\0';
+	if (s[*i])
+	{
+		result[1] = ft_strdup(s + *i + 1);
+		if (!result[1])
+			return ;
+	}
+	else
+		result[1] = NULL;
+	result[2] = NULL;
+}
 
 char	**env_split(char *s, char c)
 {
@@ -31,23 +50,46 @@ char	**env_split(char *s, char c)
 	if (!result[0])
 		return (NULL);
 	i = 0;
-	while (s[i] && s[i] != c)
-	{
-		result[0][i] = s[i];
-		i++;
-	}
-	result[0][i] = '\0';
-	if (s[i])
-	{
-		result[1] = ft_strdup(s + i + 1);
-		if (!result[1])
-			return (NULL);
-	}
-	else
-		result[1] = NULL;
-	result[2] = NULL;
+	env_split_helper(s, c, result, &i);
 	return (result);
 }
+
+// char	**env_split(char *s, char c)
+// {
+// 	char	**result;
+// 	int		i;
+// 	int		j;
+
+// 	if (!s)
+// 		return (NULL);
+// 	result = (char **)malloc(sizeof(char *) * 3);
+// 	if (!result)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (s[i] && s[i] != c)
+// 		i++;
+// 	result[0] = (char *)malloc(sizeof(char) * (i + 1));
+// 	if (!result[0])
+// 		return (NULL);
+// 	i = 0;
+// 	while (s[i] && s[i] != c)
+// 	{
+// 		result[0][i] = s[i];
+// 		i++;
+// 	}
+// 	result[0][i] = '\0';
+// 	if (s[i])
+// 	{
+// 		result[1] = ft_strdup(s + i + 1);
+// 		if (!result[1])
+// 			return (NULL);
+// 	}
+// 	else
+// 		result[1] = NULL;
+// 	result[2] = NULL;
+// 	return (result);
+// }
 
 t_env	*env_init(char **envp)
 {
