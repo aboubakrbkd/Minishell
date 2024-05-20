@@ -6,80 +6,82 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 17:56:28 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:57:14 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_multiple_commands(t_cmd *node, t_list *list, char **envr)
-{
-	int	fd[2];
-	int	id;
 
-	check_for_redirection(node);
-	safe_pipe(fd);
-	id = safe_fork();
-	if (id == 0)
+// export > f | wc
+
+int	is_builtin(t_cmd *cmd, t_list *list)
+{
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (echo(cmd->argv, cmd->outfile), 1);
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (cd(cmd->argv, list), 1);
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return (pwd(cmd->argv, list, cmd->outfile), 1);
+	if (!ft_strcmp(cmd->argv[0], "export"))
+		return (export(cmd->argv, list, cmd->outfile), 1);
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (unset(cmd->argv, &list->envs), 1);
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return (env(cmd->argv, list, cmd->outfile), 1);
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (exit_function(cmd->argv), 1);
+	return (0);
+}
+
+int checkBuiltIn(t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "export"))
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return ( 1);
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (1);
+	return (0);
+}
+
+void	ft_putchar(char c)
+{
+	write(2, &c, 1);
+}
+
+void	ft_putnbr(int nb)
+{
+	if (nb == -2147483648)
 	{
-		handle_duplications(node, fd);
-		if (is_builtin(node, list))
-			exit(0);
-		node->cmd = command(node->argv[0], envr);
-		if (execve(node->cmd, node->argv, envr) == -1)
-			msg_error("execve");
+		write(2, "-2147483648", 11);
 	}
-	if (node->infile != 0)
-		close(node->infile);
-	if (node->outfile != 1)
-		close(node->outfile);
-	close(fd[1]);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		msg_error("dup2 in fd[0]");
-	close(fd[0]);
-}
-
-void	handle_last_command(t_cmd *node, char **envr, int id)
-{
-	if (is_builtin(node, NULL))
+	else if (nb < 0)
 	{
-		handle_builtin_command(node, 0, 1);
-		return ;
+		write(2, "-", 1);
+		nb = -nb;
+		ft_putnbr(nb);
 	}
-	id = fork();
-	if (id == 0)
+	else if (nb > 9)
 	{
-		handle_duplications(node, NULL);
-		node->cmd = command(node->argv[0], envr);
-		if (execve(node->cmd, node->argv, envr) == -1)
-			msg_error("execve");
-		if (node->infile != 0)
-			close(node->infile);
-		if (node->outfile != 1)
-			close(node->outfile);
+		ft_putnbr(nb / 10);
+		ft_putnbr(nb % 10);
 	}
+	else 
+		ft_putchar(nb % 10 + '0');
 }
 
-void	parent_process(int fd_int, int fd_out)
+void	execution(t_cmd *node, t_list *list)
 {
-	dup2(fd_int, 0);
-	close(fd_int);
-	dup2(fd_out, 1);
-	close(fd_out);
-	while (wait(NULL) != -1)
-		;
-}
-
-void	last_command(t_cmd *node, char **envr)
-{
-	handle_duplications(node, NULL);
-	node->cmd = command(node->argv[0], envr);
-	if (execve(node->cmd, node->argv, envr) == -1)
-		msg_error("execve");
-}
-
-int	execution(t_cmd *node, t_list *list)
-{
+	int		fd[2];
 	int		id;
 	int		fd_int;
 	int		fd_out;
@@ -88,21 +90,123 @@ int	execution(t_cmd *node, t_list *list)
 	fd_int = dup(0);
 	fd_out = dup(1);
 	envr = env_to_char_array(list->envs);
+	if(!node->next)
+	{
+		if(checkBuiltIn(node))
+		{
+			check_for_redirection(node);
+			if (is_builtin(node, list))
+			{
+				if (node->infile != 0)
+					close(node->infile);
+				if (node->outfile != 1)
+					close(node->outfile);
+				dup2(fd_int, 0);
+				close(fd_int);
+				dup2(fd_out, 1);
+				close(fd_out);
+				return ;
+			}
+		}
+	}
 	while (node->next)
 	{
-		handle_multiple_commands(node, list, envr);
+		check_for_redirection(node);
+		if (pipe(fd) == -1)
+			msg_error("pipe");
+		id = fork();
+		if (id == -1)
+			msg_error("fork");
+		if (id == 0)
+		{
+			if (node->infile != 0)
+			{
+				if (dup2(node->infile, 0) == -1)
+					msg_error("dup2 in infile");
+			}
+			if (node->outfile != 1)
+			{
+				if (dup2(node->outfile, 1) == -1)
+					msg_error("dup2 in outfile");
+			}
+			else
+			{
+				close(fd[0]);
+				if (dup2(fd[1], 1) == -1)
+					msg_error("dup2 in fd[1]");
+				close(fd[1]);
+			}
+			if (is_builtin(node, list))
+				exit(0);
+			node->cmd = command(node->argv[0], envr);
+			if (!node->cmd)
+			{
+				perror("command");
+				exit(127);
+			}
+			if (execve(node->cmd, node->argv, envr) == -1)
+				msg_error("execve");
+		}
+		if (node->infile != 0)
+			close(node->infile);
+		if (node->outfile != 1)
+			close(node->outfile);
+		close(fd[1]);
+		if (dup2(fd[0], 0) == -1)
+			msg_error("dup2 in fd[0]");
+		close(fd[0]);
 		node = node->next;
 	}
 	if (node)
 	{
 		check_for_redirection(node);
-		if (is_builtin(node, list))
-			return (handle_builtin_command(node, fd_int, fd_out), 0);
-		id = safe_fork();
+		id = fork();
+		if (id == -1)
+			msg_error("fork");
 		if (id == 0)
-			last_command(node, envr);
-		close_files(node);
+		{
+			if (node->infile != 0)
+			{
+				if (dup2(node->infile, 0) == -1)
+					msg_error("dup2 in infile2");
+				close(node->infile);
+			}
+			if (node->outfile != 1)
+			{
+				if (dup2(node->outfile, 1) == -1)
+					msg_error("dup2 in outfile2");
+				close(node->outfile);
+			}
+			if (is_builtin(node, list))
+			{
+				if (node->infile != 0)
+					close(node->infile);
+				if (node->outfile != 1)
+					close(node->outfile);
+				dup2(fd_int, 0);
+				close(fd_int);
+				dup2(fd_out, 1);
+				close(fd_out);
+				exit(0) ;
+			}
+			node->cmd = command(node->argv[0], envr);
+			if (!node->cmd)
+			{
+				perror("command");
+				exit(127);
+			}
+			if (execve(node->cmd, node->argv, envr) == -1)
+				msg_error("execve");
+		}
+		if (node->infile != 0)
+			close(node->infile);
+		if (node->outfile != 1)
+			close(node->outfile);
 	}
-	parent_process(fd_int, fd_out);
-	return (0);
+	dup2(fd_int, 0);
+	close(fd_int);
+	dup2(fd_out, 1);
+	close(fd_out);
+	while (wait(NULL) != -1)
+		;
 }

@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 17:58:14 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:02:07 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_env	*env_init(char **envp);
 int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
-int		execution(t_cmd *node, t_list *list);
+void	execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
 void	error_function(char *home, t_list *list);
@@ -96,10 +96,10 @@ int		ft_atoi(char *str);
 char	*ft_strjoin_with_sep(char *s1, char *s2, char sep);
 char	**get_path(char **envr);
 char	*ft_strchr(const char *s, int c);
-void	redirect_out(t_cmd *node, int *index, int flags);
+int		redirect_out(t_cmd *node, int *index, int flags);
 void	redirect_out_append(t_cmd *node, int *index, int flags);
 void	redirect_in(t_cmd *node, int *index, int flags);
-void	check_for_redirection(t_cmd *node);
+int		check_for_redirection(t_cmd *node);
 void	msg_error(char *str);
 void	close_files(t_cmd *node);
 void	handle_builtin_command(t_cmd *node, int fd_int, int fd_out);

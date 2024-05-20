@@ -6,16 +6,14 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:45:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 16:18:42 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:09:58 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	char	*result;
 	t_list	*list;
 	t_cmd	*cmd;
@@ -23,10 +21,12 @@ int main(int argc, char **argv, char **envp)
 	char	**commands;
 	t_cmd	*new_cmd;
 
+	(void)argc;
+	(void)argv;
 	list = malloc(sizeof(t_list));
 	if (!list)
 		return (1);
-	if(envp)
+	if (envp)
 		list->envs = env_init(envp);
 	else
 		list->envs = NULL;
@@ -34,21 +34,21 @@ int main(int argc, char **argv, char **envp)
 	{
 		result = readline("minishell$ ");
 		if (!result)
-			break;
+			break ;
 		add_history(result);
 		commands = ft_split(result, '|');
 		if (!commands)
-			break;
+			break ;
 		head = NULL;
 		cmd = NULL;
-	for (int i = 0; commands[i]; i++)
+		for (int i = 0; commands[i]; i++)
 		{
-			char **args = ft_split(commands[i], ' ');
+			char	**args = ft_split(commands[i], ' ');
 			if (!args)
-				break;
+				break ;
 			new_cmd = malloc(sizeof(t_cmd));
 			if (!new_cmd)
-				break;
+				break ;
 			new_cmd->argv = args;
 			new_cmd->infile = 0;
 			new_cmd->outfile = 1;

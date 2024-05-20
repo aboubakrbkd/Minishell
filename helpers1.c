@@ -6,53 +6,34 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:55:17 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 17:56:22 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:06:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_duplications(t_cmd *node, int *fd)
-{
-	if (node->infile != 0)
-	{
-		if (dup2(node->infile, STDIN_FILENO) == -1)
-			msg_error("dup2 infile");
-		close(node->infile);
-	}
-	if (node->outfile != STDOUT_FILENO)
-	{
-		if (dup2(node->outfile, STDOUT_FILENO) == -1)
-			msg_error("dup2 outfile");
-		close(node->outfile);
-	}
-	else if (fd != NULL)
-	{
-		close(fd[0]);
-		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			msg_error("dup2 fd[1]");
-		close(fd[1]);
-	}
-}
-
-int	is_builtin(t_cmd *cmd, t_list *list)
-{
-	if (!ft_strcmp(cmd->argv[0], "echo"))
-		return (echo(cmd->argv, cmd->outfile), 1);
-	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return (cd(cmd->argv, list), 1);
-	if (!ft_strcmp(cmd->argv[0], "pwd"))
-		return (pwd(cmd->argv, list, cmd->outfile), 1);
-	if (!ft_strcmp(cmd->argv[0], "export"))
-		return (export(cmd->argv, list, cmd->outfile), 1);
-	if (!ft_strcmp(cmd->argv[0], "unset"))
-		return (unset(cmd->argv, &list->envs), 1);
-	if (!ft_strcmp(cmd->argv[0], "env"))
-		return (env(cmd->argv, list, cmd->outfile), 1);
-	if (!ft_strcmp(cmd->argv[0], "exit"))
-		return (exit_function(cmd->argv), 1);
-	return (0);
-}
+// void	handle_duplications(t_cmd *node, int *fd)
+// {
+// 	if (node->infile != 0)
+// 	{
+// 		if (dup2(node->infile, 0) == -1)
+// 			msg_error("dup2 infile");
+// 		close(node->infile);
+// 	}
+// 	if (node->outfile != 1)
+// 	{
+// 		if (dup2(node->outfile, 1) == -1)
+// 			msg_error("dup2 outfile");
+// 		close(node->outfile);
+// 	}
+// 	else if (fd != NULL)
+// 	{
+// 		close(fd[0]);
+// 		if (dup2(fd[1], 1) == -1)
+// 			msg_error("dup2 fd[1]");
+// 		close(fd[1]);
+// 	}
+// }
 
 void	env_to_char_array_helper(t_env *current, char **envp)
 {
