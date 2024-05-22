@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:53:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/20 18:05:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:53:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,26 @@ void	safe_pipe(int fd[2])
 		msg_error("pipe");
 }
 
+void	msg_error_fork(void)
+{
+	static int	error_printed = 0;
+
+	if (!error_printed)
+	{
+		perror("fork");
+		error_printed = 1;
+	}
+	else
+		return ;
+}
+
 int	safe_fork(void)
 {
 	int	id;
 
 	id = fork();
 	if (id == -1)
-		msg_error("fork");
+		msg_error_fork();
 	return (id);
 }
 

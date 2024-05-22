@@ -6,14 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/20 20:57:14 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:41:18 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-// export > f | wc
 
 int	is_builtin(t_cmd *cmd, t_list *list)
 {
@@ -34,7 +31,7 @@ int	is_builtin(t_cmd *cmd, t_list *list)
 	return (0);
 }
 
-int checkBuiltIn(t_cmd *cmd)
+int	checkbuiltin(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		return (1);
@@ -45,38 +42,12 @@ int checkBuiltIn(t_cmd *cmd)
 	if (!ft_strcmp(cmd->argv[0], "export"))
 		return (1);
 	if (!ft_strcmp(cmd->argv[0], "unset"))
-		return ( 1);
+		return (1);
 	if (!ft_strcmp(cmd->argv[0], "env"))
 		return (1);
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (1);
 	return (0);
-}
-
-void	ft_putchar(char c)
-{
-	write(2, &c, 1);
-}
-
-void	ft_putnbr(int nb)
-{
-	if (nb == -2147483648)
-	{
-		write(2, "-2147483648", 11);
-	}
-	else if (nb < 0)
-	{
-		write(2, "-", 1);
-		nb = -nb;
-		ft_putnbr(nb);
-	}
-	else if (nb > 9)
-	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
-	}
-	else 
-		ft_putchar(nb % 10 + '0');
 }
 
 void	execution(t_cmd *node, t_list *list)
@@ -90,9 +61,9 @@ void	execution(t_cmd *node, t_list *list)
 	fd_int = dup(0);
 	fd_out = dup(1);
 	envr = env_to_char_array(list->envs);
-	if(!node->next)
+	if (!node->next)
 	{
-		if(checkBuiltIn(node))
+		if (checkbuiltin(node))
 		{
 			check_for_redirection(node);
 			if (is_builtin(node, list))
@@ -114,9 +85,7 @@ void	execution(t_cmd *node, t_list *list)
 		check_for_redirection(node);
 		if (pipe(fd) == -1)
 			msg_error("pipe");
-		id = fork();
-		if (id == -1)
-			msg_error("fork");
+		id = safe_fork();
 		if (id == 0)
 		{
 			if (node->infile != 0)
@@ -136,8 +105,11 @@ void	execution(t_cmd *node, t_list *list)
 					msg_error("dup2 in fd[1]");
 				close(fd[1]);
 			}
-			if (is_builtin(node, list))
+			if (checkbuiltin(node))
+			{
+				is_builtin(node, list);
 				exit(0);
+			}
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{
@@ -160,9 +132,7 @@ void	execution(t_cmd *node, t_list *list)
 	if (node)
 	{
 		check_for_redirection(node);
-		id = fork();
-		if (id == -1)
-			msg_error("fork");
+		id = safe_fork();
 		if (id == 0)
 		{
 			if (node->infile != 0)
@@ -187,7 +157,7 @@ void	execution(t_cmd *node, t_list *list)
 				close(fd_int);
 				dup2(fd_out, 1);
 				close(fd_out);
-				exit(0) ;
+				exit(0);
 			}
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)

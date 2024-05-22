@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 18:16:03 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:32:28 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char	**env_split(char *s, char c)
 
 	if (!s)
 		return (NULL);
-	result = (char **)malloc(sizeof(char *) * 3);
+	result = malloc(sizeof(char *) * 3);
 	if (!result)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	result[0] = (char *)malloc(sizeof(char) * (i + 1));
+	result[0] = malloc(sizeof(char) * (i + 1));
 	if (!result[0])
 		return (NULL);
 	i = 0;

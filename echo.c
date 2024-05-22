@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/17 19:39:43 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:27:01 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_arguments(char **argv, int start, int outfile)
 	{
 		write(outfile, argv[i], ft_strlen(argv[i]));
 		if (argv[i + 1])
-			printf(" ");
+			write(outfile, " ", 1);
 		i++;
 	}
 }

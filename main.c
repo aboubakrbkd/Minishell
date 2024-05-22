@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:45:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/20 17:09:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:08:29 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
