@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 17:04:30 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:13:13 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ int	syn_error3(char **res)
 		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
 	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], ">", 1) == 0)
 		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
+	else if (ft_strncmp(res[0], "(", 2) == 0)
+		return (printf("bash: syntax error\n"), 1);
+	else if (ft_strncmp(res[0], ")", 2) == 0)
+		return (printf("bash: syntax error\n"), 1);
 	free_array(res);
 	return (0);
 }
@@ -85,7 +89,7 @@ int	syn_error(char *line)
 	return (0);
 }
 
-int	parsing(char *line)
+int	parsing(char *line, char **envp)
 {
 	char	*str;
 	char	**res;
@@ -103,11 +107,16 @@ int	parsing(char *line)
 		return (1);
 	fill_arr(lst);
 	back_to_ascii(lst);
+	expand(lst, envp);
 	while (lst)
 	{
-		printf("%s\n", lst->cmd);
-		printf("%s\n", lst->argv[0]);
-		printf("%s\n", lst->argv[1]);
+		int i = 0;
+		while (lst->argv[i])
+		{
+			printf("argv[%d]: %s\n", i, lst->argv[i]);
+			i++;
+		}
+		printf("argv[%d]: %s\n", i, lst->argv[i]);
 		lst = lst->next;
 	}
 	return (0);

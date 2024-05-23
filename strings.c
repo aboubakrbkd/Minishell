@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 17:08:54 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/22 16:41:45 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,24 +122,22 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strnstr(char *str, char *to_find, int len)
+int	ft_strnstr(char *str, char *to_find)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	if (to_find[0] == '\0')
-		return ((char *)str);
-	while (str[i] && i < len)
+	while (str[i])
 	{
 		j = 0;
-		while (str[i + j] && (str[i + j] == to_find[j]) && i + j < len)
+		while (str[i + j] && (str[i + j] == to_find[j]))
 			j++;
 		if (to_find[j] == '\0')
-			return ((char *)str + i);
+			return (1);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 int	ft_strcpy(char *dest, char *src)

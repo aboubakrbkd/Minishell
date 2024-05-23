@@ -6,9 +6,13 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/19 17:06:47 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:46:30 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+	$VAR == ALPHA NUM + _
+*/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,6 +25,9 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
+# define	GREEN  "\033[0;34m"
+# define	NC  "\033[0m"
+
 typedef struct s_env
 {
 	char			*name;
@@ -29,13 +36,19 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
+typedef struct s_list
+{
+	t_env	*envs;
+}				t_list;
+
+
 /* tis is an example of the struct i need */
 typedef struct s_cmd
 {
-	char			*cmd; // ls -la
-	char			**argv; // argv[0] ls argv[1] = -la argv[2] = NULL
-	// int			infile;
-	// int			outfile;
+	char			*cmd;
+	char			**argv;
+	int				infile;
+	int				outfile;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -49,26 +62,25 @@ char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
 char	*ft_strchr(char *s, int c);
-char	*ft_strnstr(char *str, char *to_find, int len);
-void	pwd(char **envp);
+int		ft_strnstr(char *str, char *to_find);
 t_env	*env_init(char **envp);
-char	*my_getenv(char *name);
-t_env	*ft_lstnew(char *name, char *value);
 int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
-void	execution(t_cmd *node, char **envp);
+int		is_ascii(char c);
+int		execution(t_cmd *node, t_list *list);
 
 /*************BUILT in**/
-int		echo(char **argv);
-int		cd(char **argv);
+int		echo(char **argv, int outfile);
+int		cd(char **argv, t_list *list);
 int		exit_function(char **argv);
-void	env(t_env *env);
+void	env(t_env *list, int outfile);
 int		unset(char **argv, t_env **envps);
-void	pwd(char **argv);
+void	pwd(char **args, t_list *list, int outfile);
+void	export(char **argv, t_list *list, int outfile);
 
 // parsing func
-int		parsing(char *line);
+int		parsing(char *line, char **envp);
 int		syn_error(char *line);
 int		syn_error2(char **res);
 int		syn_error3(char **res);
@@ -85,5 +97,23 @@ void	fill_arr(t_cmd *lst);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
+int		is_exp(char c);
+void	expand(t_cmd *lst, char **envp);
+void	should_expand(t_cmd *lst, t_env *envir, int i);
+void	no_expand(t_cmd *lst, int i);
+void	meduim_expand(t_cmd *lst, int i);
+void	simple_expand(t_cmd *lst, t_env *envir, int i);
+char	*take_value(t_cmd *lst, int i);
+t_env	*ft_lstnew(char *name, char *value);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+int		special_case(char c);
+char	**new_split(char *s);
+char	**new_help(char *s, int len, char **final);
+int		new_countword(char *s);
+char	*ft_substr(char *s, int start, int len);
+char	*my_strtok(char *str);
+char	*expand_cmd(t_cmd *lst, char **envp, int i, int tr);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_substr(char *s, int start, int len);
 
 #endif

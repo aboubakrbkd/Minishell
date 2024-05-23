@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Minishell.c                                        :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/20 16:34:41 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/20 14:37:42 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	is_upper(char c)
 {
-	(void) ac;
-	(void) av;
-	char	*temp;
-
-	if (ac != 1)
+	if (c >= 'A' && c <= 'Z')
 		return (1);
-	while (1)
-	{
-		temp = readline("Minishell-$ ");
-		if (!temp)
-			break ;
-		add_history(temp);
-		if (parsing(temp, env))
-			continue ;
-	}
+	return (0);
+}
+
+int	is_lower(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	return (0);
+}
+
+int	is_number(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	is_ascii(char c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

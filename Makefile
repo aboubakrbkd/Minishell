@@ -1,9 +1,9 @@
 SRCS = Minishell.c parsing.c split.c strings.c error.c add_space.c qoutes.c \
-		build.c
+		build.c expand.c env.c linked_list.c libft.c
 INC = minishell.h
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
 
 all: ${NAME}

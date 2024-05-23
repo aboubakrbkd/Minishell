@@ -6,45 +6,57 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:14:46 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/17 17:41:56 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/20 15:33:14 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
-void	change_to_garb(char *line)
-{
-	int		i;
-	int		tr;
-	char	curr_quote;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-	i = 0;
-	tr = 0;
-	curr_quote = '\0';
-	while (line[i])
-	{
-		if ((line[i] == '\'' || line[i] == '"') && tr == 0)
-		{
-			tr = 1;
-			curr_quote = line[i];
-		}
-		else if (line[i] == curr_quote && tr == 1)
-		{
-			tr = 0;
-			curr_quote = '\0';
-		}
-		else if (tr == 1)
-			line[i] = line[i] * - 1;
-		i++;
-	}
+void expand_and_execute(const char *command) {
+    // Step 1: Tokenization (a very simplified version)
+    char *tokens[100];  // assuming there won't be more than 100 tokens
+    int token_count = 0;
+
+    char *command_copy = strdup(command);
+    char *token = strtok(command_copy, " ");
+    while (token != NULL) {
+        tokens[token_count++] = token;
+        token = strtok(NULL, " ");
+    }
+    tokens[token_count] = NULL;
+
+    // Step 2: Variable Expansion
+    for (int i = 0; i < token_count; i++) {
+        if (tokens[i][0] == '$') {
+            char *var_name = tokens[i] + 1;  // skip the $
+            char *var_value = getenv(var_name);
+            if (var_value != NULL) {
+                tokens[i] = var_value;
+            } else {
+                tokens[i] = "";  // if the variable is not found, replace with an empty string
+            }
+        }
+    }
+
+    // Step 3: Command Execution (here we'll just print the final command)
+    printf("Executing command: ");
+    for (int i = 0; i < token_count; i++) {
+        printf("%s ", tokens[i]);
+    }
+    printf("\n");
+
+    free(command_copy);
 }
 
-int main()
-{
-    char ptr[] = "hello world 'this is mouad kimdil'.";
-    change_to_garb(ptr);
-    printf("%s\n", ptr);
+int main() {
+    const char *command = "echo $USER $OLDPWD";
+    expand_and_execute(command);
     return 0;
 }
+
 
