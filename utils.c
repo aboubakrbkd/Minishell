@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:20:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/20 21:54:49 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:40:33 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,6 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)s + i);
-		i++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s + i);
-	return (0);
 }
 
 char	*my_getenv(char *name, t_list *list)

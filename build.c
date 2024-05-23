@@ -1,39 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/23 22:41:25 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/23 22:45:08 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_upper(char c)
+void	fill_arr(t_cmd *lst)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	return (0);
+	while (lst)
+	{
+		lst->argv = ft_split(lst->cmd, ' ');
+		lst = lst->next;
+	}
 }
 
-int	is_lower(char c)
+int	build_arr(t_cmd **lst, char **res)
 {
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	return (0);
-}
+	int		i;
+	t_cmd	*new_node;
+	t_cmd	*curr;
 
-int	is_number(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
+	new_node = NULL;
+	curr = NULL;
+	i = 0;
+	while (res[i])
+	{
+		new_node = new_list(nops_strdup(res[i]));
+		if (!new_node->cmd)
+			return (free(new_node), 1);
+		if (!*lst)
+			*lst = new_node;
+		else
+			curr->next = new_node;
+		curr = new_node;
+		i++;
+	}
 	return (0);
-}
-
-int	is_ascii(char c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

@@ -3,12 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/23 16:24:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:42:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+	$VAR == ALPHA NUM + _
+*/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -20,6 +24,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+
+# define	GREEN  "\033[0;34m"
+# define	NC  "\033[0m"
 
 typedef struct s_env
 {
@@ -34,6 +41,8 @@ typedef struct s_list
 	t_env	*envs;
 }				t_list;
 
+
+/* tis is an example of the struct i need */
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -42,16 +51,6 @@ typedef struct s_cmd
 	int				outfile;
 	struct s_cmd	*next;
 }					t_cmd;
-
-/*************BUILT in**/
-int		echo(char **argv, int outfile);
-int		cd(char **argv, t_list *list);
-int		exit_function(char **argv);
-void	env(char **argv, t_list *list, int outfile);
-int		unset(char **argv, t_env **envps);
-void	pwd(char **args, t_list *list, int outfile);
-void	export(char **argv, t_list *list, int outfile);
-/************************/
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
@@ -62,10 +61,42 @@ int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
+char	*ft_strchr(char *s, int c);
+int		ft_strnstr(char *str, char *to_find);
 t_env	*env_init(char **envp);
 int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
+int		is_ascii(char c);
+
+/*************BUILT in**/
+int		echo(char **argv, int outfile);
+int		cd(char **argv, t_list *list);
+int		exit_function(char **argv);
+void	env(t_env *list, int outfile);
+int		unset(char **argv, t_env **envps);
+void	pwd(char **args, t_list *list, int outfile);
+void	export(char **argv, t_list *list, int outfile);
+
+// parsing func
+int		parsing(char *line, char **envp);
+int		syn_error(char *line);
+int		syn_error2(char **res);
+int		syn_error3(char **res);
+void	free_array(char **arr);
+char	*add_space(char *line);
+void	second_case(char *str, char *line, int *i, int *j);
+int		count_num_of_special(char *line);
+int		is_special_char(char c);
+int		handle_single_double(char *line);
+void	change_to_garb(char *line);
+int		build_arr(t_cmd **lst, char **res);
+int		ft_strcpy(char *dest, char *src);
+void	fill_arr(t_cmd *lst);
+t_cmd	*new_list(void *cmd);
+void	back_to_ascii(t_cmd *lst);
+char	*nops_strdup(char *str);
+void	expand(t_cmd *lst, char **envp);
 void	execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
@@ -76,26 +107,18 @@ char	*my_getenv(char *name, t_list *list);
 void	update_env(char *name, char *value, t_list *list);
 void	update_pwd(char *path, t_list *list);
 t_env	*ft_lstnew(char *name, char *value);
-t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-int		env_size(t_env *env);
-void	swap_the_nodes(t_env *tmp1, t_env *tmp2);
-void	sort_env(t_env *env);
-void	index_env(t_env *env);
-char	*get_name(char *str);
-char	*get_value(char *str);
-void	add_env(t_env **env, char *name, char *value);
-int		add_the_value(char *name, char *value, t_list *list);
-int		update_the_value(char *name, char *value, t_list *list);
-void	free_all(char **str);
-int		check(char *my_argv);
-char	*command(char *my_argv, char **env);
-int		checking(t_env *tmp, char *name, char *value);
+int		special_case(char c);
+char	*ft_substr(char *s, int start, int len);
+char	*expand_cmd(t_cmd *lst, char **envp, int i);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_substr(char *s, int start, int len);
+char	*ft_itoa(int nb);
+int		ft_len(long nb);
+
 int		ft_atoi(char *str);
 char	*ft_strjoin_with_sep(char *s1, char *s2, char sep);
 char	**get_path(char **envr);
-char	*ft_strchr(const char *s, int c);
 int		redirect_out(t_cmd *node, int *index, int flags);
 int		redirect_out_append(t_cmd *node, int *index, int flags);
 int		redirect_in(t_cmd *node, int *index, int flags);

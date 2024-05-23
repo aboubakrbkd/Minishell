@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/23 22:41:25 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/05/16 16:50:50 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/05/16 17:01:24 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_upper(char c)
+void	free_array(char **arr)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	return (0);
-}
+	int	i;
 
-int	is_lower(char c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	return (0);
-}
-
-int	is_number(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	is_ascii(char c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

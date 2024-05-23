@@ -1,24 +1,30 @@
+SRCS = Minishell.c parsing.c split.c strings.c error.c add_space.c qoutes.c \
+		build.c expand.c env.c linked_list.c libft.c
+INC = minishell.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 LFLAGFS = -lreadline
 RM = rm -rf
 NAME = minishell
-SRCS = cd.c echo.c env.c exec_helper.c execution.c exit.c export_helper1.c export_helpers.c export.c \
-	libft.c linked_list.c main.c pwd.c split.c strings.c unset.c utils.c redirections.c helpers.c helpers1.c
-OBJS = $(SRCS:.c=.o)
+CC = cc
+FLAGS = -Wall -Wextra -Werror
+OBJS = $(addprefix obj/, $(SRCS:.c=.o))
 
-$(NAME): $(OBJS)
-	 $(CC) $(LFLAGFS) $(CFLAGS) $(OBJS) -o $(NAME)
+all: ${NAME}
 
-all: $(NAME)
+${NAME}: ${OBJS}
+	${CC} ${FLAGS} ${OBJS} -lreadline -o ${NAME}
 
-%.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
-	
+obj/%.o: %.c ${INC}
+	@mkdir -p $(dir $@)
+	${CC} ${FLAGS} -c $< -o $@
+
 clean:
-	$(RM) $(OBJS)
+	rm -rf obj
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -rf ${NAME}
 
 re: fclean all
+
+.PHONY: clean

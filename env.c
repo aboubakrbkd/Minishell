@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:32:28 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:40:57 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,17 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(char **argv, t_list *list, int outfile)
+void	env(t_env *list, int outfile)
 {
-	t_env	*env;
-
-	(void)argv;
-	env = list->envs;
-	while (env)
+	while (list)
 	{
-		if (env->value)
+		if (list->value)
 		{
-			write(outfile, env->name, ft_strlen(env->name));
+			write(outfile, list->name, ft_strlen(list->name));
 			write(outfile, "=", 1);
-			write(outfile, env->value, ft_strlen(env->value));
+			write(outfile, list->value, ft_strlen(list->value));
 			write(outfile, "\n", 1);
 		}
-		env = env->next;
+		list = list->next;
 	}
 }
