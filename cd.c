@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 15:40:47 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:03:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,20 @@ void	home_function(char *home, t_list *list)
 {
 	home = my_getenv("HOME", list);
 	if (!home)
+	{
 		printf("cd: HOME not set\n");
+		return ;
+	}
+	if (chdir(home) == -1)
+		printf("cd: %s: No such file or directory\n", home);
+	update_pwd(my_getenv("HOME", list), list);
+}
+
+void	home_function_telda(char *home, t_list *list)
+{
+	home = my_getenv("HOME", list);
+	if (!home)
+		home = "/Users/aboukdid";
 	if (chdir(home) == -1)
 		printf("cd: %s: No such file or directory\n", home);
 	update_pwd(my_getenv("HOME", list), list);
@@ -59,7 +72,7 @@ int	cd(char **argv, t_list *list)
 	else
 	{
 		if (!ft_strcmp(argv[1], "~"))
-			return (home_function(home, list), 0);
+			return (home_function_telda(home, list), 0);
 		else if (!ft_strcmp(argv[1], "-"))
 			return (old_pwd_function(home, list), 0);
 		else if (chdir(argv[1]) == -1)

@@ -6,13 +6,29 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/19 16:51:47 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:32:46 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect_out(t_cmd *node, int *index, int flags)
+void	new_array(t_cmd *node, int *index, int j)
+{
+	while (node->argv[j])
+	{
+		if (!node->argv[j + 2])
+		{
+			node->argv[j] = NULL;
+			break ;
+		}
+		else
+			node->argv[j] = node->argv[j + 2];
+		j++;
+	}
+	*index -= 1;
+}
+
+int	redirect_out(t_cmd *node, int *index, int flags)
 {
 	int	j;
 
@@ -22,24 +38,17 @@ void	redirect_out(t_cmd *node, int *index, int flags)
 			close(node->outfile);
 		node->outfile = open(node->argv[*index + 1], flags, 0644);
 		if (node->outfile == -1)
-			msg_error("open");
-		j = *index;
-		while (node->argv[j])
 		{
-			if (!node->argv[j + 2])
-			{
-				node->argv[j] = NULL;
-				break ;
-			}
-			else
-				node->argv[j] = node->argv[j + 2];
-			j++;
+			msg_error("open");
+			return (1);
 		}
-		*index -= 1;
+		j = *index;
+		new_array(node, index, j);
 	}
+	return (0);
 }
 
-void	redirect_out_append(t_cmd *node, int *index, int flags)
+int	redirect_out_append(t_cmd *node, int *index, int flags)
 {
 	int	j;
 
@@ -49,30 +58,17 @@ void	redirect_out_append(t_cmd *node, int *index, int flags)
 			close(node->outfile);
 		node->outfile = open(node->argv[*index + 1], flags, 0644);
 		if (node->outfile == -1)
-			msg_error("open");
-		j = *index;
-		while (node->argv[j])
 		{
-			if (!node->argv[j + 2])
-			{
-				node->argv[j] = NULL;
-				break ;
-			}
-			else
-				node->argv[j] = node->argv[j + 2];
-			j++;
+			msg_error("open");
+			return (1);
 		}
-		*index -= 1;
+		j = *index;
+		new_array(node, index, j);
 	}
+	return (0);
 }
 
-void	error_open(char *str)
-{
-	perror(str);
-	return ;
-}
-
-void	redirect_in(t_cmd *node, int *index, int flags)
+int	redirect_in(t_cmd *node, int *index, int flags)
 {
 	int	j;
 
@@ -82,36 +78,34 @@ void	redirect_in(t_cmd *node, int *index, int flags)
 			close(node->infile);
 		node->infile = open(node->argv[*index + 1], flags);
 		if (node->infile == -1)
-			error_open("open");
-		j = *index;
-		while (node->argv[j])
 		{
-			if (!node->argv[j + 2])
-			{
-				node->argv[j] = NULL;
-				break ;
-			}
-			else
-				node->argv[j] = node->argv[j + 2];
-			j++;
+			error_open("open");
+			return (1);
 		}
-		*index -= 1;
+		j = *index;
+		new_array(node, index, j);
 	}
+	return (0);
 }
 
-void	check_for_redirection(t_cmd *node)
+int	check_for_redirection(t_cmd *node)
 {
 	int	i;
+	int	fail;
 
 	i = 0;
+	fail = 0;
 	while (node->argv[i])
 	{
 		if (!ft_strcmp(node->argv[i], ">"))
-			redirect_out(node, &i, O_WRONLY | O_CREAT | O_TRUNC);
+			fail = redirect_out(node, &i, O_WRONLY | O_CREAT | O_TRUNC) == 1;
 		else if (!ft_strcmp(node->argv[i], ">>"))
-			redirect_out_append(node, &i, O_WRONLY | O_CREAT | O_APPEND);
+			fail = redirect_out_append(node, &i, O_WRONLY | O_CREAT | O_APPEND);
 		else if (!ft_strcmp(node->argv[i], "<"))
-			redirect_in(node, &i, O_RDONLY);
+			fail = redirect_in(node, &i, O_RDONLY);
+		if (fail != 0)
+			return (fail);
 		i++;
 	}
+	return (0);
 }
