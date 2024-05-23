@@ -6,12 +6,21 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/21 17:41:18 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 16:20:15 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
 
+/*
+	if command not foud the exit status is 127
+	if command is found but not executable the exit status is 126 
+			for scriptig and permission denied
+	if command is successful the exit status is 0
+	if command was error the exit status is 1
+
+*/
 int	is_builtin(t_cmd *cmd, t_list *list)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
@@ -82,7 +91,18 @@ void	execution(t_cmd *node, t_list *list)
 	}
 	while (node->next)
 	{
-		check_for_redirection(node);
+		if (check_for_redirection(node) == 1)
+		{
+			if (node->infile != 0)
+				close(node->infile);
+			if (node->outfile != 1)
+				close(node->outfile);
+			dup2(fd_int, 0);
+			close(fd_int);
+			dup2(fd_out, 1);
+			close(fd_out);
+			return ;
+		}
 		if (pipe(fd) == -1)
 			msg_error("pipe");
 		id = safe_fork();
@@ -113,66 +133,79 @@ void	execution(t_cmd *node, t_list *list)
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{
-				perror("command");
+				printf("minishell: %s: command not found\n", node->argv[0]);
 				exit(127);
 			}
 			if (execve(node->cmd, node->argv, envr) == -1)
+			{
 				msg_error("execve");
+				exit(126);
+			}
 		}
 		if (node->infile != 0)
 			close(node->infile);
 		if (node->outfile != 1)
 			close(node->outfile);
 		close(fd[1]);
-		if (dup2(fd[0], 0) == -1)
-			msg_error("dup2 in fd[0]");
+		dup2(fd[0], 0);
 		close(fd[0]);
 		node = node->next;
 	}
-	if (node)
+	if (check_for_redirection(node) == 1)
 	{
-		check_for_redirection(node);
-		id = safe_fork();
-		if (id == 0)
-		{
-			if (node->infile != 0)
-			{
-				if (dup2(node->infile, 0) == -1)
-					msg_error("dup2 in infile2");
-				close(node->infile);
-			}
-			if (node->outfile != 1)
-			{
-				if (dup2(node->outfile, 1) == -1)
-					msg_error("dup2 in outfile2");
-				close(node->outfile);
-			}
-			if (is_builtin(node, list))
-			{
-				if (node->infile != 0)
-					close(node->infile);
-				if (node->outfile != 1)
-					close(node->outfile);
-				dup2(fd_int, 0);
-				close(fd_int);
-				dup2(fd_out, 1);
-				close(fd_out);
-				exit(0);
-			}
-			node->cmd = command(node->argv[0], envr);
-			if (!node->cmd)
-			{
-				perror("command");
-				exit(127);
-			}
-			if (execve(node->cmd, node->argv, envr) == -1)
-				msg_error("execve");
-		}
 		if (node->infile != 0)
 			close(node->infile);
 		if (node->outfile != 1)
 			close(node->outfile);
+		dup2(fd_int, 0);
+		close(fd_int);
+		dup2(fd_out, 1);
+		close(fd_out);
+		return ;
 	}
+	id = safe_fork();
+	if (id == 0)
+	{
+		if (node->infile != 0)
+		{
+			if (dup2(node->infile, 0) == -1)
+				msg_error("dup2 in infile2");
+			close(node->infile);
+		}
+		if (node->outfile != 1)
+		{
+			if (dup2(node->outfile, 1) == -1)
+				msg_error("dup2 in outfile2");
+			close(node->outfile);
+		}
+		if (is_builtin(node, list))
+		{
+			if (node->infile != 0)
+				close(node->infile);
+			if (node->outfile != 1)
+				close(node->outfile);
+			dup2(fd_int, 0);
+			close(fd_int);
+			dup2(fd_out, 1);
+			close(fd_out);
+			exit(0);
+		}
+		node->cmd = command(node->argv[0], envr);
+		if (!node->cmd)
+		{
+			printf("minishell: %s: command not found\n", node->argv[0]);
+			exit(127);
+		}
+		if (execve(node->cmd, node->argv, envr) == -1)
+		{
+			perror("minishell");
+			exit(126);
+		}
+	}
+	if (node->infile != 0)
+		close(node->infile);
+	if (node->outfile != 1)
+		close(node->outfile);
 	dup2(fd_int, 0);
 	close(fd_int);
 	dup2(fd_out, 1);

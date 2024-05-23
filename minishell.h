@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/21 17:41:35 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 16:24:20 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,10 @@ int		redirect_in(t_cmd *node, int *index, int flags);
 int		check_for_redirection(t_cmd *node);
 void	msg_error(char *str);
 void	close_files(t_cmd *node);
-void	handle_builtin_command(t_cmd *node, int fd_int, int fd_out);
 void	safe_pipe(int fd[2]);
 int		safe_fork(void);
-void	handle_duplications(t_cmd *node, int *fd);
 int		is_builtin(t_cmd *cmd, t_list *list);
 void	env_to_char_array_helper(t_env *current, char **envp);
 char	**env_to_char_array(t_env *head);
+void	error_open(char *str);
 #endif

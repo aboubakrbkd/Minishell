@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/22 13:21:26 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:32:46 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,6 @@ int	redirect_out(t_cmd *node, int *index, int flags)
 			return (1);
 		}
 		j = *index;
-		// while (node->argv[j])
-		// {
-		// 	if (!node->argv[j + 2])
-		// 	{
-		// 		node->argv[j] = NULL;
-		// 		break ;
-		// 	}
-		// 	else
-		// 		node->argv[j] = node->argv[j + 2];
-		// 	j++;
-		// }
-		// *index -= 1;
 		new_array(node, index, j);
 	}
 	return (0);
@@ -75,27 +63,9 @@ int	redirect_out_append(t_cmd *node, int *index, int flags)
 			return (1);
 		}
 		j = *index;
-		// while (node->argv[j])
-		// {
-		// 	if (!node->argv[j + 2])
-		// 	{
-		// 		node->argv[j] = NULL;
-		// 		break ;
-		// 	}
-		// 	else
-		// 		node->argv[j] = node->argv[j + 2];
-		// 	j++;
-		// }
-		// *index -= 1;
 		new_array(node, index, j);
 	}
 	return (0);
-}
-
-void	error_open(char *str)
-{
-	perror(str);
-	return ;
 }
 
 int	redirect_in(t_cmd *node, int *index, int flags)
@@ -113,18 +83,6 @@ int	redirect_in(t_cmd *node, int *index, int flags)
 			return (1);
 		}
 		j = *index;
-		// while (node->argv[j])
-		// {
-		// 	if (!node->argv[j + 2])
-		// 	{
-		// 		node->argv[j] = NULL;
-		// 		break ;
-		// 	}
-		// 	else
-		// 		node->argv[j] = node->argv[j + 2];
-		// 	j++;
-		// }
-		// *index -= 1;
 		new_array(node, index, j);
 	}
 	return (0);

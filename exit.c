@@ -6,14 +6,26 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/16 17:29:36 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:58:13 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// int exit_status(int status, int mode)
+// {
+// 	static char num = 0;
+// 	if (mode == 1)
+// 		num = status;
+// 	return (num);
+// }
+
 int	is_all_num(char *s)
 {
+	if (*s == '-' || *s == '+')
+		s++;
+	if (*s == '\0')
+		return (0);
 	while (*s)
 	{
 		if (!is_number(*s))
@@ -31,7 +43,14 @@ int	exit_function(char **argv)
 	if (is_all_num(argv[1]))
 	{
 		if (argv[2] == NULL)
-			exit(ft_atoi(argv[1]));
+		{
+			if (ft_atoi(argv[1]) < 0)
+				exit(256 + ft_atoi(argv[1]));
+			else if (ft_atoi(argv[1]) > 255)
+				exit(ft_atoi(argv[1]) % 256);
+			else
+				exit(ft_atoi(argv[1]));
+		}
 		else
 		{
 			printf("too many arguments\n");
