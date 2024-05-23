@@ -1,6 +1,10 @@
 SRCS = Minishell.c parsing.c split.c strings.c error.c add_space.c qoutes.c \
 		build.c expand.c env.c linked_list.c libft.c
 INC = minishell.h
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LFLAGFS = -lreadline
+RM = rm -rf
 NAME = minishell
 CC = cc
 FLAGS = -Wall -Wextra -Werror

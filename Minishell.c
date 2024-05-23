@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 11:34:56 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/20 16:34:41 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/23 22:40:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,10 @@ int	main(int ac, char **av, char **env)
 		if (parsing(temp, env))
 			continue ;
 	}
+}
+
+void	error_open(char *str)
+{
+	perror(str);
+	return ;
 }

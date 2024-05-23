@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 13:20:17 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/22 18:14:22 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/23 22:45:08 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	fill_arr(t_cmd *lst)
 	}
 }
 
-int build_arr(t_cmd **lst, char **res)
+int	build_arr(t_cmd **lst, char **res)
 {
 	int		i;
 	t_cmd	*new_node;

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/23 22:21:28 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:42:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
 int		is_ascii(char c);
-int		execution(t_cmd *node, t_list *list);
 
 /*************BUILT in**/
 int		echo(char **argv, int outfile);
@@ -98,6 +97,15 @@ t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
 void	expand(t_cmd *lst, char **envp);
+void	execution(t_cmd *node, t_list *list);
+void	home_function(char *home, t_list *list);
+void	old_pwd_function(char *home, t_list *list);
+void	error_function(char *home, t_list *list);
+int		check_if_flag(char *argv);
+char	**env_split(char *s, char c);
+char	*my_getenv(char *name, t_list *list);
+void	update_env(char *name, char *value, t_list *list);
+void	update_pwd(char *path, t_list *list);
 t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		special_case(char c);
@@ -108,4 +116,19 @@ char	*ft_substr(char *s, int start, int len);
 char	*ft_itoa(int nb);
 int		ft_len(long nb);
 
+int		ft_atoi(char *str);
+char	*ft_strjoin_with_sep(char *s1, char *s2, char sep);
+char	**get_path(char **envr);
+int		redirect_out(t_cmd *node, int *index, int flags);
+int		redirect_out_append(t_cmd *node, int *index, int flags);
+int		redirect_in(t_cmd *node, int *index, int flags);
+int		check_for_redirection(t_cmd *node);
+void	msg_error(char *str);
+void	close_files(t_cmd *node);
+void	safe_pipe(int fd[2]);
+int		safe_fork(void);
+int		is_builtin(t_cmd *cmd, t_list *list);
+void	env_to_char_array_helper(t_env *current, char **envp);
+char	**env_to_char_array(t_env *head);
+void	error_open(char *str);
 #endif
