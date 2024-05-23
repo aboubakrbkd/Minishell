@@ -6,11 +6,59 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/23 15:48:52 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:24:05 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_len(long nb)
+{
+	int	len;
+
+	len = 0;
+	if (nb == 0)
+		return (1);
+	if (nb < 0)
+	{
+		nb *= -1;
+		len++;
+	}
+	while (nb)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa(int nb)
+{
+	char	*ptr;
+	int		len;
+	long	i;
+
+	i = nb;
+	len = ft_len(i);
+	ptr = (char *)malloc(sizeof(char) * (len + 1));
+	if (!ptr)
+		return (NULL);
+	ptr[len] = '\0';
+	if (i == 0)
+		ptr[0] = '0';
+	if (i < 0)
+	{
+		i = -i;
+		ptr[0] = '-';
+	}
+	while (i)
+	{
+		len--;
+		ptr[len] = 48 + (i % 10);
+		i /= 10;
+	}
+	return (ptr);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -22,17 +70,10 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	special_case(char c)
-{
-	if (is_ascii(c) || is_number(c) || c == '_')
-		return (1);
-	return (0);
-}
-
 char	*ft_substr(char *s, int start, int len)
 {
-	int	i;
-	int	size;
+	int		i;
+	int		size;
 	char	*ptr;
 
 	if (!s || start >= ft_strlen(s))
@@ -58,72 +99,122 @@ char	*ft_substr(char *s, int start, int len)
 	return (ptr);
 }
 
-char	*expand_cmd(t_cmd *lst, char **envp, int i, int tr)
+int	special_case(char c)
 {
-	char	**splited;
-	t_env	*env;
-	char	*cmd;
-	char	*ptr;
-	char	*temp;
-	int		j;
-	int		r;
+	return (is_ascii(c) || is_number(c) || c == '_');
+}
 
-	splited = ft_split(lst->argv[i], '$');
-	j = 0;
-	cmd = ft_strdup("");
-	if (!tr)
-		cmd = ft_strjoin(cmd, splited[0]);
-	while (splited[j])
+char	*get_env_value(char *var_name, t_env *env)
+{
+	while (env)
 	{
-		r = 0;
-		temp = calloc(ft_strlen(splited[j]) + 1, 1);
-		i = 0;
-		while (splited[j][i])
+		if (ft_strcmp(var_name, env->name) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return ("");
+}
+
+char	*expand_cmd(t_cmd *lst, char **envp, int i)
+{
+	char	*cmd;
+	char	*current;
+	char	*var_name;
+	char	*value;
+	int		pid;
+	t_env	*env;
+	char	*pid_str;
+	int		j;
+	int		k;
+
+	cmd = ft_strdup("");
+	env = env_init(envp);
+	if (!env)
+		return (NULL);
+	current = lst->argv[i];
+	printf("current: %s\n", current);
+	j = 0;
+	while (current[j])
+	{
+		if (current[j] == '\'')
 		{
-			if (!special_case(splited[j][i]))	
+			j++;
+			while (current[j] && current[j] != '\'')
 			{
-				temp[r++] = splited[j][i++];
-				continue ;
+				cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+				j++;
 			}
-			i++;
+			if (current[j] == '\'')
+				j++;
 		}
-		ptr = ft_substr(splited[j], 0, i - r);
-		i = 0;
-		env = env_init(envp);
-		if (!env)
-			return (NULL);
-		while (env)
+		else if (current[j] == '"')
 		{
-			if (ft_strcmp(ptr, env->name) == 0)
-				cmd = ft_strjoin(cmd, env->value);
-			env = env->next;
+			j++;
+			while (current[j] && current[j] != '"')
+			{
+				if (current[j] == '$' && special_case(current[j + 1]))
+				{
+					j++;
+					k = j;
+					while (current[j] && special_case(current[j]))
+						j++;
+					var_name = ft_substr(current, k, j - k);
+					value = get_env_value(var_name, env);
+					cmd = ft_strjoin(cmd, value);
+					free(var_name);
+				}
+				else
+				{
+					cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+					j++;
+				}
+			}
+			if (current[j] == '"')
+				j++;
 		}
-		if (temp)
-			cmd = ft_strjoin(cmd, temp);
-		j++;
+		else if (current[j] == '$' && current[j + 1] == '$')
+		{
+			pid = getpid();
+			pid_str = ft_itoa(pid);
+			cmd = ft_strjoin(cmd, pid_str);
+			free(pid_str);
+			j += 2;
+		}
+		else if (current[j] == '$' && special_case(current[j + 1]))
+		{
+			j++;
+			k = j;
+			while (current[j] && special_case(current[j]))
+				j++;
+			var_name = ft_substr(current, k, j - k);
+			value = get_env_value(var_name, env);
+			cmd = ft_strjoin(cmd, value);
+			free(var_name);
+		}
+		else if (current[j] == '$' && current[j + 1] == '"')
+			j++;
+		else
+		{
+			cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+			j++;
+		}
 	}
 	return (cmd);
 }
 
 void	expand(t_cmd *lst, char **envp)
 {
-	t_env	*envir;
+	t_env   *envir;
 	int		i;
-	int		tr;
 
 	envir = env_init(envp);
-	tr = 0;
 	while (lst)
 	{
 		i = 0;
 		while (lst->argv[i])
 		{
 			if (ft_strchr(lst->argv[i], '$'))
-			{
-				if (lst->argv[i][0] == '$')
-					tr = 1;
-				lst->argv[i] = expand_cmd(lst, envp, i, tr);
-			}
+				lst->argv[i] = expand_cmd(lst, envp, i);
 			i++;
 		}
 		lst = lst->next;

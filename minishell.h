@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/23 15:46:30 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:21:28 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,23 +97,15 @@ void	fill_arr(t_cmd *lst);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
-int		is_exp(char c);
 void	expand(t_cmd *lst, char **envp);
-void	should_expand(t_cmd *lst, t_env *envir, int i);
-void	no_expand(t_cmd *lst, int i);
-void	meduim_expand(t_cmd *lst, int i);
-void	simple_expand(t_cmd *lst, t_env *envir, int i);
-char	*take_value(t_cmd *lst, int i);
 t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		special_case(char c);
-char	**new_split(char *s);
-char	**new_help(char *s, int len, char **final);
-int		new_countword(char *s);
 char	*ft_substr(char *s, int start, int len);
-char	*my_strtok(char *str);
-char	*expand_cmd(t_cmd *lst, char **envp, int i, int tr);
+char	*expand_cmd(t_cmd *lst, char **envp, int i);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
+char	*ft_itoa(int nb);
+int		ft_len(long nb);
 
 #endif
