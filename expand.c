@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/24 00:28:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:36:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,22 +105,16 @@ char	*get_env_value(char *var_name, t_env *env)
 	return ("");
 }
 
-char	*expand_cmd(t_cmd *lst, char **envp, int i)
+char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 {
 	char	*cmd;
 	char	*current;
 	char	*var_name;
 	char	*value;
-	int		pid;
-	t_env	*env;
-	char	*pid_str;
 	int		j;
 	int		k;
 
 	cmd = ft_strdup("");
-	env = env_init(envp);
-	if (!env)
-		return (NULL);
 	current = lst->argv[i];
 	j = 0;
 	while (current[j])
@@ -148,7 +142,7 @@ char	*expand_cmd(t_cmd *lst, char **envp, int i)
 					while (current[j] && special_case(current[j]))
 						j++;
 					var_name = ft_substr(current, k, j - k);
-					value = get_env_value(var_name, env);
+					value = get_env_value(var_name, envp->envs);
 					cmd = ft_strjoin(cmd, value);
 					free(var_name);
 				}
@@ -161,14 +155,6 @@ char	*expand_cmd(t_cmd *lst, char **envp, int i)
 			if (current[j] == '"')
 				j++;
 		}
-		else if (current[j] == '$' && current[j + 1] == '$')
-		{
-			pid = getpid();
-			pid_str = ft_itoa(pid);
-			cmd = ft_strjoin(cmd, pid_str);
-			free(pid_str);
-			j += 2;
-		}
 		else if (current[j] == '$' && special_case(current[j + 1]))
 		{
 			j++;
@@ -176,10 +162,12 @@ char	*expand_cmd(t_cmd *lst, char **envp, int i)
 			while (current[j] && special_case(current[j]))
 				j++;
 			var_name = ft_substr(current, k, j - k);
-			value = get_env_value(var_name, env);
+			value = get_env_value(var_name, envp->envs);
 			cmd = ft_strjoin(cmd, value);
 			free(var_name);
 		}
+		else if (current[j] == '$' && current[j + 1] == '$')
+			j += 2;
 		else if (current[j] == '$' && current[j + 1] == '"')
 			j++;
 		else
@@ -191,12 +179,10 @@ char	*expand_cmd(t_cmd *lst, char **envp, int i)
 	return (cmd);
 }
 
-void	expand(t_cmd *lst, char **envp)
+void	expand(t_cmd *lst, t_list *envp)
 {
-	t_env   *envir;
 	int		i;
 
-	envir = env_init(envp);
 	while (lst)
 	{
 		i = 0;

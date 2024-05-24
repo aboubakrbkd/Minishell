@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/24 04:43:24 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:39:33 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,10 @@ int		handle_single_double(char *line);
 void	change_to_garb(char *line);
 t_cmd	*build_arr(char **res);
 int		ft_strcpy(char *dest, char *src);
-void	fill_arr(t_cmd *lst);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
-void	expand(t_cmd *lst, char **envp);
+void	expand(t_cmd *lst, t_list *envp);
 void	execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
@@ -111,7 +110,7 @@ t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		special_case(char c);
 char	*ft_substr(char *s, int start, int len);
-char	*expand_cmd(t_cmd *lst, char **envp, int i);
+char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 char	*single_quotes(char *cmd, char *curr, int *j);
 char	*double_quotes(char *cmd, char *curr, int *j, t_env *env);
 char	*dollar_sign(char *cmd, char *curr, int *j, t_env *env);
@@ -151,5 +150,6 @@ int		update_the_value(char *name, char *value, t_list *list);
 int		add_the_value(char *name, char *value, t_list *list);
 void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
+int		check_end(char *line);
 
 #endif

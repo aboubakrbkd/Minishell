@@ -6,20 +6,11 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/24 16:00:28 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:39:19 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	fill_arr(t_cmd *lst)
-{
-	while (lst)
-	{
-		lst->argv = ft_split(lst->cmd, ' ');
-		lst = lst->next;
-	}
-}
 
 t_cmd	*build_arr(char **res)
 {
@@ -36,8 +27,10 @@ t_cmd	*build_arr(char **res)
 		if (!new_node)
 			exit(EXIT_FAILURE);
 		new_node->cmd = nops_strdup(res[i]);
+		new_node->argv = ft_split(new_node->cmd, ' ');
 		new_node->infile = 0;
 		new_node->outfile = 1;
+		new_node->next = NULL;
 		if (final == NULL)
 		{
 			final = new_node;

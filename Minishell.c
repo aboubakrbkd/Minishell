@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/24 16:00:06 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:39:12 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ int main(int ac, char **av, char **env)
 			continue ;
 		res = ft_split(str, '|');
 		lst = build_arr(res);
-		fill_arr(lst);
 		back_to_ascii(lst);
-		expand(lst, env);
+		expand(lst, list);
 		remove_qoutes(&lst);
 		execution(lst, list);
 	}
