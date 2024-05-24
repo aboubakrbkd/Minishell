@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/15 19:44:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/23 23:10:58 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,71 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strnstr(char *str, char *to_find, int len)
+int	ft_strnstr(char *str, char *to_find)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	if (to_find[0] == '\0')
-		return ((char *)str);
-	while (str[i] && i < len)
+	while (str[i])
 	{
 		j = 0;
-		while (str[i + j] && (str[i + j] == to_find[j]) && i + j < len)
+		while (str[i + j] && (str[i + j] == to_find[j]))
 			j++;
 		if (to_find[j] == '\0')
-			return ((char *)str + i);
+			return (1);
 		i++;
 	}
-	return (NULL);
+	return (0);
+}
+
+int	ft_strcpy(char *dest, char *src)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen((char *)src);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (len);
+}
+
+t_cmd	*new_list(void *cmd)
+{
+	t_cmd	*ptr;
+
+	ptr = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!ptr)
+		return (NULL);
+	ptr->cmd = cmd;
+	ptr->next = NULL;
+	return (ptr);
+}
+
+char	*nops_strdup(char *str)
+{
+	int		i;
+	int		j;
+	char	*ptr;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	ptr = (char *)malloc(ft_strlen(str) + 2 - i);
+	if (!ptr)
+		return (NULL);
+	j = 0;
+	while (str[i])
+	{
+		ptr[j] = str[i];
+		i++;
+		j++;
+	}
+	ptr[j] = '\0';
+	return (ptr);
 }

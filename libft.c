@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/23 23:07:25 by mkimdil          ###   ########.fr       */
+/*   Created: 2024/05/15 16:44:08 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/05/23 22:41:25 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(char **args, t_list *list, int outfile)
+int	is_upper(char c)
 {
-	char	*pwdir;
-	char	*tmp;
-
-	(void)args;
-	pwdir = my_getenv("PWD", list);
-	if (!pwdir)
-	{
-		pwdir = getcwd(NULL, 0);
-		tmp = my_getenv("OLDPWD", list);
-		if (!pwdir)
-		{
-			printf("%s\n", tmp);
-			return ;
-		}
-	}
-	write(outfile, pwdir, ft_strlen(pwdir));
-	write(outfile, "\n", 1);
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	return (0);
 }
 
-void	error_open(char *str)
+int	is_lower(char c)
 {
-	perror(str);
-	return ;
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	return (0);
+}
+
+int	is_number(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	is_ascii(char c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

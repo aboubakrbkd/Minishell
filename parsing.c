@@ -6,84 +6,85 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/16 17:03:25 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/24 03:52:51 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	syn_error3(char **res)
+int	syn_error3(char **res)
 {
 	if (!ft_strncmp(res[0], ">", 2) && !ft_strncmp(res[1], "|", 1))
-		printf("bash: syntax error near unexpected token `|'\n");
+		return (printf("bash: syntax error near unexpected token `|'\n"), 1);
 	else if (!ft_strncmp(res[0], ">", 2) && !ft_strncmp(res[1], "<<", 2))
-		printf("bash: syntax error near unexpected token `<<'\n");
+		return (printf("bash: syntax error near unexpected token `<<'\n"), 1);
 	else if (!ft_strncmp(res[0], ">", 2) && !ft_strncmp(res[1], "<", 1))
-		printf("bash: syntax error near unexpected token `<'\n");
+		return (printf("bash: syntax error near unexpected token `<'\n"), 1);
 	else if (!ft_strncmp(res[0], ">", 2) && !ft_strncmp(res[1], ">>", 2))
-		printf("bash: syntax error near unexpected token `>>'\n");
+		return (printf("bash: syntax error near unexpected token `>>'\n"), 1);
 	else if (!ft_strncmp(res[0], ">", 2) && !ft_strncmp(res[1], ">", 1))
-		printf("bash: syntax error near unexpected token `>'\n");
+		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
+	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], ">", 1) == 0)
+		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
+	else if (ft_strncmp(res[0], "(", 2) == 0)
+		return (printf("bash: syntax error\n"), 1);
+	else if (ft_strncmp(res[0], ")", 2) == 0)
+		return (printf("bash: syntax error\n"), 1);
 	free_array(res);
+	return (0);
 }
 
-void	syn_error2(char **res)
+int	syn_error2(char **res)
 {
 	if (**res == '|')
-		printf("bash: syntax error near unexpected token `|'\n");
+		return (printf("bash: syntax error near unexpected token `|'\n"), 1);
 	if (!ft_strncmp(res[0], "<", 2) && !ft_strncmp(res[1], "|", 1))
-		printf("bash: syntax error near unexpected token `|'\n");
+		return (printf("bash: syntax error near unexpected token `|'\n"), 1);
 	else if (!ft_strncmp(res[0], "<", 2) && !ft_strncmp(res[1], "<<", 2))
-		printf("bash: syntax error near unexpected token `<<'\n");
+		return (printf("bash: syntax error near unexpected token `<<'\n"), 1);
 	else if (!ft_strncmp(res[0], "<", 2) && !ft_strncmp(res[1], "<", 1))
-		printf("bash: syntax error near unexpected token `<'\n");
+		return (printf("bash: syntax error near unexpected token `<'\n"), 1);
 	else if (!ft_strncmp(res[0], "<", 2) && !ft_strncmp(res[1], ">>", 2))
-		printf("bash: syntax error near unexpected token `>>'\n");
+		return (printf("bash: syntax error near unexpected token `>>'\n"), 1);
 	else if (!ft_strncmp(res[0], "<", 2) && !ft_strncmp(res[1], ">", 1))
-		printf("bash: syntax error near unexpected token `>'\n");
+		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
 	else if (!ft_strncmp(res[0], ">>", 3) && !ft_strncmp(res[1], "|", 1))
-		printf("bash: syntax error near unexpected token `|'\n");
+		return (printf("bash: syntax error near unexpected token `|'\n"), 1);
 	else if (!ft_strncmp(res[0], ">>", 3) && !ft_strncmp(res[1], ">", 1))
-		printf("bash: syntax error near unexpected token `>'\n");
+		return (printf("bash: syntax error near unexpected token `>'\n"), 1);
 	else if (!ft_strncmp(res[0], ">>", 3) && !ft_strncmp(res[1], ">>", 2))
-		printf("bash: syntax error near unexpected token `>>'\n");
+		return (printf("bash: syntax error near unexpected token `>>'\n"), 1);
 	else if (!ft_strncmp(res[0], ">>", 3) && !ft_strncmp(res[1], "<", 1))
-		printf("bash: syntax error near unexpected token `<'\n");
+		return (printf("bash: syntax error near unexpected token `<'\n"), 1);
 	else if (!ft_strncmp(res[0], ">>", 3) && !ft_strncmp(res[1], "<<", 2))
-		printf("bash: syntax error near unexpected token `<<'\n");
-	syn_error3(res);
+		return (printf("bash: syntax error near unexpected token `<<'\n"), 1);
+	if (syn_error3(res))
+		return (1);
+	return (0);
 }
 
-void	syn_error(char *line)
+int	syn_error(char *line)
 {
 	char	**res;
-	char	*search;
 
 	res = ft_split(line, ' ');
 	if (!res || !*res)
-		return ;
+		return (1);
 	if ((!ft_strncmp(res[0], "<<", 3) || !ft_strncmp(res[0], ">>", 3)
 			|| !ft_strncmp(res[0], "<", 2) || !ft_strncmp(res[0], ">", 2))
 		&& !*(res + 1))
-	{
-		printf("bash: syntax error near unexpected token `newline'\n");
-		return ;
-	}
+		return (printf("bash: syntax error near \
+		 unexpected token `newline'\n"), 1);
 	else if (ft_strncmp(*res, "<<", 3) == 0
 		&& (!*(res + 1) || res[1][0] == '|'))
-		printf("bash: syntax error near unexpected token `|'\n");
+		return (printf("bash: syntax error near unexpected token `|'\n"), 1);
 	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], "<<", 2) == 0)
-		printf("bash: syntax error near unexpected token `<<'\n");
+		return (printf("bash: syntax error near unexpected token `<<'\n"), 1);
 	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], "<", 1) == 0)
-		printf("bash: syntax error near unexpected token `<'\n");
+		return (printf("bash: syntax error near unexpected token `<'\n"), 1);
 	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], ">>", 2) == 0)
-		printf("bash: syntax error near unexpected token `>>'\n");
-	else if (ft_strncmp(*res, "<<", 3) == 0 && ft_strncmp(res[1], ">", 1) == 0)
-		printf("bash: syntax error near unexpected token `>'\n");
-	syn_error2(res);
-}
-
-void	parsing(char *line)
-{
-	syn_error(line);
+		return (printf("bash: syntax error near unexpected token `>>'\n"), 1);
+	if (syn_error2(res))
+		return (1);
+	return (0);
 }

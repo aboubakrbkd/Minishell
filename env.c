@@ -3,51 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/14 10:46:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/23 23:02:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_global	g_global;
-
-t_env	*ft_lstnew(char *name, char *value)
+void	env_split_helper(char *s, char c, char **result, int *i)
 {
-	t_env	*new;
-
-	new = malloc(sizeof(t_env));
-	if (new)
+	while (s[*i] && s[*i] != c)
 	{
-		new->name = ft_strdup(name);
-		new->value = ft_strdup(value);
-		new->next = NULL;
+		result[0][*i] = s[*i];
+		(*i)++;
 	}
-	return (new);
-}
-
-t_env	*ft_lstlast(t_env *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_back(t_env **lst, t_env *new)
-{
-	t_env	*last;
-
-	if (*lst == NULL)
-		*lst = new;
+	result[0][*i] = '\0';
+	if (s[*i])
+	{
+		result[1] = ft_strdup(s + *i + 1);
+		if (!result[1])
+			return ;
+	}
 	else
-	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-	}
+		result[1] = NULL;
+	result[2] = NULL;
 }
 
 char	**env_split(char *s, char c)
@@ -58,34 +39,57 @@ char	**env_split(char *s, char c)
 
 	if (!s)
 		return (NULL);
-	result = (char **)malloc(sizeof(char *) * 3);
+	result = malloc(sizeof(char *) * 3);
 	if (!result)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	result[0] = (char *)malloc(sizeof(char) * (i + 1));
+	result[0] = malloc(sizeof(char) * (i + 1));
 	if (!result[0])
 		return (NULL);
 	i = 0;
-	while (s[i] && s[i] != c)
-	{
-		result[0][i] = s[i];
-		i++;
-	}
-	result[0][i] = '\0';
-	if (s[i])
-	{
-		result[1] = ft_strdup(s + i + 1);
-		if (!result[1])
-			return (NULL);
-	}
-	else
-		result[1] = NULL;
-	result[2] = NULL;
+	env_split_helper(s, c, result, &i);
 	return (result);
 }
+
+// char	**env_split(char *s, char c)
+// {
+// 	char	**result;
+// 	int		i;
+// 	int		j;
+
+// 	if (!s)
+// 		return (NULL);
+// 	result = (char **)malloc(sizeof(char *) * 3);
+// 	if (!result)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (s[i] && s[i] != c)
+// 		i++;
+// 	result[0] = (char *)malloc(sizeof(char) * (i + 1));
+// 	if (!result[0])
+// 		return (NULL);
+// 	i = 0;
+// 	while (s[i] && s[i] != c)
+// 	{
+// 		result[0][i] = s[i];
+// 		i++;
+// 	}
+// 	result[0][i] = '\0';
+// 	if (s[i])
+// 	{
+// 		result[1] = ft_strdup(s + i + 1);
+// 		if (!result[1])
+// 			return (NULL);
+// 	}
+// 	else
+// 		result[1] = NULL;
+// 	result[2] = NULL;
+// 	return (result);
+// }
 
 t_env	*env_init(char **envp)
 {
@@ -113,13 +117,37 @@ t_env	*env_init(char **envp)
 	return (head);
 }
 
-void	env(t_env *env)
+void	env(char **argv, t_list *list, int outfile)
 {
-	env = g_global.envs;
+	t_env	*env;
+
+	(void)argv;
+	env = list->envs;
 	while (env)
 	{
 		if (env->value)
-			printf("%s=%s\n", env->name, env->value);
+		{
+			write(outfile, env->name, ft_strlen(env->name));
+			write(outfile, "=", 1);
+			write(outfile, env->value, ft_strlen(env->value));
+			write(outfile, "\n", 1);
+		}
 		env = env->next;
+	}
+}
+
+void	env_1(char **argv, t_env *list, int outfile)
+{
+	(void) *argv;
+	while (list)
+	{
+		if (list->value)
+		{
+			write(outfile, list->name, ft_strlen(list->name));
+			write(outfile, "=", 1);
+			write(outfile, list->value, ft_strlen(list->value));
+			write(outfile, "\n", 1);
+		}
+		list = list->next;
 	}
 }

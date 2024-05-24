@@ -6,19 +6,18 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/13 20:40:16 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:27:01 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
 int	check_if_flag(char *argv)
 {
 	int	i;
 
 	i = 0;
-	if (!strcmp(argv, "-n"))
+	if (!ft_strcmp(argv, "-n"))
 		return (0);
 	if (argv[0] != '-')
 		return (1);
@@ -32,7 +31,21 @@ int	check_if_flag(char *argv)
 	return (0);
 }
 
-int	echo(char **argv)
+void	print_arguments(char **argv, int start, int outfile)
+{
+	int	i;
+
+	i = start;
+	while (argv[i])
+	{
+		write(outfile, argv[i], ft_strlen(argv[i]));
+		if (argv[i + 1])
+			write(outfile, " ", 1);
+		i++;
+	}
+}
+
+int	echo(char **argv, int outfile)
 {
 	int	i;
 	int	flag;
@@ -41,13 +54,13 @@ int	echo(char **argv)
 	flag = 0;
 	if (argv[i] == NULL)
 	{
-		printf("\n");
+		write(outfile, "\n", 1);
 		return (0);
 	}
-	if (strcmp(argv[i], "-") == 0)
+	if (ft_strcmp(argv[i], "-") == 0)
 	{
-		printf("%s", argv[i]);
-		printf(" ");
+		write(outfile, argv[i], ft_strlen(argv[i]));
+		write(outfile, " ", 1);
 		i++;
 	}
 	while (argv[i] && !check_if_flag(argv[i]))
@@ -55,14 +68,8 @@ int	echo(char **argv)
 		flag = 1;
 		i++;
 	}
-	while (argv[i])
-	{
-		printf("%s", argv[i]);
-		if (argv[i + 1])
-			printf(" ");
-		i++;
-	}
+	print_arguments(argv, i, outfile);
 	if (!flag)
-		printf("\n");
+		write(outfile, "\n", 1);
 	return (0);
 }
