@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:55:17 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/20 18:06:27 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:33:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,17 @@ void	env_to_char_array_helper(t_env *current, char **envp)
 	while (current)
 	{
 		if (!current->value)
+		{
 			envp[i] = ft_strjoin_with_sep(current->name, "", '=');
+			if (!envp[i])
+				return ;
+		}
 		else
+		{
 			envp[i] = ft_strjoin_with_sep(current->name, current->value, '=');
+			if (!envp[i])
+				return ;
+		}
 		if (!envp[i])
 		{
 			free_all(envp);

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/24 16:36:40 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/25 22:23:39 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,14 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	return (cmd);
 }
 
+char	**handle_expand(t_cmd *lst)
+{
+	char	**str;
+
+	str = ft_split(lst->argv[0], ' ');
+	return (str);
+}
+
 void	expand(t_cmd *lst, t_list *envp)
 {
 	int		i;
@@ -190,8 +198,11 @@ void	expand(t_cmd *lst, t_list *envp)
 		{
 			if (ft_strchr(lst->argv[i], '$'))
 				lst->argv[i] = expand_cmd(lst, envp, i);
+			
 			i++;
 		}
+		if (ft_strchr(lst->argv[0], ' '))
+			lst->argv = handle_expand(lst);
 		lst = lst->next;
 	}
 }
