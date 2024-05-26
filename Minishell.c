@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/25 22:28:33 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/26 16:40:31 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,46 +44,56 @@ void	remove_qoutes(t_cmd **lst)
 	}
 }
 
-void	secure_path(t_list *list)
+void function_sigint(int sig)
 {
-	char	*pwd;
-	int		i;
-
-	i = 0;
-	pwd = getcwd(NULL, 0);
-	while (i <= 4)
-	{
-		if (i == 1)
-			list->envs=ft_lstnew("PATH", "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin");
-		else if (i == 2)
-			list->envs->next=ft_lstnew("PWD", pwd);
-		else if (i == 3)
-			list->envs->next->next=ft_lstnew("SHLVL", "1");
-		else if (i == 4)
-			list->envs->next->next->next=ft_lstnew("_", "usr/bin/env");
-		i++;
-	}
+    if (sig == SIGINT && g_signal_status == 0)
+    {
+        write(1, "\n", 1);
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+    else if (sig == SIGINT && g_signal_status == 1)
+        write(1, "\n", 1);
 }
 
-int	main(int ac, char **av, char **env)
+void    function_sigwuit(int sig)
+{
+    if (sig == SIGQUIT && g_signal_status ==1)
+        write(1, "Quit: 3\n", 8);
+}
+
+void check_signals()
+{
+    signal(SIGINT, function_sigint);
+    signal(SIGQUIT, function_sigwuit);
+}
+
+int main(int ac, char **av, char **env)
 {
 	(void)av;
-	char	*temp;
+	char *temp;
 	t_cmd	*lst;
 	t_list	*list;
-	char	*str;
-	char	**res;
+	char *str;
+	char **res;
 
+	g_signal_status = 0;
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
 	list->envs = env_init(env);
-	if (!list->envs)
-		secure_path(list);
 	if (ac != 1 || !lst || !list)
 		return (1);
 	while (1)
 	{
+		rl_catch_signals = 0;
+		check_signals();
 		temp = readline("Minishell-$ ");
+		if (!temp)
+		{
+			printf("exit\n");
+			break ;
+		}
 		add_history(temp);
 		if (syn_error(temp))
 			continue ;
@@ -102,6 +112,8 @@ int	main(int ac, char **av, char **env)
 		back_to_ascii(lst);
 		remove_qoutes(&lst);
 		expand(lst, list);
+		g_signal_status = 1;
 		execution(lst, list);
+		g_signal_status = 0;
 	}
 }

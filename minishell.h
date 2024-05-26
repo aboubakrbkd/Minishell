@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/25 22:25:56 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/05/26 16:37:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 # define	GREEN  "\033[0;34m"
 # define	NC  "\033[0m"
+
+int g_signal_status;
 
 typedef struct s_env
 {
@@ -152,6 +154,5 @@ void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
 char	**handle_expand(t_cmd *lst);
-void	secure_path(t_list *list);
 
 #endif
