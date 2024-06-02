@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/26 16:37:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/02 21:28:41 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define	GREEN  "\033[0;34m"
 # define	NC  "\033[0m"
-
+# define BUFFER_SIZE 33
 int g_signal_status;
 
 typedef struct s_env
@@ -43,14 +43,19 @@ typedef struct s_list
 	t_env	*envs;
 }				t_list;
 
+typedef struct s_heredoc
+{
+	char	**delimiter;
+	int		idx;
+}			t_heredoc;
 
-/* tis is an example of the struct i need */
 typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argv;
 	int				infile;
 	int				outfile;
+	int				is_heredoc;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -70,8 +75,6 @@ int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
 int		is_ascii(char c);
-
-/*************BUILT in**/
 int		echo(char **argv, int outfile);
 int		cd(char **argv, t_list *list);
 int		exit_function(char **argv);
@@ -80,9 +83,6 @@ void	env(char **argv, t_list *list, int outfile);
 int		unset(char **argv, t_env **envps);
 void	pwd(char **args, t_list *list, int outfile);
 void	export(char **argv, t_list *list, int outfile);
-
-// parsing func
-int		parsing(char *line, char **envp, t_cmd *lst);
 int		syn_error(char *line);
 int		syn_error2(char **res);
 int		syn_error3(char **res);
@@ -113,20 +113,10 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 int		special_case(char c);
 char	*ft_substr(char *s, int start, int len);
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
-char	*single_quotes(char *cmd, char *curr, int *j);
-char	*double_quotes(char *cmd, char *curr, int *j, t_env *env);
-char	*dollar_sign(char *cmd, char *curr, int *j, t_env *env);
-char	*normal_char(char *cmd, char *curr, int *j);
-char	*special_case_1(char *cmd, char *curr, int *j, t_env *env);
-char	*arith_exp(char *cmd, char *current, int *j);
-int		evaluate_expression(char *expr);
-char	*my_strtok(char *str, char *delim);
-
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_itoa(int nb);
 int		ft_len(long nb);
-
 int		ft_atoi(char *str);
 char	*ft_strjoin_with_sep(char *s1, char *s2, char sep);
 char	**get_path(char **envr);
@@ -154,5 +144,11 @@ void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
 char	**handle_expand(t_cmd *lst);
+void	print_args(t_cmd *lst);
+int		is_heredoc(t_cmd *lst, t_heredoc *here);
+int		heredoc(t_cmd *lst, t_heredoc *here);
+int		set_delim(t_cmd *lst, t_heredoc *here);
+int		count_delim(t_cmd *lst);
+void	fake(t_heredoc *here);
 
 #endif

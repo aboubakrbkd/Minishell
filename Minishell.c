@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/26 16:40:31 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/02 21:56:39 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,41 +44,43 @@ void	remove_qoutes(t_cmd **lst)
 	}
 }
 
-void function_sigint(int sig)
+void	function_sigint(int sig)
 {
-    if (sig == SIGINT && g_signal_status == 0)
-    {
-        write(1, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-    else if (sig == SIGINT && g_signal_status == 1)
-        write(1, "\n", 1);
+	if (sig == SIGINT && g_signal_status == 0)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else if (sig == SIGINT && g_signal_status == 1)
+		write(1, "\n", 1);
 }
 
-void    function_sigwuit(int sig)
+void	function_sigwuit(int sig)
 {
-    if (sig == SIGQUIT && g_signal_status ==1)
-        write(1, "Quit: 3\n", 8);
+	if (sig == SIGQUIT && g_signal_status ==1)
+		write(1, "Quit: 3\n", 8);
 }
 
-void check_signals()
+void	check_signals()
 {
-    signal(SIGINT, function_sigint);
-    signal(SIGQUIT, function_sigwuit);
+	signal(SIGINT, function_sigint);
+	signal(SIGQUIT, function_sigwuit);
 }
 
 int main(int ac, char **av, char **env)
 {
 	(void)av;
-	char *temp;
-	t_cmd	*lst;
-	t_list	*list;
-	char *str;
-	char **res;
+	char		*temp;
+	t_heredoc	*here;
+	t_cmd		*lst;
+	t_list		*list;
+	char		*str;
+	char		**res;
 
 	g_signal_status = 0;
+	here = malloc(sizeof(t_heredoc));
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
 	list->envs = env_init(env);
@@ -88,7 +90,7 @@ int main(int ac, char **av, char **env)
 	{
 		rl_catch_signals = 0;
 		check_signals();
-		temp = readline("Minishell-$ ");
+		temp = readline("Mouad_shell-$ ");
 		if (!temp)
 		{
 			printf("exit\n");
@@ -110,9 +112,13 @@ int main(int ac, char **av, char **env)
 		if (!lst)
 			continue ;
 		back_to_ascii(lst);
-		remove_qoutes(&lst);
 		expand(lst, list);
+		remove_qoutes(&lst);
 		g_signal_status = 1;
+		if (is_heredoc(lst, here))
+			if (heredoc(lst, here))
+				continue ;
+			printf("%d\n", lst->outfile);
 		execution(lst, list);
 		g_signal_status = 0;
 	}
