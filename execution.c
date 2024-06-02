@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/24 17:39:15 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 00:22:39 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@
 	if command was error the exit status is 1
 
 */
+
+int exit_status(int status, int mode)
+{
+	static int num;
+	if (mode == 1)
+		num = status;
+	return (num);
+}
+
 int	is_builtin(t_cmd *cmd, t_list *list)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
@@ -66,6 +75,7 @@ void	execution(t_cmd *node, t_list *list)
 	int		fd_int;
 	int		fd_out;
 	char	**envr;
+	int status;
 
 	fd_int = dup(0);
 	fd_out = dup(1);
@@ -85,6 +95,7 @@ void	execution(t_cmd *node, t_list *list)
 				close(fd_int);
 				dup2(fd_out, 1);
 				close(fd_out);
+				free_all(envr);
 				return ;
 			}
 		}
@@ -101,6 +112,7 @@ void	execution(t_cmd *node, t_list *list)
 			close(fd_int);
 			dup2(fd_out, 1);
 			close(fd_out);
+			free_all(envr);
 			return ;
 		}
 		if (pipe(fd) == -1)
@@ -108,7 +120,7 @@ void	execution(t_cmd *node, t_list *list)
 		id = safe_fork();
 		if (id == 0)
 		{
-			if (node->infile != 0)
+			if (node->infile != 0 && !node->is_heredoc)
 			{
 				if (dup2(node->infile, 0) == -1)
 					msg_error("dup2 in infile");
@@ -133,13 +145,30 @@ void	execution(t_cmd *node, t_list *list)
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{
-				printf("minishell: %s: command not found\n", node->argv[0]);
+				write(2, "minishell: command not found\n", 29);
+				exit_status(127, 1);
 				exit(127);
 			}
 			if (execve(node->cmd, node->argv, envr) == -1)
 			{
-				msg_error("execve");
-				exit(126);
+				if (!ft_strncmp(node->cmd, ".", 1))
+				{
+					write(2, "minishell: .: filename argument required\n", 41);
+					exit_status(2, 1);
+					exit(2);
+				}
+				else if (!ft_strcmp(node->cmd, "/"))
+				{
+					write(2, "minishell: /: is a directory\n", 29);
+					exit_status(126, 1);
+					exit(126);
+				}
+				else
+				{
+					msg_error("minishell");
+					exit_status(126, 1);
+					exit(126);
+				}
 			}
 		}
 		if (node->infile != 0)
@@ -161,6 +190,7 @@ void	execution(t_cmd *node, t_list *list)
 		close(fd_int);
 		dup2(fd_out, 1);
 		close(fd_out);
+		free_all(envr);
 		return ;
 	}
 	id = safe_fork();
@@ -188,18 +218,38 @@ void	execution(t_cmd *node, t_list *list)
 			close(fd_int);
 			dup2(fd_out, 1);
 			close(fd_out);
+			free_all(envr);
 			exit(0);
 		}
+		if (!node->argv[0] && node->is_heredoc)
+			exit(0);
 		node->cmd = command(node->argv[0], envr);
-		if (!node->cmd)
+		if (!node->cmd || !ft_strcmp(node->cmd, ".."))
 		{
-			printf("minishell: %s: command not found\n", node->argv[0]);
+			write(2, "minishell: command not found\n", 29);
+			exit_status(127, 1);
 			exit(127);
 		}
 		if (execve(node->cmd, node->argv, envr) == -1)
 		{
-			perror("minishell");
-			exit(126);
+			if (!ft_strcmp(node->cmd, ".") && ft_strlen(node->cmd) == 1)
+			{
+				write(2, "minishell: .: filename argument required\n", 41);
+				exit_status(2, 1);
+				exit(2);
+			}
+			else if (!ft_strcmp(node->cmd, "/"))
+			{
+				write(2, "minishell: /: is a directory\n", 29);
+				exit_status(126, 1);
+				exit(126);
+			}
+			else
+			{
+				msg_error("minishell");
+				exit_status(126, 1);
+				exit(126);
+			}
 		}
 	}
 	if (node->infile != 0)
@@ -210,6 +260,12 @@ void	execution(t_cmd *node, t_list *list)
 	close(fd_int);
 	dup2(fd_out, 1);
 	close(fd_out);
-	while (wait(NULL) != -1)
-		;
+	free_all(envr);
+	while (wait(&status) != -1)
+	{
+		if (WIFEXITED(status))
+			exit_status(WEXITSTATUS(status), 1);
+		if (WIFSIGNALED(status))
+			exit_status(WTERMSIG(status) + 128, 1);
+	}
 }
