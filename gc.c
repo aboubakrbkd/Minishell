@@ -1,42 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:17:21 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/06/03 00:24:37 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/06/03 00:24:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(char **args, t_list *list, int outfile)
+void 	clear_gc(t_gc **gc)
 {
-	char	*pwdir;
-	char	*tmp;
-
-	(void)args;
-	pwdir = my_getenv("PWD", list);
-	if (!pwdir)
+	t_gc	*tmp;
+	
+	while (*gc)
 	{
-		pwdir = getcwd(NULL, 0);
-		tmp = my_getenv("OLDPWD", list);
-		if (!pwdir)
-		{
-			printf("%s\n", tmp);
-			exit_status(1, 1);
-			return ;
-		}
+		tmp = *gc;
+		*gc = (*gc)->next;
+		free(tmp->ptr);
+		free(tmp);
 	}
-	write(outfile, pwdir, ft_strlen(pwdir));
-	write(outfile, "\n", 1);
-	exit_status(0, 1);
 }
 
-void	error_open(char *str)
+void	*gc(int size, int mode)
 {
-	perror(str);
-	return ;
+	static t_gc	*gc;
+	t_gc		*new;
+
+	if (mode == 1)
+	{
+		new = malloc(sizeof(t_gc));
+		if (!new)
+			return (NULL);
+		new->ptr = malloc(size);
+		if (!new->ptr)
+			return (free(new), NULL);
+		new->next = gc;
+		gc = new;
+		return (new->ptr);
+	}
+	else if (mode == 0)
+		clear_gc(&gc);
+	return (NULL);
 }
+

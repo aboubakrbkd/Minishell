@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/02 21:28:41 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 00:25:09 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct s_cmd
 	int				is_heredoc;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_gc
+{
+	void	*ptr;
+	struct s_gc	*next;
+}	t_gc;
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
@@ -150,5 +156,8 @@ int		heredoc(t_cmd *lst, t_heredoc *here);
 int		set_delim(t_cmd *lst, t_heredoc *here);
 int		count_delim(t_cmd *lst);
 void	fake(t_heredoc *here);
+int 	exit_status(int status, int mode);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putchar_fd(char c, int fd);
 
 #endif

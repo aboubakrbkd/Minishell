@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/25 21:09:03 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 00:24:00 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	checking_and_add(int is_valid, char *argv, t_list *list)
 		is_modified = add_the_value(name, value, list);
 	if (is_modified == 1)
 		add_env(&list->envs, name, value);
+	free(name);
 }
 
 void	export(char **argv, t_list *list, int outfile)
@@ -95,9 +96,15 @@ void	export(char **argv, t_list *list, int outfile)
 	{
 		is_valid = is_valid_to_export(*argv);
 		if (is_valid == -1)
+		{
 			printf("minishell: export: `%s': not a valid identifier\n", *argv);
+			exit_status(1, 1);
+		}
 		else
+		{
 			checking_and_add(is_valid, *argv, list);
+			exit_status(0, 1);
+		}
 		argv++;
 	}
 }

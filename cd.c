@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/22 14:03:02 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 00:12:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ void	home_function(char *home, t_list *list)
 	if (!home)
 	{
 		printf("cd: HOME not set\n");
+		exit_status(1, 1);
 		return ;
 	}
 	if (chdir(home) == -1)
+	{
 		printf("cd: %s: No such file or directory\n", home);
+		exit_status(1, 1);
+	}
 	update_pwd(my_getenv("HOME", list), list);
+	exit_status(0, 1);
 }
 
 void	home_function_telda(char *home, t_list *list)
@@ -31,8 +36,12 @@ void	home_function_telda(char *home, t_list *list)
 	if (!home)
 		home = "/Users/aboukdid";
 	if (chdir(home) == -1)
+	{
 		printf("cd: %s: No such file or directory\n", home);
+		exit_status(1, 1);
+	}
 	update_pwd(my_getenv("HOME", list), list);
+	exit_status(0, 1);
 }
 
 void	old_pwd_function(char *home, t_list *list)
@@ -55,6 +64,7 @@ void	error_function(char *home, t_list *list)
 	printf("cd: error retrieving current directory: ");
 	printf("getcwd: cannot access parent directories: ");
 	printf ("No such file or directory\n");
+	exit_status(1, 1);
 	update_pwd(my_getenv("HOME", list), list);
 }
 
@@ -80,9 +90,11 @@ int	cd(char **argv, t_list *list)
 			if (!ft_strcmp(argv[1], ".."))
 				return (error_function(home, list), 0);
 			printf("cd: %s: No such file or directory\n", argv[1]);
+			exit_status(1, 1);
 			return (1);
 		}
 	}
 	update_pwd(argv[1], list);
+	exit_status(0, 1);
 	return (0);
 }

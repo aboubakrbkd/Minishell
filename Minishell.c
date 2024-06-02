@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/02 21:56:39 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 00:20:41 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	function_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		exit_status(1, 1);
 	}
 	else if (sig == SIGINT && g_signal_status == 1)
 		write(1, "\n", 1);
@@ -67,6 +68,39 @@ void	check_signals()
 {
 	signal(SIGINT, function_sigint);
 	signal(SIGQUIT, function_sigwuit);
+}
+
+void	free_cmd_lst(t_cmd *lst)
+{
+	t_cmd	*current;
+	t_cmd	*next;
+
+	current = lst;
+	while (current)
+	{
+		next = current->next;
+		free(current->cmd);
+		free_all(current->argv);
+		free(current);
+		current = next;
+	}
+}
+
+void	free_list(t_list *list)
+{
+	t_env	*current;
+	t_env	*next;
+
+	current = list->envs;
+	while (current)
+	{
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	free(list);
 }
 
 int main(int ac, char **av, char **env)
@@ -97,8 +131,18 @@ int main(int ac, char **av, char **env)
 			break ;
 		}
 		add_history(temp);
-		if (syn_error(temp))
+		if (!ft_strlen(temp))
+		{
+			exit_status(0, 1);
+			free(temp);
 			continue ;
+		}
+		if (syn_error(temp))
+		{
+			exit_status(258, 1);
+			free(temp);
+			continue ;
+		}
 		str = add_space(temp);
 		if (!str)
 			continue ;
@@ -118,8 +162,12 @@ int main(int ac, char **av, char **env)
 		if (is_heredoc(lst, here))
 			if (heredoc(lst, here))
 				continue ;
-			printf("%d\n", lst->outfile);
 		execution(lst, list);
 		g_signal_status = 0;
+		free_cmd_lst(lst);
+		free(str);
+		free(temp);
+		free_all(res);
 	}
+	free_list(list);
 }
