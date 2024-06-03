@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 00:18:50 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:39:14 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,6 @@ int	ft_len(long nb)
 		len++;
 	}
 	return (len);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	long	l;
-
-	l = n;
-	if (l < 0)
-	{
-		write(fd, "-", 1);
-		l = l * -1;
-	}
-	if (l < 10)
-		ft_putchar_fd(l % 10 + '0', fd);
-	else if (l > 9)
-	{
-		ft_putnbr_fd(l / 10, fd);
-		ft_putnbr_fd(l % 10, fd);
-	}
 }
 
 char	*ft_itoa(int nb)
