@@ -27,7 +27,7 @@ RSpec.describe CurlPostDownloadStrategy do
         .and_return(instance_double(
                       SystemCommand::Result,
                       success?:    true,
-                      exit_status: instance_double(Process::Status, exitstatus: 0),
+                      ex_st: instance_double(Process::Status, exitstatus: 0),
                       stdout:      head_response,
                     ))
 

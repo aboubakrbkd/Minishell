@@ -17,10 +17,10 @@ module SimpleCov
     def collate(result_filenames, profile = T.unsafe(nil), ignore_timeout: T.unsafe(nil), &block); end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#223
-    def exit_and_report_previous_error(exit_status); end
+    def exit_and_report_previous_error(ex_st); end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#200
-    def exit_status_from_exception; end
+    def ex_st_from_exception; end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#28
     def external_at_exit; end
@@ -53,7 +53,7 @@ module SimpleCov
     def pid=(_arg0); end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#213
-    def previous_error?(error_exit_status); end
+    def previous_error?(error_ex_st); end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#248
     def process_result(result); end
@@ -71,7 +71,7 @@ module SimpleCov
     def result?; end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#256
-    def result_exit_status(result); end
+    def result_ex_st(result); end
 
     # source://simplecov/0.22.0/lib/simplecov.rb#296
     def round_coverage(coverage); end

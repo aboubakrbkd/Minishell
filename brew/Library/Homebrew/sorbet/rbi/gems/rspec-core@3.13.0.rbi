@@ -9756,7 +9756,7 @@ class RSpec::Core::Reporter
   # @private
   #
   # source://rspec-core//lib/rspec/core/reporter.rb#214
-  def abort_with(msg, exit_status); end
+  def abort_with(msg, ex_st); end
 
   # @private
   #

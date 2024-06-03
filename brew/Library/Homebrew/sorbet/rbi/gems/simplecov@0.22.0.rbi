@@ -50,14 +50,14 @@ module SimpleCov
     # @api private
     #
     # source://simplecov//lib/simplecov.rb#223
-    def exit_and_report_previous_error(exit_status); end
+    def exit_and_report_previous_error(ex_st); end
 
     # Returns the exit status from the exit exception
     #
     # @api private
     #
     # source://simplecov//lib/simplecov.rb#200
-    def exit_status_from_exception; end
+    def ex_st_from_exception; end
 
     # Basically, should we take care of at_exit behavior or something else?
     # Used by the minitest plugin. See lib/minitest/simplecov_plugin.rb
@@ -117,10 +117,10 @@ module SimpleCov
     # @return [Boolean]
     #
     # source://simplecov//lib/simplecov.rb#213
-    def previous_error?(error_exit_status); end
+    def previous_error?(error_ex_st); end
 
     # Usage:
-    #   exit_status = SimpleCov.process_result(SimpleCov.result, exit_status)
+    #   ex_st = SimpleCov.process_result(SimpleCov.result, ex_st)
     #
     # @api private
     #
@@ -151,7 +151,7 @@ module SimpleCov
     def result?; end
 
     # source://simplecov//lib/simplecov.rb#256
-    def result_exit_status(result); end
+    def result_ex_st(result); end
 
     # Rounding down to be extra strict, see #679
     #

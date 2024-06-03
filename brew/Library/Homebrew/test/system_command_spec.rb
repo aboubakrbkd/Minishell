@@ -97,7 +97,7 @@ RSpec.describe SystemCommand do
       subject(:result) { described_class.run("true") }
 
       it { is_expected.to be_a_success }
-      it(:exit_status) { expect(result.exit_status).to eq(0) }
+      it(:ex_st) { expect(result.ex_st).to eq(0) }
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe SystemCommand do
         subject(:result) { described_class.run(command) }
 
         it { is_expected.not_to be_a_success }
-        it(:exit_status) { expect(result.exit_status).to eq(1) }
+        it(:ex_st) { expect(result.ex_st).to eq(1) }
       end
     end
   end

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 02:47:56 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:53:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	function_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		exit_status(1, 1);
+		ex_st(1, 1);
 	}
 	else if (sig == SIGINT && g_signal_status == 1)
 		write(1, "\n", 1);
@@ -117,9 +117,9 @@ int main(int ac, char **av, char **env)
 	here = malloc(sizeof(t_heredoc));
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
-	list->envs = env_init(env);
 	if (ac != 1 || !lst || !list)
 		return (1);
+	list->envs = env_init(env);
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -133,13 +133,13 @@ int main(int ac, char **av, char **env)
 		add_history(temp);
 		if (!ft_strlen(temp))
 		{
-			exit_status(0, 1);
+			ex_st(0, 1);
 			free(temp);
 			continue ;
 		}
 		if (syn_error(temp))
 		{
-			exit_status(258, 1);
+			ex_st(258, 1);
 			free(temp);
 			continue ;
 		}

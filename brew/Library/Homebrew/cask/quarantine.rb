@@ -55,7 +55,7 @@ module Cask
                                    args:         [*swift_target_args, QUARANTINE_SCRIPT],
                                    print_stderr: false)
 
-        case api_check.exit_status
+        case api_check.ex_st
         when 2
           odebug "Quarantine is available."
           :quarantine_available
@@ -139,7 +139,7 @@ module Cask
 
       return if quarantiner.success?
 
-      case quarantiner.exit_status
+      case quarantiner.ex_st
       when 2
         raise CaskQuarantineError.new(download_path, "Insufficient parameters")
       else

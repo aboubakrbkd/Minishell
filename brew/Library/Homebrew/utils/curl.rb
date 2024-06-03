@@ -148,7 +148,7 @@ module Utils
       raise Timeout::Error, result.stderr.lines.last.chomp if timeout && result.status.exitstatus == 28
 
       # Error in the HTTP2 framing layer
-      if result.exit_status == 16
+      if result.ex_st == 16
         return curl_with_workarounds(
           *args, "--http1.1",
           timeout: Utils::Timer.remaining(end_time), **command_options, **options
@@ -156,7 +156,7 @@ module Utils
       end
 
       # This is a workaround for https://github.com/curl/curl/issues/1618.
-      if result.exit_status == 56 # Unexpected EOF
+      if result.ex_st == 56 # Unexpected EOF
         out = curl_output("-V").stdout
 
         # If `curl` doesn't support HTTP2, the exception is unrelated to this bug.
@@ -223,7 +223,7 @@ module Utils
         )
 
         # 22 means a non-successful HTTP status code, not a `curl` error, so we still got some headers.
-        if result.success? || result.exit_status == 22
+        if result.success? || result.ex_st == 22
           parsed_output = parse_curl_output(result.stdout)
 
           if request_args.empty?
@@ -311,7 +311,7 @@ module Utils
           )
 
           # Retry on network issues
-          break if details[:exit_status] != 52 && details[:exit_status] != 56
+          break if details[:ex_st] != 52 && details[:ex_st] != 56
 
           attempts += 1
           break if attempts >= Homebrew::EnvConfig.curl_retries.to_i
@@ -457,7 +457,7 @@ module Utils
       {
         url:,
         final_url:,
-        exit_status:    status.exitstatus,
+        ex_st:    status.exitstatus,
         status_code:,
         headers:,
         etag:,

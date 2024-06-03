@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 03:23:08 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:53:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int		heredoc(t_cmd *lst, t_heredoc *here);
 int		set_delim(t_cmd *lst, t_heredoc *here);
 int		count_delim(t_cmd *lst);
 void	fake(t_heredoc *here);
-int 	exit_status(int status, int mode);
+int 	ex_st(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
 char	*expand_variables(char *input);
@@ -163,5 +163,6 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_isalnum(int c);
 char	*ft_strncat(char *dest, char *src, unsigned int nb);
+void	build_arr_help(t_cmd **lst, char *res);
 
 #endif

@@ -327,7 +327,7 @@ class SystemCommand
   class Result
     include Context
 
-    attr_accessor :command, :status, :exit_status
+    attr_accessor :command, :status, :ex_st
 
     sig {
       params(
@@ -341,7 +341,7 @@ class SystemCommand
       @command       = command
       @output        = output
       @status        = status
-      @exit_status   = status.exitstatus
+      @ex_st   = status.exitstatus
       @secrets       = secrets
     end
 
@@ -374,9 +374,9 @@ class SystemCommand
 
     sig { returns(T::Boolean) }
     def success?
-      return false if @exit_status.nil?
+      return false if @ex_st.nil?
 
-      @exit_status.zero?
+      @ex_st.zero?
     end
 
     sig { returns([String, String, Process::Status]) }

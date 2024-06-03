@@ -6,25 +6,17 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 02:10:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:04:04 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 
-/*
-	if command not foud the exit status is 127
-	if command is found but not executable the exit status is 126 
-			for scriptig and permission denied
-	if command is successful the exit status is 0
-	if command was error the exit status is 1
-
-*/
-
-int exit_status(int status, int mode)
+int	ex_st(int status, int mode)
 {
-	static int num;
+	static int	num;
+
 	if (mode == 1)
 		num = status;
 	return (num);
@@ -75,7 +67,7 @@ void	execution(t_cmd *node, t_list *list)
 	int		fd_int;
 	int		fd_out;
 	char	**envr;
-	int status;
+	int		status;
 
 	fd_int = dup(0);
 	fd_out = dup(1);
@@ -146,7 +138,7 @@ void	execution(t_cmd *node, t_list *list)
 			if (!node->cmd)
 			{
 				write(2, "minishell: command not found\n", 29);
-				exit_status(127, 1);
+				ex_st(127, 1);
 				exit(127);
 			}
 			if (execve(node->cmd, node->argv, envr) == -1)
@@ -154,19 +146,19 @@ void	execution(t_cmd *node, t_list *list)
 				if (!ft_strncmp(node->cmd, ".", 1))
 				{
 					write(2, "minishell: .: filename argument required\n", 41);
-					exit_status(2, 1);
+					ex_st(2, 1);
 					exit(2);
 				}
 				else if (!ft_strcmp(node->cmd, "/"))
 				{
 					write(2, "minishell: /: is a directory\n", 29);
-					exit_status(126, 1);
+					ex_st(126, 1);
 					exit(126);
 				}
 				else
 				{
 					msg_error("minishell");
-					exit_status(126, 1);
+					ex_st(126, 1);
 					exit(126);
 				}
 			}
@@ -227,7 +219,7 @@ void	execution(t_cmd *node, t_list *list)
 		if (!node->cmd || !ft_strcmp(node->cmd, ".."))
 		{
 			write(2, "minishell: command not found\n", 29);
-			exit_status(127, 1);
+			ex_st(127, 1);
 			exit(127);
 		}
 		if (execve(node->cmd, node->argv, envr) == -1)
@@ -235,19 +227,19 @@ void	execution(t_cmd *node, t_list *list)
 			if (!ft_strcmp(node->cmd, ".") && ft_strlen(node->cmd) == 1)
 			{
 				write(2, "minishell: .: filename argument required\n", 41);
-				exit_status(2, 1);
+				ex_st(2, 1);
 				exit(2);
 			}
 			else if (!ft_strcmp(node->cmd, "/"))
 			{
 				write(2, "minishell: /: is a directory\n", 29);
-				exit_status(126, 1);
+				ex_st(126, 1);
 				exit(126);
 			}
 			else
 			{
 				msg_error("minishell");
-				exit_status(126, 1);
+				ex_st(126, 1);
 				exit(126);
 			}
 		}
@@ -264,8 +256,8 @@ void	execution(t_cmd *node, t_list *list)
 	while (wait(&status) != -1)
 	{
 		if (WIFEXITED(status))
-			exit_status(WEXITSTATUS(status), 1);
+			ex_st(WEXITSTATUS(status), 1);
 		if (WIFSIGNALED(status))
-			exit_status(WTERMSIG(status) + 128, 1);
+			ex_st(WTERMSIG(status) + 128, 1);
 	}
 }

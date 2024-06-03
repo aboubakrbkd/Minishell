@@ -6,11 +6,20 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/24 16:39:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:47:34 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	build_arr_help(t_cmd **lst, char *res)
+{
+	(*lst)->cmd = nops_strdup(res);
+	(*lst)->argv = ft_split((*lst)->cmd, ' ');
+	(*lst)->infile = 0;
+	(*lst)->outfile = 1;
+	(*lst)->next = NULL;
+}
 
 t_cmd	*build_arr(char **res)
 {
@@ -26,11 +35,7 @@ t_cmd	*build_arr(char **res)
 		new_node = malloc(sizeof(t_cmd));
 		if (!new_node)
 			exit(EXIT_FAILURE);
-		new_node->cmd = nops_strdup(res[i]);
-		new_node->argv = ft_split(new_node->cmd, ' ');
-		new_node->infile = 0;
-		new_node->outfile = 1;
-		new_node->next = NULL;
+		build_arr_help(&new_node, res[i]);
 		if (final == NULL)
 		{
 			final = new_node;
@@ -44,4 +49,3 @@ t_cmd	*build_arr(char **res)
 	}
 	return (final);
 }
-

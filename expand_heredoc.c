@@ -6,13 +6,13 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 03:20:47 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 03:27:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_variables(char *input)
+char	*expand_variables(char *str)
 {
 	char	*exp;
 	char	*name;
@@ -26,7 +26,7 @@ char	*expand_variables(char *input)
 	if (!exp || !name)
 		return NULL;
 	exp[0] = '\0';
-	start = input;
+	start = str;
 	dollar = ft_strchr(start, '$');
 	while (dollar)
 	{
@@ -50,6 +50,6 @@ char	*expand_variables(char *input)
 	}
 	ft_strcat(exp, start);
 	free(name);
-	return exp;
+	return (exp);
 }
 

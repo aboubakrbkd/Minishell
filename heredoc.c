@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 02:52:48 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 20:01:53 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,14 @@ void	fake(t_heredoc *here)
 	i = 0;	
 	while (here->delimiter[i + 1])
 	{
-		tmp = readline("> ");
-		if (!tmp || ((ft_strncmp(tmp, here->delimiter[i], ft_strlen(here->delimiter[i])) == 0)
-				&& (ft_strlen(tmp) == ft_strlen(here->delimiter[i]))))
-				break ;
-		free(tmp);
+		while (1)
+		{
+			tmp = readline("> ");
+			if (!tmp || ((ft_strncmp(tmp, here->delimiter[i], ft_strlen(here->delimiter[i])) == 0)
+					&& (ft_strlen(tmp) == ft_strlen(here->delimiter[i]))))
+					break ;
+			free(tmp);
+		}
 		i++;
 	}
 }

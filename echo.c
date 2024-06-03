@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:40:25 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:18:01 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:59:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	print_arguments(char **argv, int start, int outfile)
 	{
 		if (!ft_strcmp(argv[i], "?"))
 		{
-			ft_putnbr_fd(exit_status(0, 0), outfile);
+			ft_putnbr_fd(ex_st(0, 0), outfile);
 			ft_putchar_fd('\n', outfile);
-			exit_status(0, 1);
+			ex_st(0, 1);
 			return (0);
 		}
 		write(outfile, argv[i], ft_strlen(argv[i]));
@@ -61,10 +61,7 @@ int	echo(char **argv, int outfile)
 	i = 1;
 	flag = 0;
 	if (argv[i] == NULL)
-	{
-		write(outfile, "\n", 1);
-		return (0);
-	}
+		return (write(outfile, "\n", 1), 0);
 	if (ft_strcmp(argv[i], "-") == 0)
 	{
 		write(outfile, argv[i], ft_strlen(argv[i]));
@@ -80,6 +77,5 @@ int	echo(char **argv, int outfile)
 		return (0);
 	if (!flag)
 		write(outfile, "\n", 2);
-	exit_status(0, 1);
-	return (0);
+	return (ex_st(0, 1), 0);
 }
