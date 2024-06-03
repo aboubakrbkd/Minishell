@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/02 22:12:25 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 02:52:48 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ int	set_delim(t_cmd *lst, t_heredoc *here)
 int	heredoc(t_cmd *lst, t_heredoc *here)
 {
 	char	*tmp;
+	char	*exp;
 	int		fd;
 
 	fake(here);
+	exp = NULL;
 	fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
@@ -88,9 +90,19 @@ int	heredoc(t_cmd *lst, t_heredoc *here)
 				,ft_strlen(here->delimiter[here->idx])) == 0)
 				&& (ft_strlen(tmp) == ft_strlen(here->delimiter[here->idx]))))
 			break ;
-		write(fd, tmp, ft_strlen(tmp));
-		write(fd, "\n", 1);
-		free(tmp);
+		exp = expand_variables(tmp);
+		if (exp)
+		{
+			write(fd, exp, strlen(exp));
+			write(fd, "\n", 1);
+			free(exp);
+		}
+		else
+		{
+			write(fd, tmp, ft_strlen(tmp));
+			write(fd, "\n", 1);
+			free(tmp);
+		}
 	}
 	if (here->delimiter[here->idx][0] == '\n')
 		free(here->delimiter[here->idx]);

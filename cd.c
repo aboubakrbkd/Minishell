@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:12:27 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:39:20 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	l;
+
+	l = n;
+	if (l < 0)
+	{
+		write(fd, "-", 1);
+		l = l * -1;
+	}
+	if (l < 10)
+		ft_putchar_fd(l % 10 + '0', fd);
+	else if (l > 9)
+	{
+		ft_putnbr_fd(l / 10, fd);
+		ft_putnbr_fd(l % 10, fd);
+	}
+}
 
 void	home_function(char *home, t_list *list)
 {

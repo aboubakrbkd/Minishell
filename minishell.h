@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 00:25:09 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 03:23:08 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
 char	**handle_expand(t_cmd *lst);
-void	print_args(t_cmd *lst);
 int		is_heredoc(t_cmd *lst, t_heredoc *here);
 int		heredoc(t_cmd *lst, t_heredoc *here);
 int		set_delim(t_cmd *lst, t_heredoc *here);
@@ -159,5 +158,10 @@ void	fake(t_heredoc *here);
 int 	exit_status(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
+char	*expand_variables(char *input);
+char	*ft_strcat(char *dest, char *src);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+int		ft_isalnum(int c);
+char	*ft_strncat(char *dest, char *src, unsigned int nb);
 
 #endif
