@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:53:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/22 16:41:45 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/01 13:45:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ char	*ft_strchr(char *s, int c)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (i < ft_strlen(s) + 1)
 	{
 		if (s[i] == (char)c)

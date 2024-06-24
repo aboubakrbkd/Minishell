@@ -1,56 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 17:53:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:24:14 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/03/12 13:39:12 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/06/03 00:17:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_files(t_cmd *node)
+void	pwd(char **args, t_list *list, int outfile)
 {
-	if (node->infile != 0)
-		close(node->infile);
-	if (node->outfile != 1)
-		close(node->outfile);
-}
+	char	*pwdir;
+	char	*tmp;
 
-
-void	safe_pipe(int fd[2])
-{
-	if (pipe(fd) == -1)
-		msg_error("pipe");
-}
-
-void	msg_error_fork(void)
-{
-	static int	error_printed;
-
-	if (!error_printed)
+	(void)args;
+	pwdir = my_getenv("PWD", list);
+	if (!pwdir)
 	{
-		perror("fork");
-		error_printed = 1;
+		pwdir = getcwd(NULL, 0);
+		tmp = my_getenv("OLDPWD", list);
+		if (!pwdir)
+		{
+			printf("%s\n", tmp);
+			exit_status(1, 1);
+			return ;
+		}
 	}
-	else
-		return ;
+	write(outfile, pwdir, ft_strlen(pwdir));
+	write(outfile, "\n", 1);
+	exit_status(0, 1);
 }
 
-int	safe_fork(void)
-{
-	int	id;
-
-	id = fork();
-	if (id == -1)
-		msg_error_fork();
-	return (id);
-}
-
-void	msg_error(char *str)
+void	error_open(char *str)
 {
 	perror(str);
 	return ;
