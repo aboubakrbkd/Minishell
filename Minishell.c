@@ -3,72 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 07:54:23 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 21:20:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	remove_qoutes(t_cmd **lst)
-{
-	t_cmd	*current;
-	char	**argv;
-	char	*arg;
-	int		len;
-	int		i;
-	int		j;
-
-	current = *lst;
-	while (current != NULL)
-	{
-		argv = current->argv;
-		while (*argv != NULL)
-		{
-			arg = *argv;
-			len = ft_strlen(arg);
-			i = 0;
-			j = 0;
-			while (i < len)
-			{
-				if (arg[i] != '"' && arg[i] != '\'')
-					arg[j++] = arg[i];
-				i++;
-			}
-			arg[j] = '\0';
-			argv++;
-		}
-		current = current->next;
-	}
-}
-
-void	function_sigint(int sig)
-{
-	if (sig == SIGINT && g_signal_status == 0)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		ex_st(1, 1);
-	}
-	else if (sig == SIGINT && g_signal_status == 1)
-		write(1, "\n", 1);
-}
-
-void	function_sigwuit(int sig)
-{
-	if (sig == SIGQUIT && g_signal_status ==1)
-		write(1, "Quit: 3\n", 8);
-}
-
-void	check_signals()
-{
-	signal(SIGINT, function_sigint);
-	signal(SIGQUIT, function_sigwuit);
-}
 
 void	free_cmd_lst(t_cmd *lst)
 {
@@ -103,15 +45,16 @@ void	free_list(t_list *list)
 	free(list);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	(void)av;
-	char		*temp;
-	t_cmd		*lst;
-	t_list		*list;
-	char		*str;
-	char		**res;
+	char			*temp;
+	t_cmd			*lst;
+	t_list			*list;
+	char			*str;
+	char			**res;
+	struct termios	copy;
 
+	(void)av;
 	g_signal_status = 0;
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
@@ -123,13 +66,13 @@ int main(int ac, char **av, char **env)
 		rl_catch_signals = 0;
 		check_signals();
 		temp = readline("Minishell-$ ");
-		if (!temp)
+		if (!temp || !isatty(0))
 		{
 			printf("exit\n");
 			break ;
 		}
 		add_history(temp);
-		if (!ft_strlen(temp))
+		if (!ft_strlen(temp) || is_blank(temp))
 		{
 			ex_st(0, 1);
 			free(temp);
@@ -159,8 +102,12 @@ int main(int ac, char **av, char **env)
 		g_signal_status = 1;
 		if (is_heredoc(lst))
 			heredoc(lst);
+		handling_my_argv(lst);
+		tcgetattr(0, &copy);
 		execution(lst, list);
+		tcsetattr(0, 0, &copy);
 		g_signal_status = 0;
+		// printf("last exit status is %d\n", ex_st(0, 0));
 		free_cmd_lst(lst);
 		free(str);
 		free(temp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 16:47:34 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:23:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,43 @@ t_cmd	*build_arr(char **res)
 		}
 	}
 	return (final);
+}
+
+void	remove_quotes_from_arg(char *arg)
+{
+	int	len;
+	int	i;
+	int	j;
+
+	len = ft_strlen(arg);
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		if (arg[i] != '"' && arg[i] != '\'')
+			arg[j++] = arg[i];
+		i++;
+	}
+	arg[j] = '\0';
+}
+
+void	process_argv(char **argv)
+{
+	while (*argv != NULL)
+	{
+		remove_quotes_from_arg(*argv);
+		argv++;
+	}
+}
+
+void	remove_qoutes(t_cmd **lst)
+{
+	t_cmd	*current;
+
+	current = *lst;
+	while (current != NULL)
+	{
+		process_argv(current->argv);
+		current = current->next;
+	}
 }

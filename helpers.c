@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:53:55 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 03:52:44 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 13:14:05 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	close_files(t_cmd *node)
 	if (node->outfile != 1)
 		close(node->outfile);
 }
-
 
 void	safe_pipe(int fd[2])
 {

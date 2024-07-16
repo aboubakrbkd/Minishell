@@ -6,16 +6,16 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:24:37 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:24:54 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:13:52 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void 	clear_gc(t_gc **gc)
+void	clear_gc(t_gc **gc)
 {
 	t_gc	*tmp;
-	
+
 	while (*gc)
 	{
 		tmp = *gc;
@@ -46,4 +46,3 @@ void	*gc(int size, int mode)
 		clear_gc(&gc);
 	return (NULL);
 }
-
