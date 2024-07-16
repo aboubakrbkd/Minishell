@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 16:53:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 05:26:19 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,12 @@ int main(int ac, char **av, char **env)
 {
 	(void)av;
 	char		*temp;
-	t_heredoc	*here;
 	t_cmd		*lst;
 	t_list		*list;
 	char		*str;
 	char		**res;
 
 	g_signal_status = 0;
-	here = malloc(sizeof(t_heredoc));
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
 	if (ac != 1 || !lst || !list)
@@ -159,9 +157,8 @@ int main(int ac, char **av, char **env)
 		expand(lst, list);
 		remove_qoutes(&lst);
 		g_signal_status = 1;
-		if (is_heredoc(lst, here))
-			if (heredoc(lst, here))
-				continue ;
+		if (is_heredoc(lst))
+			heredoc(lst);
 		execution(lst, list);
 		g_signal_status = 0;
 		free_cmd_lst(lst);
