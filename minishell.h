@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 04:05:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 05:25:00 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,12 @@ typedef struct s_list
 	t_env	*envs;
 }				t_list;
 
-typedef struct s_heredoc
-{
-	char	**delimiter;
-	int		idx;
-}			t_heredoc;
-
 typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argv;
+	char			*delim;
+	int				fd;
 	int				infile;
 	int				outfile;
 	int				is_heredoc;
@@ -150,11 +146,11 @@ void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
 char	**handle_expand(t_cmd *lst);
-int		is_heredoc(t_cmd *lst, t_heredoc *here);
-int		heredoc(t_cmd *lst, t_heredoc *here);
-int		set_delim(t_cmd *lst, t_heredoc *here);
-int		count_delim(t_cmd *lst);
-void	fake(t_heredoc *here);
+int		is_heredoc(t_cmd *lst);
+void	heredoc(t_cmd *lst);
+char	*creat_heroc(t_cmd *lst);
+void	perferm_heredoc(t_cmd *lst, char *delim);
+char	*get_delim(char **arg);
 int 	ex_st(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
