@@ -6,28 +6,11 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 20:01:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 04:16:59 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	print_args(t_cmd *lst)
-// {
-// 	int	i;
-
-// 	while (lst)
-// 	{
-// 		i = 0;
-// 		while (lst->argv[i])
-// 		{
-// 			printf("lst->argv[%d] : %s\n", i, lst->argv[i]);
-// 			printf("lst->cmd[%d] : %s\n", i, lst->cmd);
-// 			i++;
-// 		}
-// 		lst = lst->next;
-// 	}
-// }
 
 int	count_delim(t_cmd *lst)
 {
@@ -78,11 +61,24 @@ int	heredoc(t_cmd *lst, t_heredoc *here)
 {
 	char	*tmp;
 	char	*exp;
+	char	*to_open;
+	int		i;
 	int		fd;
 
 	fake(here);
-	exp = NULL;
-	fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	i = 0;
+	while (++i)
+	{
+		to_open = ft_strjoin("heredoc", ft_itoa(i));
+		fd = open(to_open, O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			fd = open(to_open, O_RDWR| O_CREAT | O_TRUNC, 0644);
+			break ;
+		}
+		else if (fd > 0)
+			continue ;
+	}
 	while (1)
 	{
 		tmp = readline("> ");
@@ -93,7 +89,7 @@ int	heredoc(t_cmd *lst, t_heredoc *here)
 		exp = expand_variables(tmp);
 		if (exp)
 		{
-			write(fd, exp, strlen(exp));
+			write(fd, exp, ft_strlen(exp));
 			write(fd, "\n", 1);
 			free(exp);
 		}
@@ -109,9 +105,9 @@ int	heredoc(t_cmd *lst, t_heredoc *here)
 	free(tmp);
 	while (lst->next)
 		lst = lst->next;
-	lst->infile = open("heredoc", O_RDONLY);
+	lst->infile = open(to_open, O_RDONLY);
 	close(fd);
-	unlink("heredoc");
+	unlink(to_open);
 	if (lst->infile < 0)
 		return (1);
 	return (0);
