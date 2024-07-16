@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 05:26:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 07:54:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int main(int ac, char **av, char **env)
 	{
 		rl_catch_signals = 0;
 		check_signals();
-		temp = readline("Mouad_shell-$ ");
+		temp = readline("Minishell-$ ");
 		if (!temp)
 		{
 			printf("exit\n");
