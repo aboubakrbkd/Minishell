@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:21:24 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:53:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	**env_split(char *s, char c)
 {
 	char	**result;
 	int		i;
+	int		j;
 
 	if (!s)
 		return (NULL);
@@ -42,6 +43,7 @@ char	**env_split(char *s, char c)
 	if (!result)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (s[i] && s[i] != c)
 		i++;
 	result[0] = malloc(sizeof(char) * (i + 1));
@@ -96,7 +98,7 @@ void	env(char **argv, t_list *list, int outfile)
 		}
 		env = env->next;
 	}
-	exit_status(0, 1);
+	ex_st(0, 1);
 }
 
 void	env_1(char **argv, t_env *list, int outfile)

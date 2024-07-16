@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/05/24 16:39:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:23:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	build_arr_help(t_cmd **lst, char *res)
+{
+	(*lst)->cmd = nops_strdup(res);
+	(*lst)->argv = ft_split((*lst)->cmd, ' ');
+	(*lst)->infile = 0;
+	(*lst)->outfile = 1;
+	(*lst)->next = NULL;
+}
 
 t_cmd	*build_arr(char **res)
 {
@@ -26,11 +35,7 @@ t_cmd	*build_arr(char **res)
 		new_node = malloc(sizeof(t_cmd));
 		if (!new_node)
 			exit(EXIT_FAILURE);
-		new_node->cmd = nops_strdup(res[i]);
-		new_node->argv = ft_split(new_node->cmd, ' ');
-		new_node->infile = 0;
-		new_node->outfile = 1;
-		new_node->next = NULL;
+		build_arr_help(&new_node, res[i]);
 		if (final == NULL)
 		{
 			final = new_node;
@@ -45,3 +50,41 @@ t_cmd	*build_arr(char **res)
 	return (final);
 }
 
+void	remove_quotes_from_arg(char *arg)
+{
+	int	len;
+	int	i;
+	int	j;
+
+	len = ft_strlen(arg);
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		if (arg[i] != '"' && arg[i] != '\'')
+			arg[j++] = arg[i];
+		i++;
+	}
+	arg[j] = '\0';
+}
+
+void	process_argv(char **argv)
+{
+	while (*argv != NULL)
+	{
+		remove_quotes_from_arg(*argv);
+		argv++;
+	}
+}
+
+void	remove_qoutes(t_cmd **lst)
+{
+	t_cmd	*current;
+
+	current = *lst;
+	while (current != NULL)
+	{
+		process_argv(current->argv);
+		current = current->next;
+	}
+}

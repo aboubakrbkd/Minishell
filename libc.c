@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 03:00:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 03:05:42 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:51:45 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,21 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	l;
+
+	l = n;
+	if (l < 0)
+	{
+		write(fd, "-", 1);
+		l = l * -1;
+	}
+	if (l < 10)
+		ft_putchar_fd(l % 10 + '0', fd);
+	else if (l > 9)
+	{
+		ft_putnbr_fd(l / 10, fd);
+		ft_putnbr_fd(l % 10, fd);
+	}
+}

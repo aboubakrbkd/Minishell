@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 21:07:01 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 00:17:38 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:18:09 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_is_unsetable(char *name)
 	if (!is_valid_variable_name(name))
 	{
 		printf("minishell: unset: `%s': not a valid identifier\n", name);
-		exit_status(1, 1);
+		ex_st(1, 1);
 		return (1);
 	}
 	return (0);
@@ -79,6 +79,6 @@ int	unset(char **argv, t_env **envps)
 		free_env(argv[i], envps);
 		i++;
 	}
-	exit_status(0, 1);
+	ex_st(0, 1);
 	return (0);
 }
