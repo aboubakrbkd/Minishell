@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/17 05:21:44 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/18 00:37:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,29 @@ t_cmd	*build_arr(char **res)
 
 void	remove_quotes_from_arg(char *arg)
 {
-	int		len;
 	int		i;
 	int		j;
 	int		tr;
 	char	qoutes;
 
-	len = ft_strlen(arg);
-	i = 0;
+	i = -1;
 	j = 0;
 	tr = 0;
-	if (arg[0] == '\'' || arg[0] == '\"')
-		(1) && (qoutes = arg[0], tr = 1, 0);
-	while (i < len)
+	while (arg[++i])
+	{
+		if (arg[i] == '\'' || arg[i] == '\"')
+		{
+			(1) && (qoutes = arg[i], tr = 1, 0);
+			break ;
+		}
+	}
+	i = -1;
+	while (++i < ft_strlen(arg))
 	{
 		if (arg[i] == qoutes && tr == 1)
-		{
-			i++;
 			continue ;
-		}
 		if (arg[i] != qoutes)
 			arg[j++] = arg[i];
-		i++;
 	}
 	arg[j] = '\0';
 }

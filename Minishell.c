@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 21:20:02 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:43:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_args(t_cmd *lst)
+{
+	int	x = 0;
+
+	while (lst)
+	{
+		printf("lst %d :\n", x);
+		int	i = 0;
+		while (lst->argv[i])
+		{
+			printf("lst->argv[%d]: %s\n", i, lst->argv[i]);
+			i++;
+		}
+		lst = lst->next;
+		x++;
+	}
+	printf("\n");
+}
 
 void	free_cmd_lst(t_cmd *lst)
 {
@@ -97,8 +116,8 @@ int	main(int ac, char **av, char **env)
 		if (!lst)
 			continue ;
 		back_to_ascii(lst);
-		expand(lst, list);
 		remove_qoutes(&lst);
+		expand(lst, list);
 		g_signal_status = 1;
 		if (is_heredoc(lst))
 			heredoc(lst);
@@ -107,7 +126,6 @@ int	main(int ac, char **av, char **env)
 		execution(lst, list);
 		tcsetattr(0, 0, &copy);
 		g_signal_status = 0;
-		// printf("last exit status is %d\n", ex_st(0, 0));
 		free_cmd_lst(lst);
 		free(str);
 		free(temp);
