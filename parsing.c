@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/06/03 06:15:16 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/18 00:25:57 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,30 @@ int	check_end(char *line)
 	return (0);
 }
 
+int	check_line(char **res)
+{
+	int	i;
+	int	j;
+	int	tr;
+
+	i = 0;
+	tr = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			if (res[i][j] == '<')
+				tr++;
+			j++;
+		}
+		if (tr > 2)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	syn_error(char *line)
 {
 	char	**res;
@@ -86,6 +110,8 @@ int	syn_error(char *line)
 	res = ft_split(line, ' ');
 	if (!res || !*res)
 		return (1);
+	if (check_line(res))
+		return (printf("bash: syntax error\n"), 1);
 	if ((!ft_strncmp(res[0], "<<", 3) || !ft_strncmp(res[0], ">>", 3)
 			|| !ft_strncmp(res[0], "<", 2) || !ft_strncmp(res[0], ">", 2))
 		&& !*(res + 1))

@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/17 10:19:03 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/18 00:20:05 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,9 @@ int	is_heredoc(t_cmd *lst)
 	{
 		i = 0;
 		lst->is_heredoc = 0;
-		while (lst->argv[i])
+		while (lst->argv[i] && lst->argv[i + 1])
 		{
-			if (ft_strcmp(lst->argv[i], "<<") == 0)
+			if (!ft_strcmp(lst->argv[i], "<<") && ft_strcmp(lst->argv[i + 1], "<"))
 			{
 				lst->is_heredoc = 1;
 				res = 1;
