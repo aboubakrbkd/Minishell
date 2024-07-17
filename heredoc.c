@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
 /*   Updated: 2024/07/18 00:20:05 by mkimdil          ###   ########.fr       */
@@ -63,28 +63,28 @@ void	her_sin(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ex_st(1, 1);
 		close(0);
+		ex_st(1, 1);
 	}
 }
 
-void	perferm_heredoc(t_cmd *lst, char *delim)
+int	perferm_heredoc(t_cmd *lst, char *delim)
 {
 	char	*exp;
 	char	*tmp;
 
-	signal(SIGINT, her_sin);
 	while (1)
 	{
+		signal(SIGINT, her_sin);
 		tmp = readline("> ");
 		if (!ttyname(0))
 		{
 			open(ttyname(2), O_RDWR);
-			return ;
+			return (1);
 		}
 		if (!tmp || ((ft_strncmp(tmp, delim, ft_strlen(delim)) == 0)
 				&& (ft_strlen(tmp) == ft_strlen(delim))))
-					break ;
+			break ;
 		exp = expand_variables(tmp);
 		if (exp && !ft_strsearch(delim, '\''))
 		{
@@ -100,6 +100,7 @@ void	perferm_heredoc(t_cmd *lst, char *delim)
 		}
 	}
 	free(tmp);
+	return (0);
 }
 
 void	heredoc(t_cmd *lst)
@@ -114,7 +115,12 @@ void	heredoc(t_cmd *lst)
 		while (lst->delim[++i])
 		{
 			tmp = creat_heroc(lst);
-			perferm_heredoc(lst, lst->delim[i]);
+			if (perferm_heredoc(lst, lst->delim[i]))
+			{
+				close(lst->fd);
+				unlink(tmp);
+				break ;
+			}
 			lst->infile = open(tmp, O_RDONLY);
 			close(lst->fd);
 			unlink(tmp);
@@ -123,19 +129,12 @@ void	heredoc(t_cmd *lst)
 	}
 }
 
-// int	check_heredoc(t_cmd *lst)
-// {
-	
-// }
-
 int	is_heredoc(t_cmd *lst)
 {
 	int	i;
 	int	res;
 
 	res = 0;
-	// if (check_heredoc(lst))
-	// 	return (0);
 	while (lst)
 	{
 		i = 0;

@@ -170,7 +170,7 @@ char	**handle_expand(t_cmd *lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
-void	perferm_heredoc(t_cmd *lst, char *delim);
+int		perferm_heredoc(t_cmd *lst, char *delim);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
 int		get_delim_size(t_cmd *lst);
