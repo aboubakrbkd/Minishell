@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 20:04:59 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:18:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ char	**handle_expand(t_cmd *lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
-void	perferm_heredoc(t_cmd *lst, char *delim);
+int		perferm_heredoc(t_cmd *lst, char *delim);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
 int		get_delim_size(t_cmd *lst);
