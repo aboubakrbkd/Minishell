@@ -49,7 +49,7 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argv;
-	char			*delim;
+	char			**delim;
 	int				fd;
 	int				infile;
 	int				outfile;
@@ -91,6 +91,7 @@ char	*ft_strdup(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
 char	*ft_strchr(char *s, int c);
+int		ft_strsearch(char *s, int c);
 int		ft_strnstr(char *str, char *to_find);
 t_env	*env_init(char **envp);
 int		is_number(char c);
@@ -170,7 +171,9 @@ int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
 void	perferm_heredoc(t_cmd *lst, char *delim);
-char	*get_delim(char **arg);
+void	her_sin(int sig);
+void	get_delim(t_cmd *lst);
+int		get_delim_size(t_cmd *lst);
 int		ex_st(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);

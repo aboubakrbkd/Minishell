@@ -3,33 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 17:33:37 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/17 05:24:47 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_delim(char **arg)
+void	get_delim(t_cmd *lst)
 {
 	int	i;
+	int	k;
+	int	delim_size;
 
+	delim_size = get_delim_size(lst) * 2;
+	lst->delim = malloc(sizeof(char *) * delim_size + 1);
+	if (!lst->delim)
+		return ;
 	i = 0;
-	while (arg[++i])
-		if (!ft_strcmp(arg[i - 1], "<<"))
-			return (arg[i]);
-	return (NULL);
-}
-
-void	her_sin(int sig)
-{
-	if (sig == SIGINT)
+	k = 0;
+	while (lst->argv[i] && lst->argv[i + 1])
 	{
-		ex_st(1, 1);
-		close(0);
+		if (!ft_strcmp(lst->argv[i], "<<"))
+		{
+			lst->delim[k] = ft_strdup(lst->argv[i + 1]);
+			k++;
+		}
+		i++;
 	}
+	lst->delim[k] = NULL;
 }
 
 char	*creat_heroc(t_cmd *lst)
@@ -55,6 +59,15 @@ char	*creat_heroc(t_cmd *lst)
 	return (NULL);
 }
 
+void	her_sin(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ex_st(1, 1);
+		close(0);
+	}
+}
+
 void	perferm_heredoc(t_cmd *lst, char *delim)
 {
 	char	*exp;
@@ -71,9 +84,9 @@ void	perferm_heredoc(t_cmd *lst, char *delim)
 		}
 		if (!tmp || ((ft_strncmp(tmp, delim, ft_strlen(delim)) == 0)
 				&& (ft_strlen(tmp) == ft_strlen(delim))))
-			break ;
+					break ;
 		exp = expand_variables(tmp);
-		if (exp)
+		if (exp && !ft_strsearch(delim, '\''))
 		{
 			write(lst->fd, exp, ft_strlen(exp));
 			write(lst->fd, "\n", 1);
@@ -92,15 +105,20 @@ void	perferm_heredoc(t_cmd *lst, char *delim)
 void	heredoc(t_cmd *lst)
 {
 	char	*tmp;
+	int		i;
 
 	while (lst)
 	{
-		lst->delim = get_delim(lst->argv);
-		tmp = creat_heroc(lst);
-		perferm_heredoc(lst, lst->delim);
-		lst->infile = open(tmp, O_RDONLY);
-		close(lst->fd);
-		unlink(tmp);
+		i = -1;
+		get_delim(lst);
+		while (lst->delim[++i])
+		{
+			tmp = creat_heroc(lst);
+			perferm_heredoc(lst, lst->delim[i]);
+			lst->infile = open(tmp, O_RDONLY);
+			close(lst->fd);
+			unlink(tmp);
+		}
 		lst = lst->next;
 	}
 }
