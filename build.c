@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 19:23:54 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/17 05:21:44 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,26 @@ t_cmd	*build_arr(char **res)
 
 void	remove_quotes_from_arg(char *arg)
 {
-	int	len;
-	int	i;
-	int	j;
+	int		len;
+	int		i;
+	int		j;
+	int		tr;
+	char	qoutes;
 
 	len = ft_strlen(arg);
 	i = 0;
 	j = 0;
+	tr = 0;
+	if (arg[0] == '\'' || arg[0] == '\"')
+		(1) && (qoutes = arg[0], tr = 1, 0);
 	while (i < len)
 	{
-		if (arg[i] != '"' && arg[i] != '\'')
+		if (arg[i] == qoutes && tr == 1)
+		{
+			i++;
+			continue ;
+		}
+		if (arg[i] != qoutes)
 			arg[j++] = arg[i];
 		i++;
 	}

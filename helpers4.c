@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   helpers4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:24:10 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 19:43:53 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/17 04:48:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	get_delim_size(t_cmd *lst)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	while (lst)
+	{
+		i = 0;
+		while (lst->argv[i])
+		{
+			if (!ft_strcmp(lst->argv[i], "<<"))
+				count++;
+			i++;
+		}
+		lst = lst->next;
+	}
+	return (count);
+}
 
 int	count_argv(t_cmd *node)
 {
