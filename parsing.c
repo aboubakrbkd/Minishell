@@ -90,6 +90,7 @@ int	check_line(char **res)
 	while (res[i])
 	{
 		j = 0;
+		tr = 0;
 		while (res[i][j])
 		{
 			if (res[i][j] == '<')

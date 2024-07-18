@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_signal_status;
+
 void	print_args(t_cmd *lst)
 {
 	int	x = 0;

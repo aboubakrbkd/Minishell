@@ -64,7 +64,7 @@ void	remove_quotes_from_arg(char *arg)
 	{
 		if (arg[i] == '\'' || arg[i] == '\"')
 		{
-			(1) && (qoutes = arg[i], tr = 1, 0);
+			qoutes = arg[i], tr = 1;
 			break ;
 		}
 	}
@@ -72,7 +72,10 @@ void	remove_quotes_from_arg(char *arg)
 	while (++i < ft_strlen(arg))
 	{
 		if (arg[i] == qoutes && tr == 1)
+		{
+			tr = 0;
 			continue ;
+		}
 		if (arg[i] != qoutes)
 			arg[j++] = arg[i];
 	}

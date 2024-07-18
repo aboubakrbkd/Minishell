@@ -30,7 +30,7 @@
 # define NC  "\033[0m"
 # define BUFFER_SIZE 33
 
-int	g_signal_status;
+extern int	g_signal_status;
 
 typedef struct s_env
 {
@@ -130,7 +130,7 @@ int		check_if_flag(char *argv);
 char	**env_split(char *s, char c);
 char	*my_getenv(char *name, t_list *list);
 void	update_env(char *name, char *value, t_list *list);
-void	update_pwd(char *path, t_list *list);
+void	update_pwd(t_list *list);
 t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		special_case(char c);
