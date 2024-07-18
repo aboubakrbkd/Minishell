@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:24:37 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 13:13:52 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:09:22 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	clear_gc(t_gc **gc)
 void	*gc(int size, int mode)
 {
 	static t_gc	*gc;
+	static t_gc *gc1;
 	t_gc		*new;
 
-	if (mode == 1)
+	if (mode == 1 || mode == 2)
 	{
 		new = malloc(sizeof(t_gc));
 		if (!new)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/18 00:43:46 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:02:26 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	g_signal_status = 0;
-	lst = malloc(sizeof(t_cmd));
-	list = malloc(sizeof(t_list));
-	if (ac != 1 || !lst || !list)
+	lst = NULL;
+	list = malloc(sizeof(t_list)); // free on exit builtin
+	if (ac != 1 || !list)
 		return (1);
 	list->envs = env_init(env);
+	rl_catch_signals = 0;
 	while (1)
 	{
-		rl_catch_signals = 0;
 		check_signals();
 		temp = readline("Minishell-$ ");
 		if (!temp || !isatty(0))
@@ -132,4 +132,5 @@ int	main(int ac, char **av, char **env)
 		free_all(res);
 	}
 	free_list(list);
+	exit(ex_st(0, 0));
 }
