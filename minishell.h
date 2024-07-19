@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/18 00:27:24 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/19 03:22:04 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 
 extern int	g_signal_status;
 
+typedef struct s_exp
+{
+	char			**splited;
+	struct s_exp	*next;
+}	t_exp;
+
 typedef struct s_env
 {
 	char			*name;
@@ -50,6 +56,7 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**argv;
 	char			**delim;
+	int				is_qoute;
 	int				fd;
 	int				infile;
 	int				outfile;
@@ -80,6 +87,10 @@ typedef struct s_gc
 	void		*ptr;
 	struct s_gc	*next;
 }	t_gc;
+
+//dw
+void	print_args(t_cmd *lst);
+//dw
 
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
@@ -170,7 +181,7 @@ char	**handle_expand(t_cmd *lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
-int		perferm_heredoc(t_cmd *lst, char *delim);
+int		perferm_heredoc(t_cmd *lst, char *delim, int is_qoute);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
 int		get_delim_size(t_cmd *lst);
@@ -205,5 +216,9 @@ void	handling_my_argv(t_cmd *node);
 int		ft_isspace(char str);
 int		is_blank(char *str);
 int		check_line(char **res);
+char	*rm_quote(char *arg);
+void	ft_add_back(t_exp **lst, t_exp *new);
+t_exp	*last_node(t_exp *lst);
+t_exp	*ft_new_node(char *str);
 
 #endif

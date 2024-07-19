@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 19:43:37 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/19 03:56:21 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,42 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	return (cmd);
 }
 
-char	**handle_expand(t_cmd *lst)
-{
-	char	**str;
+// char	**handle_expand(t_cmd *lst)
+// {
+// 	t_exp	*cmd;
+// 	t_exp	*head;
+// 	char	**str;
+// 	int		i;
+// 	int		j;
 
-	str = ft_split(lst->argv[0], ' ');
-	return (str);
-}
+// 	head = NULL;
+// 	cmd = NULL;
+// 	i = -1;
+// 	while (lst->argv[++i])
+// 		if (ft_strchr(lst->argv[i], ' '))
+// 			ft_add_back(&head, ft_new_node(lst->argv[i]));
+// 	str = malloc(sizeof(char *) * 1000);
+// 	i = 0;
+// 	cmd = head;
+// 	while (cmd)
+// 	{
+// 		j = -1;
+// 		while (cmd->splited[++j])
+// 		{
+// 			str[i] = cmd->splited[j];
+// 			i++;
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		printf("str[%d]: %s\n", i, str[i]);
+// 		i++;
+// 	}
+// 	str[i] = NULL;
+// 	return (str);
+// }
 
 void	expand(t_cmd *lst, t_list *envp)
 {
@@ -122,11 +151,21 @@ void	expand(t_cmd *lst, t_list *envp)
 		while (lst->argv[i])
 		{
 			if (ft_strchr(lst->argv[i], '$'))
+			{
 				lst->argv[i] = expand_cmd(lst, envp, i);
+				if (ft_strsearch(lst->argv[i], ' '))
+					append_it(lst, &i);
+			}
 			i++;
 		}
-		if (ft_strchr(lst->argv[0], ' '))
-			lst->argv = handle_expand(lst);
+		i = 0;
+		while (lst->argv[i])
+		{
+			if (ft_strchr(lst->argv[i], ' '))
+				print_args(lst);
+			i++;
+		}
+		// 	lst->argv = handle_expand(lst);
 		lst = lst->next;
 	}
 }

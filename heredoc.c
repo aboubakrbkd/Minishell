@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/18 00:20:05 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/19 01:49:55 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	get_delim(t_cmd *lst)
 	{
 		if (!ft_strcmp(lst->argv[i], "<<"))
 		{
-			lst->delim[k] = ft_strdup(lst->argv[i + 1]);
+			if (ft_strchr(lst->argv[i + 1], '\''))
+				lst->is_qoute = 1;
+			lst->delim[k] = ft_strdup(rm_quote(lst->argv[i + 1]));
 			k++;
 		}
 		i++;
@@ -68,7 +70,7 @@ void	her_sin(int sig)
 	}
 }
 
-int	perferm_heredoc(t_cmd *lst, char *delim)
+int	perferm_heredoc(t_cmd *lst, char *delim, int is_qoute)
 {
 	char	*exp;
 	char	*tmp;
@@ -86,7 +88,7 @@ int	perferm_heredoc(t_cmd *lst, char *delim)
 				&& (ft_strlen(tmp) == ft_strlen(delim))))
 			break ;
 		exp = expand_variables(tmp);
-		if (exp && !ft_strsearch(delim, '\''))
+		if (exp && !is_qoute)
 		{
 			write(lst->fd, exp, ft_strlen(exp));
 			write(lst->fd, "\n", 1);
@@ -115,7 +117,7 @@ void	heredoc(t_cmd *lst)
 		while (lst->delim[++i])
 		{
 			tmp = creat_heroc(lst);
-			if (perferm_heredoc(lst, lst->delim[i]))
+			if (perferm_heredoc(lst, lst->delim[i], lst->is_qoute))
 			{
 				close(lst->fd);
 				unlink(tmp);
