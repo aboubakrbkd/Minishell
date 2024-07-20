@@ -6,41 +6,83 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 01:18:26 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/19 01:48:20 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:43:51 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*rm_quote(char *arg)
+int	count_single(char *input)
 {
+	int		count;
 	int		i;
-	int		j;
-	int		tr;
-	char	qoutes;
+	char	quote;
 
 	i = -1;
-	j = 0;
-	tr = 0;
-	while (arg[++i])
-	{
-		if (arg[i] == '\'' || arg[i] == '\"')
-		{
-			qoutes = arg[i], tr = 1;
-			break ;
-		}
-	}
+	count = 0;
+	quote = '\'';
 	i = -1;
-	while (++i < ft_strlen(arg))
+	while (input[++i])
 	{
-		if (arg[i] == qoutes && tr == 1)
+		if (input[i] == quote)
 		{
-			tr = 0;
+			count++;
 			continue ;
 		}
-		if (arg[i] != qoutes)
-			arg[j++] = arg[i];
 	}
-	arg[j] = '\0';
-	return (arg);
+	return (count);
 }
+
+int	count_double(char *input)
+{
+	int		count;
+	int		i;
+	char	quote;
+
+	i = -1;
+	count = 0;
+	quote = '\"';
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == quote)
+		{
+			count++;
+			continue ;
+		}
+	}
+	return (count);
+}
+
+char	*unquote(char	*input)
+{
+	int		len;
+	int		i;
+	int		in_single_quote;
+	int		in_double_quote;
+	char	*result;
+	char	*p;
+
+	if (count_single(input) == 2 && count_double(input) == 0)
+		return  (input);
+	len = ft_strlen(input);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	p = result;
+    in_single_quote = 0;
+    in_double_quote = 0;
+	i = -1;
+	while (++i < len)
+	{
+		if (input[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (input[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else
+			*p++ = input[i];
+	}
+	*p = '\0';
+	return (result);
+}
+

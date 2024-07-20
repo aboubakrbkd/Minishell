@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 05:21:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 23:40:48 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void build_arr_help(t_cmd **lst, char *res)
     (*lst)->cmd = ft_strdup(res);
     (*lst)->infile = 0;
     (*lst)->outfile = 1;
+    (*lst)->ambiguous = 0;
     (*lst)->next = NULL;
     free(splited);
 }
@@ -79,6 +80,8 @@ void	remove_quotes_from_arg(char *arg)
 	int		tr;
 	char	qoutes;
 
+    if (count_single(arg) == 1 && count_double(arg) == 0)
+		return  ;
 	i = -1;
 	j = 0;
 	tr = 0;

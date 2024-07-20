@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 05:33:39 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:40:32 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -61,6 +62,7 @@ typedef struct s_cmd
 	int				infile;
 	int				outfile;
 	int				is_heredoc;
+	int				ambiguous;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -71,16 +73,6 @@ typedef struct s_execute
 	int	fd_int;
 	int	fd_out;
 }			t_execute;
-
-typedef struct s_help
-{
-	char	*exp;
-	char	*name;
-	char	*end;
-	char	*start;
-	char	*dollar;
-	char	*var_value;
-}				t_help;
 
 typedef struct s_gc
 {
@@ -177,7 +169,6 @@ int		add_the_value(char *name, char *value, t_list *list);
 void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
-char	**handle_expand(t_cmd *lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
@@ -212,13 +203,14 @@ void	function_sigwuit(int sig);
 void	check_signals(void);
 void	remove_qoutes(t_cmd **lst);
 int		count_argv(t_cmd *node);
-void	handling_my_argv(t_cmd *node);
 int		ft_isspace(char str);
 int		is_blank(char *str);
 int		check_line(char **res);
-char	*rm_quote(char *arg);
 void	ft_add_back(t_exp **lst, t_exp *new);
 t_exp	*last_node(t_exp *lst);
 t_exp	*ft_new_node(char *str);
+char	*unquote(char* input);
+int		count_double(char *input);
+int		count_single(char *input);
 
 #endif

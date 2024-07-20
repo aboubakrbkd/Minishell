@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 05:51:23 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:41:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	main(int ac, char **av, char **env)
 		expand(lst, list);
 		remove_qoutes(&lst);
 		g_signal_status = 1;
-		handling_my_argv(lst);
 		tcgetattr(0, &copy);
 		execution(lst, list);
 		tcsetattr(0, 0, &copy);

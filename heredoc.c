@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/19 01:49:55 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:28:38 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	get_delim(t_cmd *lst)
 		{
 			if (ft_strchr(lst->argv[i + 1], '\''))
 				lst->is_qoute = 1;
-			lst->delim[k] = ft_strdup(rm_quote(lst->argv[i + 1]));
+			lst->delim[k] = ft_strdup(unquote(lst->argv[i + 1]));
 			k++;
 		}
 		i++;
@@ -114,6 +114,7 @@ void	heredoc(t_cmd *lst)
 	{
 		i = -1;
 		get_delim(lst);
+		printf("delim: %s\n", lst->delim[0]);
 		while (lst->delim[++i])
 		{
 			tmp = creat_heroc(lst);
@@ -123,6 +124,8 @@ void	heredoc(t_cmd *lst)
 				unlink(tmp);
 				break ;
 			}
+			if (lst->infile != 0)
+				close(lst->infile);
 			lst->infile = open(tmp, O_RDONLY);
 			close(lst->fd);
 			unlink(tmp);

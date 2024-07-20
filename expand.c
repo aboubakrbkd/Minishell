@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 05:33:29 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 23:46:43 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 			while (current[j] && current[j] != '\'')
 			{
 				cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+				printf("cmd: %s\n", cmd);
 				j++;
 			}
 			if (current[j] == '\'')
@@ -109,10 +110,12 @@ void	expand(t_cmd *lst, t_list *envp)
 	int		i;
 	int		j;
 	int		k;
+	int		tr;
     int		argv_size;
     char	*expanded;
     char	**splited;
 
+	tr = 0;
 	while (lst)
 	{
 		i = 0;
@@ -120,33 +123,48 @@ void	expand(t_cmd *lst, t_list *envp)
 		{
 			if (ft_strchr(lst->argv[i], '$'))
 			{
-				expanded = expand_cmd(lst, envp, i);
-				if (ft_strsearch(expanded, ' '))
+				if (ft_strsearch(lst->argv[i], '"'))
 				{
-					splited = ft_split(expanded, ' ');
-					argv_size = 0;
-					while (lst->argv[argv_size])
-						argv_size++;
-					j = 0;
-					while (splited[j])
-						j++;
-					k = argv_size;
-					while (k >= i)
+					lst->ambiguous = 2;
+					tr = 1;
+				}
+				if (ft_strsearch(lst->argv[i], '\''))
+					tr = 2;
+				if (tr == 1 || tr == 0)
+				{
+					expanded = expand_cmd(lst, envp, i);
+					if (ft_strsearch(expanded, ' ') && tr == 0)
 					{
-						lst->argv[k + j - 1] = lst->argv[k];
-						k--;
+						lst->ambiguous = 1;
+						splited = ft_split(expanded, ' ');
+						argv_size = 0;
+						while (lst->argv[argv_size])
+							argv_size++;
+						j = 0;
+						while (splited[j])
+							j++;
+						k = argv_size;
+						while (k >= i)
+						{
+							lst->argv[k + j - 1] = lst->argv[k];
+							k--;
+						}
+						j = 0;
+						k = i;
+						while (splited[j])
+						{
+							lst->argv[k] = ft_strdup(splited[j]);
+							k++;
+							j++;
+						}
 					}
-					j = 0;
-					k = i;
-					while (splited[j])
+					else
 					{
-						lst->argv[k] = ft_strdup(splited[j]);
-						k++;
-						j++;
+						lst->argv[i] = ft_strdup(expanded);
+						if (ft_strlen(lst->argv[i]) == 0 && lst->ambiguous != 2)
+							lst->ambiguous = 1;
 					}
 				}
-				else
-					lst->argv[i] = ft_strdup(expanded);
 			}
 			i++;
 		}
