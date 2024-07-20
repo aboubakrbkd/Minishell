@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 11:01:42 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:04:06 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*command(char *my_argv, char **envr)
 	if (!envr)
 		return (NULL);
 	path = get_path(envr);
+	if (!path)
+		return (NULL);
 	i = 0;
 	while (path[i])
 	{
@@ -105,6 +107,9 @@ char	**get_path(char **envr)
 			break ;
 		i++;
 	}
-	s = ft_split(envr[i] + 5, ':');
+	if (!envr[i])
+		return (NULL);
+	else
+		s = ft_split(envr[i] + 5, ':');
 	return (s);
 }
