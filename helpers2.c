@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:15:15 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 16:15:45 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 10:27:01 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	close_all(t_cmd *node, t_execute *exec)
 		close(node->infile);
 	if (node->outfile != 1)
 		close(node->outfile);
+	close(exec->fd[1]);
+	close(exec->fd[0]);
 	dup2(exec->fd_int, 0);
 	close(exec->fd_int);
 	dup2(exec->fd_out, 1);
