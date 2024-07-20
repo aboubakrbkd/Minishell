@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 05:33:39 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 06:47:29 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -177,7 +178,6 @@ int		add_the_value(char *name, char *value, t_list *list);
 void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		check_end(char *line);
-char	**handle_expand(t_cmd *lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst);
 char	*creat_heroc(t_cmd *lst);
@@ -216,9 +216,9 @@ void	handling_my_argv(t_cmd *node);
 int		ft_isspace(char str);
 int		is_blank(char *str);
 int		check_line(char **res);
-char	*rm_quote(char *arg);
 void	ft_add_back(t_exp **lst, t_exp *new);
 t_exp	*last_node(t_exp *lst);
 t_exp	*ft_new_node(char *str);
+char	*unquote(char* input);
 
 #endif

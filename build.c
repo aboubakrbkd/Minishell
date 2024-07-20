@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 05:21:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 07:05:07 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,34 +74,29 @@ t_cmd *build_arr(char **res)
 
 void	remove_quotes_from_arg(char *arg)
 {
+	int		len;
 	int		i;
-	int		j;
-	int		tr;
-	char	qoutes;
+	int		in_single_quote;
+	int		in_double_quote;
+	char	*result;
+	char	*p;
 
+	len = ft_strlen(arg);
+	result = malloc(len + 1);
+	if (!result)
+		return ;
+	(1) && (p = result, in_single_quote = 0, in_double_quote = 0, 0);
 	i = -1;
-	j = 0;
-	tr = 0;
-	while (arg[++i])
+	while (++i < len)
 	{
-		if (arg[i] == '\'' || arg[i] == '\"')
-		{
-			qoutes = arg[i], tr = 1;
-			break ;
-		}
+		if (arg[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (arg[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else
+			*p++ = arg[i];
 	}
-	i = -1;
-	while (++i < ft_strlen(arg))
-	{
-		if (arg[i] == qoutes && tr == 1)
-		{
-			tr = 0;
-			continue ;
-		}
-		if (arg[i] != qoutes)
-			arg[j++] = arg[i];
-	}
-	arg[j] = '\0';
+	*p = '\0';
 }
 
 void	process_argv(char **argv)

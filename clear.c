@@ -6,41 +6,37 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 01:18:26 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/19 01:48:20 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 07:02:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*rm_quote(char *arg)
+char	*unquote(char* input)
 {
+	int		len;
 	int		i;
-	int		j;
-	int		tr;
-	char	qoutes;
+	int		in_single_quote;
+	int		in_double_quote;
+	char	*result;
+	char	*p;
 
+	len = ft_strlen(input);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	(1) && (p = result, in_single_quote = 0, in_double_quote = 0, 0);
 	i = -1;
-	j = 0;
-	tr = 0;
-	while (arg[++i])
+	while (++i < len)
 	{
-		if (arg[i] == '\'' || arg[i] == '\"')
-		{
-			qoutes = arg[i], tr = 1;
-			break ;
-		}
+		if (input[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (input[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else
+			*p++ = input[i];
 	}
-	i = -1;
-	while (++i < ft_strlen(arg))
-	{
-		if (arg[i] == qoutes && tr == 1)
-		{
-			tr = 0;
-			continue ;
-		}
-		if (arg[i] != qoutes)
-			arg[j++] = arg[i];
-	}
-	arg[j] = '\0';
-	return (arg);
+	*p = '\0';
+	return (result);
 }
+
