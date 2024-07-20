@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+int	count_quotes(char *input)
+{
+	int		count;
+	int		i;
+	char	quote;
+
+	i = -1;
+	count = 0;
+	while (input[++i])
+		if (input[i] == '\'' || input[i] == '"')
+			quote = input[i];
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == quote)
+		{
+			count++;
+			continue ;
+		}
+	}
+	return (count);
+}
+
 char	*unquote(char* input)
 {
 	int		len;
@@ -21,11 +44,15 @@ char	*unquote(char* input)
 	char	*result;
 	char	*p;
 
+	if (count_quotes(input) == 2)
+		return (input);
 	len = ft_strlen(input);
 	result = malloc(len + 1);
 	if (!result)
 		return (NULL);
-	(1) && (p = result, in_single_quote = 0, in_double_quote = 0, 0);
+	p = result;
+    in_single_quote = 0;
+    in_double_quote = 0;
 	i = -1;
 	while (++i < len)
 	{

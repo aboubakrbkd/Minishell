@@ -118,10 +118,14 @@ int	main(int ac, char **av, char **env)
 		if (!lst)
 			continue ;
 		back_to_ascii(lst);
+		print_args(lst);
 		if (is_heredoc(lst))
 			heredoc(lst);
+		print_args(lst);
 		expand(lst, list);
+		print_args(lst);
 		remove_qoutes(&lst);
+		print_args(lst);
 		g_signal_status = 1;
 		handling_my_argv(lst);
 		tcgetattr(0, &copy);

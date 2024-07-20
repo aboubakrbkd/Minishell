@@ -74,29 +74,34 @@ t_cmd *build_arr(char **res)
 
 void	remove_quotes_from_arg(char *arg)
 {
-	int		len;
 	int		i;
-	int		in_single_quote;
-	int		in_double_quote;
-	char	*result;
-	char	*p;
+	int		j;
+	int		tr;
+	char	qoutes;
 
-	len = ft_strlen(arg);
-	result = malloc(len + 1);
-	if (!result)
-		return ;
-	(1) && (p = result, in_single_quote = 0, in_double_quote = 0, 0);
 	i = -1;
-	while (++i < len)
+	j = 0;
+	tr = 0;
+	while (arg[++i])
 	{
-		if (arg[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (arg[i] == '"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
-		else
-			*p++ = arg[i];
+		if (arg[i] == '\'' || arg[i] == '\"')
+		{
+			qoutes = arg[i], tr = 1;
+			break ;
+		}
 	}
-	*p = '\0';
+	i = -1;
+	while (++i < ft_strlen(arg))
+	{
+		if (arg[i] == qoutes && tr == 1)
+		{
+			tr = 0;
+			continue ;
+		}
+		if (arg[i] != qoutes)
+			arg[j++] = arg[i];
+	}
+	arg[j] = '\0';
 }
 
 void	process_argv(char **argv)
