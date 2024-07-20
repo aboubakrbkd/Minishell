@@ -21,7 +21,7 @@ int	count_quotes(char *input)
 	i = -1;
 	count = 0;
 	while (input[++i])
-		if (input[i] == '\'' || input[i] == '"')
+		if (input[i] == '\'')
 			quote = input[i];
 	i = -1;
 	while (input[++i])
