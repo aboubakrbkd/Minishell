@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 08:30:07 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:06:01 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ int	check_end(char *line)
 	return (0);
 }
 
-int    check_line(char **res)
+int	check_line(char **res)
 {
-    int    i;
-    int    j;
-    int    tr;
+	int	i;
+	int	j;
+	int	tr;
 
 	i = 0;
 	tr = 0;

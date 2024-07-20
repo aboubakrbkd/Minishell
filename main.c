@@ -1,26 +1,38 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/20 09:06:14 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/07/20 09:08:09 by aboukdid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int **g = NULL;
+// #include <stdlib.h>
 
-void free_g1() {
-  free(g);
-  g = NULL;
-}
+// int **g = NULL;
 
-void free_g2() {
-  if (g != NULL)
-    free(*g);
-}
+// void free_g1() {
+//   free(g);
+//   g = NULL;
+// }
 
-void f() {
-  *g = (int *)malloc(sizeof(int));
-  atexit(free_g1);
-  exit(1);
-}
+// void free_g2() {
+//   if (g != NULL)
+//     free(*g);
+// }
 
-int main() {
-  g = (int **)malloc(sizeof(int *));
-  atexit(free_g2);
-  f();
-  return 0;
-}
+// void f() {
+//   *g = (int *)malloc(sizeof(int));
+//   atexit(free_g1);
+//   exit(1);
+// }
+
+// int main() {
+//   g = (int **)malloc(sizeof(int *));
+//   atexit(free_g2);
+//   f();
+//   return 0;
+// }

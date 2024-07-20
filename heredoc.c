@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/19 01:49:55 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 09:09:39 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ int	is_heredoc(t_cmd *lst)
 		lst->is_heredoc = 0;
 		while (lst->argv[i] && lst->argv[i + 1])
 		{
-			if (!ft_strcmp(lst->argv[i], "<<") && ft_strcmp(lst->argv[i + 1], "<"))
+			if (!ft_strcmp(lst->argv[i], "<<")
+				&& ft_strcmp(lst->argv[i + 1], "<"))
 			{
 				lst->is_heredoc = 1;
 				res = 1;

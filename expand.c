@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 08:29:07 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:08:57 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ void	expand(t_cmd *lst, t_list *envp)
 	int		i;
 	int		j;
 	int		k;
-    int		argv_size;
-    char	*expanded;
-    char	**splited;
+	int		argv_size;
+	char	*expanded;
+	char	**splited;
 
 	while (lst)
 	{

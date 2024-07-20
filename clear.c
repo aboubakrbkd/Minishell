@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 01:18:26 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/19 01:48:20 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 09:03:17 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*rm_quote(char *arg)
 	{
 		if (arg[i] == '\'' || arg[i] == '\"')
 		{
-			qoutes = arg[i], tr = 1;
+			qoutes = arg[i];
+			tr = 1;
 			break ;
 		}
 	}

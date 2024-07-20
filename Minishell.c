@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 08:33:02 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:08:03 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 int	g_signal_status;
 
-void	print_args(t_cmd *lst)
-{
-	int	x = 0;
+// void	print_args(t_cmd *lst)
+// {
+// 	int	x = 0;
 
-	while (lst)
-	{
-		printf("lst %d :\n", x);
-		int	i = 0;
-		while (lst->argv[i])
-		{
-			printf("lst->argv[%d]: %s\n", i, lst->argv[i]);
-			i++;
-		}
-		lst = lst->next;
-		x++;
-	}
-	printf("\n");
-}
+// 	while (lst)
+// 	{
+// 		printf("lst %d :\n", x);
+// 		int	i = 0;
+// 		while (lst->argv[i])
+// 		{
+// 			printf("lst->argv[%d]: %s\n", i, lst->argv[i]);
+// 			i++;
+// 		}
+// 		lst = lst->next;
+// 		x++;
+// 	}
+// 	printf("\n");
+// }
 
 void	free_cmd_lst(t_cmd *lst)
 {
@@ -68,14 +68,15 @@ void	free_list(t_list *list)
 
 void	handling_shlvl(t_list *list)
 {
-	char *shl_lvl;
-	
+	char	*shl_lvl;
+
 	shl_lvl = my_getenv("SHLVL", list);
 	if (!shl_lvl)
 		update_env("SHLVL", "1", list);
 	else if (ft_atoi(shl_lvl) > 999)
 	{
-		printf("Minishell: warning: shell level (1000) too high, resetting to 1\n");
+		printf("Minishell: warning: shell level ");
+		printf("(%d) too high, resetting to 1\n", ft_atoi(shl_lvl));
 		update_env("SHLVL", "1", list);
 	}
 	else if (ft_atoi(shl_lvl) < 0)
@@ -98,7 +99,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	g_signal_status = 0;
 	lst = NULL;
-	list = malloc(sizeof(t_list)); // free on exit builtin
+	list = malloc(sizeof(t_list));
 	if (ac != 1 || !list)
 		return (1);
 	list->envs = env_init(env);

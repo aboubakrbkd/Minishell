@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list.c                                      :+:      :+:    :+:   */
+/*   linked_list_helper.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 16:25:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 09:11:08 by aboukdid         ###   ########.fr       */
+/*   Created: 2024/07/20 09:10:51 by aboukdid          #+#    #+#             */
+/*   Updated: 2024/07/20 09:11:13 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_lstnew(char *name, char *value)
+t_exp	*ft_new_node(char *str)
 {
-	t_env	*new;
+	t_exp	*new;
 
-	new = malloc(sizeof(t_env));
+	new = malloc(sizeof(t_exp));
 	if (new)
 	{
-		new->name = ft_strdup(name);
-		new->value = ft_strdup(value);
+		new->splited = ft_split(str, ' ');
 		new->next = NULL;
 	}
 	return (new);
 }
 
-t_env	*ft_lstlast(t_env *lst)
+t_exp	*last_node(t_exp *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -35,29 +34,15 @@ t_env	*ft_lstlast(t_env *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_env **lst, t_env *new)
+void	ft_add_back(t_exp **lst, t_exp *new)
 {
-	t_env	*last;
+	t_exp	*last;
 
 	if (*lst == NULL)
 		*lst = new;
 	else
 	{
-		last = ft_lstlast(*lst);
+		last = last_node(*lst);
 		last->next = new;
 	}
 }
-
-int	env_size(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
-

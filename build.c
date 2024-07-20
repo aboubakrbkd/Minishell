@@ -6,70 +6,68 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 08:27:13 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:02:43 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void build_arr_help(t_cmd **lst, char *res)
+void	build_arr_help(t_cmd **lst, char *res)
 {
-    char **splited;
-    int i;
+	char	**splited;
+	int		i;
 
-    splited = ft_split(res, ' ');
-    (*lst)->argv = malloc(1000 * sizeof(char *));
-    if (!(*lst)->argv)
-    {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    i = 0;
-    while (splited[i])
-    {
-        (*lst)->argv[i] = ft_strdup(splited[i]);
-        i++;
-    }
-    (*lst)->argv[i] = NULL;
-
-    (*lst)->cmd = ft_strdup(res);
-    (*lst)->infile = 0;
-    (*lst)->outfile = 1;
-    (*lst)->next = NULL;
-    free(splited);
+	splited = ft_split(res, ' ');
+	(*lst)->argv = malloc(1000 * sizeof(char *));
+	if (!(*lst)->argv)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (splited[i])
+	{
+		(*lst)->argv[i] = ft_strdup(splited[i]);
+		i++;
+	}
+	(*lst)->argv[i] = NULL;
+	(*lst)->cmd = ft_strdup(res);
+	(*lst)->infile = 0;
+	(*lst)->outfile = 1;
+	(*lst)->next = NULL;
+	free(splited);
 }
 
-t_cmd *build_arr(char **res)
+t_cmd	*build_arr(char **res)
 {
-    int i;
-    t_cmd *node;
-    t_cmd *final;
-    t_cmd *new_node;
+	int		i;
+	t_cmd	*node;
+	t_cmd	*final;
+	t_cmd	*new_node;
 
-    i = -1;
-    final = NULL;
-    while (res[++i])
-    {
-        new_node = malloc(sizeof(t_cmd));
-        if (!new_node)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-        build_arr_help(&new_node, res[i]);
-        if (final == NULL)
-        {
-            final = new_node;
-            node = final;
-        }
-        else
-        {
-            node->next = new_node;
-            node = node->next;
-        }
-    }
-    return (final);
+	i = -1;
+	final = NULL;
+	while (res[++i])
+	{
+		new_node = malloc(sizeof(t_cmd));
+		if (!new_node)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+		build_arr_help(&new_node, res[i]);
+		if (final == NULL)
+		{
+			final = new_node;
+			node = final;
+		}
+		else
+		{
+			node->next = new_node;
+			node = node->next;
+		}
+	}
+	return (final);
 }
 
 void	remove_quotes_from_arg(char *arg)
@@ -86,7 +84,8 @@ void	remove_quotes_from_arg(char *arg)
 	{
 		if (arg[i] == '\'' || arg[i] == '\"')
 		{
-			qoutes = arg[i], tr = 1;
+			qoutes = arg[i];
+			tr = 1;
 			break ;
 		}
 	}
