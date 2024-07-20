@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 10:37:48 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:43:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,27 +119,26 @@ void	handle_commands(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 void	execution(t_cmd *node, t_list *list)
 {
 	char		**envr;
-	t_execute	*exec;
+	t_execute	exec;
 
-	exec = malloc(sizeof(t_execute));
-	exec->fd_int = dup(0);
-	exec->fd_out = dup(1);
+	exec.fd_int = dup(0);
+	exec.fd_out = dup(1);
 	envr = env_to_char_array(list->envs);
-	if (check_if_built(node, list, exec))
+	if (check_if_built(node, list, &exec))
 		return ;
 	while (node->next)
 	{
-		handle_commands(node, list, exec, envr);
+		handle_commands(node, list, &exec, envr);
 		if (node->infile != 0)
 			close(node->infile);
 		if (node->outfile != 1)
 			close(node->outfile);
-		close(exec->fd[1]);
-		dup2(exec->fd[0], 0);
-		close(exec->fd[0]);
+		close((&exec)->fd[1]);
+		dup2((&exec)->fd[0], 0);
+		close((&exec)->fd[0]);
 		node = node->next;
 	}
-	hand_l_command(node, list, exec, envr);
-	close_all(node, exec);
-	waits(exec);
+	hand_l_command(node, list, &exec, envr);
+	close_all(node, &exec);
+	waits(&exec);
 }
