@@ -6,13 +6,13 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/18 11:43:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 08:28:35 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_all_num(char *s)
+int    is_all_num(char *s)
 {
 	while (*s == ' ')
 		s++;
@@ -33,26 +33,26 @@ int	is_all_num(char *s)
 	return (0);
 }
 
-int	exit_functions_help(char *argv1, int state)
+int    exit_functions_help(char *argv1, int state)
 {
-	if (state == -1)
-	{
-		ex_st(256 + ft_atoi(argv1), 1);
-		exit(256 + ft_atoi(argv1));
-	}
-	else if (state == 1)
-	{
-		ex_st(ft_atoi(argv1) % 256, 1);
-		exit(ft_atoi(argv1) % 256);
-	}
-	else
-	{
-		ex_st(ft_atoi(argv1), 1);
-		exit(ft_atoi(argv1));
-	}
+    if (state == -1)
+    {
+        ex_st(256 + ft_atoi(argv1), 1);
+        exit(256 + ft_atoi(argv1));
+    }
+    else if (state == 1)
+    {
+        ex_st(ft_atoi(argv1) % 256, 1);
+        exit(ft_atoi(argv1) % 256);
+    }
+    else
+    {
+        ex_st(ft_atoi(argv1), 1);
+        exit(ft_atoi(argv1));
+    }
 }
 
-int	exit_function(char **argv)
+int    exit_function(char **argv)
 {
 	printf("exit\n");
 	if (argv[1] == NULL)

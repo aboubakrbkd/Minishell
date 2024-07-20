@@ -6,11 +6,13 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/18 13:02:26 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 08:33:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_signal_status;
 
 void	print_args(t_cmd *lst)
 {
@@ -64,6 +66,26 @@ void	free_list(t_list *list)
 	free(list);
 }
 
+void	handling_shlvl(t_list *list)
+{
+	char *shl_lvl;
+	
+	shl_lvl = my_getenv("SHLVL", list);
+	if (!shl_lvl)
+		update_env("SHLVL", "1", list);
+	else if (ft_atoi(shl_lvl) > 999)
+	{
+		printf("Minishell: warning: shell level (1000) too high, resetting to 1\n");
+		update_env("SHLVL", "1", list);
+	}
+	else if (ft_atoi(shl_lvl) < 0)
+		update_env("SHLVL", "0", list);
+	else if (ft_atoi(shl_lvl) == 999)
+		update_env("SHLVL", "", list);
+	else
+		add_the_value("SHLVL", ft_itoa(ft_atoi(shl_lvl) + 1), list);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char			*temp;
@@ -81,6 +103,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	list->envs = env_init(env);
 	rl_catch_signals = 0;
+	handling_shlvl(list);
 	while (1)
 	{
 		check_signals();
@@ -116,11 +139,11 @@ int	main(int ac, char **av, char **env)
 		if (!lst)
 			continue ;
 		back_to_ascii(lst);
-		remove_qoutes(&lst);
-		expand(lst, list);
-		g_signal_status = 1;
 		if (is_heredoc(lst))
 			heredoc(lst);
+		expand(lst, list);
+		remove_qoutes(&lst);
+		g_signal_status = 1;
 		handling_my_argv(lst);
 		tcgetattr(0, &copy);
 		execution(lst, list);

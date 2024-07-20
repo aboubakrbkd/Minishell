@@ -1,5 +1,28 @@
 {
+<<<<<<< HEAD
 	"files.associations": {
 		"__locale": "c"
 	}
+=======
+    "files.associations": {
+        "minishell.h": "c",
+        "__bit_reference": "c",
+        "__functional_base": "c",
+        "__node_handle": "c",
+        "algorithm": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "__memory": "c",
+        "functional": "c",
+        "iterator": "c",
+        "limits": "c",
+        "memory": "c",
+        "optional": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "vector": "c"
+    }
+>>>>>>> 0254c4db5c892cb3bab024f2ac6f48a06ac2537c
 }

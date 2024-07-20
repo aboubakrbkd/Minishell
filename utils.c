@@ -56,11 +56,10 @@ void	update_env(char *name, char *value, t_list *list)
 	}
 }
 
-void	update_pwd(char *path, t_list *list)
+void	update_pwd(t_list *list)
 {
 	char	*home;
 
-	path = NULL;
 	update_env("OLDPWD", my_getenv("PWD", list), list);
 	home = getcwd(NULL, 0);
 	update_env("PWD", home, list);

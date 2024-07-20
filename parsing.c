@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/18 19:41:23 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 08:30:07 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,23 @@ int    check_line(char **res)
     int    j;
     int    tr;
 
-    i = 0;
-    tr = 0;
-    while (res[i])
-    {
-        j = 0;
-        tr = 0;
-        while (res[i][j])
-        {
-            if (res[i][j] == '<')
-                tr++;
-            j++;
-        }
-        if (tr > 2)
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	tr = 0;
+	while (res[i])
+	{
+		j = 0;
+		tr = 0;
+		while (res[i][j])
+		{
+			if (res[i][j] == '<')
+				tr++;
+			j++;
+		}
+		if (tr > 2)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	syn_error(char *line)
