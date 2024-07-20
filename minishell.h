@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 08:29:56 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:41:59 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_cmd
 	int				outfile;
 	int				is_heredoc;
 	struct s_cmd	*next;
+	struct termios	copy;
 }					t_cmd;
 
 typedef struct s_execute

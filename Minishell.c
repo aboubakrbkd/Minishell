@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 15:40:34 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:43:00 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int ac, char **av, char **env)
 	t_list			*list;
 	char			*str;
 	char			**res;
-	struct termios	copy;
 
 	(void)av;
 	g_signal_status = 0;
@@ -146,9 +145,9 @@ int	main(int ac, char **av, char **env)
 		remove_qoutes(&lst);
 		g_signal_status = 1;
 		handling_my_argv(lst); // it need to  be removed
-		tcgetattr(0, &copy);
+		tcgetattr(0, &lst->copy);
 		execution(lst, list);
-		tcsetattr(0, 0, &copy);
+		tcsetattr(0, 0, &lst->copy);
 		g_signal_status = 0;
 		free_cmd_lst(lst);
 		free(str);
