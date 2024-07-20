@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 22:05:12 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:35:57 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void	expand(t_cmd *lst, t_list *envp)
 					expanded = expand_cmd(lst, envp, i);
 					if (ft_strsearch(expanded, ' ') && tr == 0)
 					{
+						lst->ambiguous = 1;
 						splited = ft_split(expanded, ' ');
 						argv_size = 0;
 						while (lst->argv[argv_size])

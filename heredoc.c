@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 06:47:36 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:28:38 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	heredoc(t_cmd *lst)
 				unlink(tmp);
 				break ;
 			}
+			if (lst->infile != 0)
+				close(lst->infile);
 			lst->infile = open(tmp, O_RDONLY);
 			close(lst->fd);
 			unlink(tmp);

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 21:36:27 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:40:32 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_cmd
 	int				infile;
 	int				outfile;
 	int				is_heredoc;
+	int				ambiguous;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -72,16 +73,6 @@ typedef struct s_execute
 	int	fd_int;
 	int	fd_out;
 }			t_execute;
-
-typedef struct s_help
-{
-	char	*exp;
-	char	*name;
-	char	*end;
-	char	*start;
-	char	*dollar;
-	char	*var_value;
-}				t_help;
 
 typedef struct s_gc
 {
@@ -212,7 +203,6 @@ void	function_sigwuit(int sig);
 void	check_signals(void);
 void	remove_qoutes(t_cmd **lst);
 int		count_argv(t_cmd *node);
-void	handling_my_argv(t_cmd *node);
 int		ft_isspace(char str);
 int		is_blank(char *str);
 int		check_line(char **res);
