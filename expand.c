@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/16 19:43:37 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 05:33:29 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,14 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	return (cmd);
 }
 
-char	**handle_expand(t_cmd *lst)
-{
-	char	**str;
-
-	str = ft_split(lst->argv[0], ' ');
-	return (str);
-}
-
 void	expand(t_cmd *lst, t_list *envp)
 {
 	int		i;
+	int		j;
+	int		k;
+    int		argv_size;
+    char	*expanded;
+    char	**splited;
 
 	while (lst)
 	{
@@ -122,11 +119,37 @@ void	expand(t_cmd *lst, t_list *envp)
 		while (lst->argv[i])
 		{
 			if (ft_strchr(lst->argv[i], '$'))
-				lst->argv[i] = expand_cmd(lst, envp, i);
+			{
+				expanded = expand_cmd(lst, envp, i);
+				if (ft_strsearch(expanded, ' '))
+				{
+					splited = ft_split(expanded, ' ');
+					argv_size = 0;
+					while (lst->argv[argv_size])
+						argv_size++;
+					j = 0;
+					while (splited[j])
+						j++;
+					k = argv_size;
+					while (k >= i)
+					{
+						lst->argv[k + j - 1] = lst->argv[k];
+						k--;
+					}
+					j = 0;
+					k = i;
+					while (splited[j])
+					{
+						lst->argv[k] = ft_strdup(splited[j]);
+						k++;
+						j++;
+					}
+				}
+				else
+					lst->argv[i] = ft_strdup(expanded);
+			}
 			i++;
 		}
-		if (ft_strchr(lst->argv[0], ' '))
-			lst->argv = handle_expand(lst);
 		lst = lst->next;
 	}
 }
