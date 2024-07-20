@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:09:26 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/20 22:39:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 23:47:14 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	checking_ambigious(t_cmd *node, int *index)
 
 	o = 0;
 	tmp = node;
-	if (!ft_strlen(node->argv[*index + 1]) || node->ambiguous == 1)
+	(void) index;
+	if (node->ambiguous == 1)
 	{
 		write(2, "ambiguous redirect\n", 19);
 		while (tmp->argv[o])
