@@ -6,13 +6,13 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 01:18:26 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 07:02:23 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:43:51 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_quotes(char *input)
+int	count_single(char *input)
 {
 	int		count;
 	int		i;
@@ -20,9 +20,7 @@ int	count_quotes(char *input)
 
 	i = -1;
 	count = 0;
-	while (input[++i])
-		if (input[i] == '\'')
-			quote = input[i];
+	quote = '\'';
 	i = -1;
 	while (input[++i])
 	{
@@ -35,7 +33,28 @@ int	count_quotes(char *input)
 	return (count);
 }
 
-char	*unquote(char* input)
+int	count_double(char *input)
+{
+	int		count;
+	int		i;
+	char	quote;
+
+	i = -1;
+	count = 0;
+	quote = '\"';
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == quote)
+		{
+			count++;
+			continue ;
+		}
+	}
+	return (count);
+}
+
+char	*unquote(char	*input)
 {
 	int		len;
 	int		i;
@@ -44,6 +63,8 @@ char	*unquote(char* input)
 	char	*result;
 	char	*p;
 
+	if (count_single(input) == 2 && count_double(input) == 0)
+		return  (input);
 	len = ft_strlen(input);
 	result = malloc(len + 1);
 	if (!result)

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 06:47:29 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:36:27 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void	ft_add_back(t_exp **lst, t_exp *new);
 t_exp	*last_node(t_exp *lst);
 t_exp	*ft_new_node(char *str);
 char	*unquote(char* input);
-int		count_quotes(char *input);
+int		count_double(char *input);
+int		count_single(char *input);
 
 #endif
