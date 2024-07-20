@@ -44,8 +44,6 @@ char	*unquote(char* input)
 	char	*result;
 	char	*p;
 
-	if (count_quotes(input) == 2)
-		return (input);
 	len = ft_strlen(input);
 	result = malloc(len + 1);
 	if (!result)

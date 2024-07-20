@@ -82,6 +82,8 @@ void	remove_quotes_from_arg(char *arg)
 	i = -1;
 	j = 0;
 	tr = 0;
+    if (count_quotes(arg) == 2)
+		return  ;
 	while (arg[++i])
 	{
 		if (arg[i] == '\'' || arg[i] == '\"')

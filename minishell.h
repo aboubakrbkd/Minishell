@@ -220,5 +220,6 @@ void	ft_add_back(t_exp **lst, t_exp *new);
 t_exp	*last_node(t_exp *lst);
 t_exp	*ft_new_node(char *str);
 char	*unquote(char* input);
+int		count_quotes(char *input);
 
 #endif
