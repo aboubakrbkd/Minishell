@@ -6,37 +6,11 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 10:51:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:22:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	get_delim(t_cmd *lst)
-{
-	int	i;
-	int	k;
-	int	delim_size;
-
-	delim_size = get_delim_size(lst) * 2;
-	lst->delim = malloc(sizeof(char *) * delim_size + 1);
-	if (!lst->delim)
-		return ;
-	i = 0;
-	k = 0;
-	while (lst->argv[i] && lst->argv[i + 1])
-	{
-		if (!ft_strcmp(lst->argv[i], "<<"))
-		{
-			if (ft_strchr(lst->argv[i + 1], '\''))
-				lst->is_qoute = 1;
-			lst->delim[k] = ft_strdup(rm_quote(lst->argv[i + 1]));
-			k++;
-		}
-		i++;
-	}
-	lst->delim[k] = NULL;
-}
 
 void	her_sin(int sig)
 {
@@ -46,7 +20,6 @@ void	her_sin(int sig)
 		ex_st(1, 1);
 	}
 }
-
 
 int	perferm_heredoc(t_cmd *lst, char *delim, int is_qoute)
 {
