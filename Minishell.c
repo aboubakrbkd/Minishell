@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 19:43:00 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:45:44 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1 || !list)
 		return (1);
 	list->envs = env_init(env);
-	rl_catch_signals = 0;
 	handling_shlvl(list);
 	while (1)
 	{

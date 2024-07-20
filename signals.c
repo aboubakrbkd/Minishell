@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:25:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 17:26:06 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:45:22 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	function_sigwuit(int sig)
 
 void	check_signals(void)
 {
+	rl_catch_signals = 0;
 	signal(SIGINT, function_sigint);
 	signal(SIGQUIT, function_sigwuit);
 }
