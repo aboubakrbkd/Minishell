@@ -114,6 +114,7 @@ void	expand(t_cmd *lst, t_list *envp)
     int		argv_size;
     char	*expanded;
     char	**splited;
+	char	*tmp;
 
 	tr = 0;
 	while (lst)
@@ -121,6 +122,7 @@ void	expand(t_cmd *lst, t_list *envp)
 		i = 0;
 		while (lst->argv[i])
 		{
+			tmp = lst->argv[i];
 			if (ft_strchr(lst->argv[i], '$'))
 			{
 				if (ft_strsearch(lst->argv[i], '"'))
@@ -163,6 +165,8 @@ void	expand(t_cmd *lst, t_list *envp)
 					}
 				}
 			}
+			if (!lst->argv[i])
+				lst->argv[i] = ft_strdup(tmp);
 			i++;
 		}
 		lst = lst->next;

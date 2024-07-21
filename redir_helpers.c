@@ -49,7 +49,8 @@ void	check_ambg(t_cmd *lst)
 				if (ft_strchr(lst->argv[i + 1], '\"'))
 					lst->ambiguous = 0;
 				else if (!ft_strchr(lst->argv[i + 1], '\"')
-					&& !ft_strchr(lst->argv[i + 1], '\''))
+					&& !ft_strchr(lst->argv[i + 1], '\'')
+					&& ft_strchr(lst->argv[i + 1], '$'))
 					lst->ambiguous = 1;
 				else if (ft_strchr(lst->argv[i + 1], '\''))
 					lst->ambiguous = 0;
