@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 19:45:44 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:34:12 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	free_list(t_list *list)
 void	handling_shlvl(t_list *list)
 {
 	char	*shl_lvl;
+	char	*lvl;
 
 	shl_lvl = my_getenv("SHLVL", list);
 	if (!shl_lvl)
@@ -84,7 +85,13 @@ void	handling_shlvl(t_list *list)
 	else if (ft_atoi(shl_lvl) == 999)
 		update_env("SHLVL", "", list);
 	else
-		add_the_value("SHLVL", ft_itoa(ft_atoi(shl_lvl) + 1), list);
+	{
+		lvl = ft_itoa(ft_atoi(shl_lvl) + 1);
+		if(!lvl)
+			exit(EXIT_FAILURE);
+		add_the_value("SHLVL", lvl, list);
+		free(lvl);
+	}
 }
 
 int	main(int ac, char **av, char **env)
