@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 22:41:01 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/21 01:43:20 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,10 @@ int	main(int ac, char **av, char **env)
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst);
+		check_ambg(lst);
 		expand(lst, list);
 		remove_qoutes(&lst);
+		print_args(lst);
 		g_signal_status = 1;
 		tcgetattr(0, &copy);
 		execution(lst, list);

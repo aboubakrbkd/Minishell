@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 22:40:32 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/21 01:30:53 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	build_arr_help(t_cmd **lst, char *res);
 int		split_stlen(char **str);
 int		checking_error(t_cmd *node, int index);
 void	new_array(t_cmd *node, int *index, int j);
-int		checking_ambigious(t_cmd *node, int *index);
+int		checking_ambigious(t_cmd *node);
 int		split_stlen(char **str);
 int		checking_error(t_cmd *node, int index);
 int		is_builtin(t_cmd *cmd, t_list *list);
@@ -212,5 +212,6 @@ t_exp	*ft_new_node(char *str);
 char	*unquote(char* input);
 int		count_double(char *input);
 int		count_single(char *input);
+void	check_ambg(t_cmd *lst);
 
 #endif

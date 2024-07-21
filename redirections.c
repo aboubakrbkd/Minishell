@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 14:11:43 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/21 01:32:21 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	redirect_out_append(t_cmd *node, int *index, int flags)
 {
 	int		j;
 
-	if (checking_ambigious(node, index) == 1)
+	if (checking_ambigious(node) == 1)
 		return (1);
 	if (node->argv[*index + 1])
 	{
@@ -45,7 +45,7 @@ int	redirect_in(t_cmd *node, int *index, int flags)
 {
 	int		j;
 
-	if (checking_ambigious(node, index) == 1)
+	if (checking_ambigious(node) == 1)
 		return (1);
 	if (node->argv[*index + 1])
 	{
@@ -73,7 +73,7 @@ int	redirect_out(t_cmd *node, int *index, int flags)
 {
 	int		j;
 
-	if (checking_ambigious(node, index) == 1)
+	if (checking_ambigious(node) == 1)
 		return (1);
 	if (node->argv[*index + 1])
 	{
