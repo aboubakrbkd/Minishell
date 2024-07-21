@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 23:46:43 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/21 01:37:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,7 @@ void	expand(t_cmd *lst, t_list *envp)
 			if (ft_strchr(lst->argv[i], '$'))
 			{
 				if (ft_strsearch(lst->argv[i], '"'))
-				{
-					lst->ambiguous = 2;
 					tr = 1;
-				}
 				if (ft_strsearch(lst->argv[i], '\''))
 					tr = 2;
 				if (tr == 1 || tr == 0)
@@ -161,8 +158,8 @@ void	expand(t_cmd *lst, t_list *envp)
 					else
 					{
 						lst->argv[i] = ft_strdup(expanded);
-						if (ft_strlen(lst->argv[i]) == 0 && lst->ambiguous != 2)
-							lst->ambiguous = 1;
+						if (ft_strlen(expanded) == 0 && lst->ambiguous == 0)
+							lst->argv[i] = NULL;
 					}
 				}
 			}
