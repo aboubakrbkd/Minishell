@@ -122,6 +122,7 @@ int	main(int ac, char **av, char **env)
 			heredoc(lst);
 		check_ambg(lst);
 		expand(lst, list);
+		print_args(lst);
 		remove_qoutes(&lst);
 		g_signal_status = 1;
 		tcgetattr(0, &copy);
