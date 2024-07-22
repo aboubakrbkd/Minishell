@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 01:47:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 05:00:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ int		unset(char **argv, t_env **envps);
 void	pwd(char **args, t_list *list, int outfile);
 void	export(char **argv, t_list *list, int outfile);
 int		syn_error(char *line);
-int		syn_error2(char **res);
-int		syn_error3(char **res);
+int		syn_err_chars(int c);
+int		last_check(int c);
+int		is_red(int c);
+int		double_red(char *s);
 void	free_array(char **arr);
 char	*add_space(char *line);
 void	second_case(char *str, char *line, int *i, int *j);
@@ -212,5 +214,6 @@ t_exp	*ft_new_node(char *str);
 char	*unquote(char* input);
 int		count_double(char *input);
 int		count_single(char *input);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif
