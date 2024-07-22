@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 05:00:02 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 06:14:17 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@
 
 extern int	g_signal_status;
 
+typedef struct s_help
+{
+	char	*exp;
+	char	*name;
+	char	*end;
+	char	*start;
+	char	*dollar;
+	char	*var_value;
+}	t_help;
+
 typedef struct s_exp
 {
 	char			**splited;
@@ -57,10 +67,10 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**argv;
 	char			**delim;
-	int				is_qoute;
 	int				fd;
 	int				infile;
 	int				outfile;
+	int				in_quote;
 	int				is_heredoc;
 	int				ambiguous;
 	struct s_cmd	*next;
@@ -170,18 +180,16 @@ int		update_the_value(char *name, char *value, t_list *list);
 int		add_the_value(char *name, char *value, t_list *list);
 void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
-int		check_end(char *line);
 int		is_heredoc(t_cmd *lst);
-void	heredoc(t_cmd *lst);
+void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
-int		perferm_heredoc(t_cmd *lst, char *delim, int is_qoute);
+int		perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
 int		get_delim_size(t_cmd *lst);
 int		ex_st(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
-char	*expand_variables(char *input);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_isalnum(int c);
@@ -215,5 +223,7 @@ char	*unquote(char* input);
 int		count_double(char *input);
 int		count_single(char *input);
 void	ft_putstr_fd(char *s, int fd);
-
+char	*expand_here_cmd(char *temp, t_list *envp);
+char	*expand_heredoc(char *temp, t_list *envp);
+char	*get_env_value(char *var_name, t_env *env);
 #endif

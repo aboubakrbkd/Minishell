@@ -6,50 +6,96 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/20 22:23:50 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 06:14:56 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_variables(char *str)
+char	*expand_here_cmd(char *temp, t_list *envp)
 {
-	char	*exp;
-	char	*name;
-	char	*end;
-	char	*start;
-	char	*dollar;
-	char	*var_value;
+	char	*cmd;
+	char	*current;
+	char	*var_name;
+	char	*value;
+	int		j;
+	int		k;
 
-	exp = malloc(sizeof(char) * 1000);
-	name = malloc(sizeof(char) * 1000);
-	if (!exp || !name)
-		return (NULL);
-	exp[0] = '\0';
-	start = str;
-	dollar = ft_strchr(start, '$');
-	while (dollar)
+	cmd = ft_strdup("");
+	current = temp;
+	j = 0;
+	while (current[j])
 	{
-		ft_strncat(exp, start, dollar - start);
-		if (!ft_isalnum((unsigned char)dollar[1]) && dollar[1] != '_')
+		if (current[j] == '$' && current[j + 1] == '?')
+			j++;
+		else if (current[j] == '\'')
 		{
-			ft_strncat(exp, dollar, 1);
-			start = dollar + 1;
-			dollar = ft_strchr(start, '$');
-			continue ;
+			j++;
+			while (current[j] && current[j] != '\'')
+			{
+				cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+				j++;
+			}
+			if (current[j] == '\'')
+				j++;
 		}
-		end = dollar + 1;
-		while (*end && (ft_isalnum((unsigned char)*end) || *end == '_'))
-			end++;
-		ft_strncpy(name, dollar + 1, end - dollar - 1);
-		name[end - dollar - 1] = '\0';
-		var_value = getenv(name);
-		if (var_value)
-			ft_strcat(exp, var_value);
-		start = end;
-		dollar = ft_strchr(start, '$');
+		else if (current[j] == '"')
+		{
+			j++;
+			while (current[j] && current[j] != '"')
+			{
+				if (current[j] == '$' && special_case(current[j + 1]))
+				{
+					j++;
+					k = j;
+					while (current[j] && special_case(current[j]))
+						j++;
+					var_name = ft_substr(current, k, j - k);
+					value = get_env_value(var_name, envp->envs);
+					cmd = ft_strjoin(cmd, value);
+					free(var_name);
+				}
+				else
+				{
+					cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+					j++;
+				}
+			}
+			if (current[j] == '"')
+				j++;
+		}
+		else if (current[j] == '$' && special_case(current[j + 1]))
+		{
+			j++;
+			k = j;
+			while (current[j] && special_case(current[j]))
+				j++;
+			var_name = ft_substr(current, k, j - k);
+			value = get_env_value(var_name, envp->envs);
+			cmd = ft_strjoin(cmd, value);
+			free(var_name);
+		}
+		else if (current[j] == '$' && current[j + 1] == '$')
+			j += 2;
+		else if (current[j] == '$' && current[j + 1] == '"')
+			j++;
+		else
+		{
+			cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
+			j++;
+		}
 	}
-	ft_strcat(exp, start);
-	free(name);
-	return (exp);
+	return (cmd);
+}
+
+char	*expand_heredoc(char *temp, t_list *envp)
+{
+	char	*expanded;
+
+	expanded = NULL;
+	if (ft_strchr(temp, '$'))
+		expanded = expand_here_cmd(temp, envp);
+	if (!expanded)
+		expanded = temp;
+	return (expanded);
 }
