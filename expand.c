@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/21 01:37:01 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 01:01:15 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 			while (current[j] && current[j] != '\'')
 			{
 				cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
-				printf("cmd: %s\n", cmd);
 				j++;
 			}
 			if (current[j] == '\'')
@@ -117,12 +116,15 @@ void	expand(t_cmd *lst, t_list *envp)
 	char	*tmp;
 
 	tr = 0;
+	tmp = NULL;
 	while (lst)
 	{
 		i = 0;
 		while (lst->argv[i])
 		{
-			tmp = lst->argv[i];
+			if (ft_strchr(lst->argv[i], '$') && lst->argv[i + 1]
+				&& !ft_strchr(lst->argv[i + 1], '$'))
+				tmp = lst->argv[i + 1];
 			if (ft_strchr(lst->argv[i], '$'))
 			{
 				if (ft_strsearch(lst->argv[i], '"'))
@@ -161,11 +163,15 @@ void	expand(t_cmd *lst, t_list *envp)
 					{
 						lst->argv[i] = ft_strdup(expanded);
 						if (ft_strlen(expanded) == 0 && lst->ambiguous == 0)
+						{
+							if (tr != 1 && tr != 2)
+								lst->ambiguous = 1;
 							lst->argv[i] = NULL;
+						}
 					}
 				}
 			}
-			if (!lst->argv[i])
+			if (tmp && !lst->argv[i])
 				lst->argv[i] = ft_strdup(tmp);
 			i++;
 		}

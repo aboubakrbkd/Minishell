@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:09:26 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/21 01:43:58 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 00:54:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,6 @@ void	check_ambg(t_cmd *lst)
 			{
 				if (ft_strchr(lst->argv[i + 1], '\"'))
 					lst->ambiguous = 0;
-				else if (!ft_strchr(lst->argv[i + 1], '\"')
-					&& !ft_strchr(lst->argv[i + 1], '\'')
-					&& ft_strchr(lst->argv[i + 1], '$'))
-					lst->ambiguous = 1;
 				else if (ft_strchr(lst->argv[i + 1], '\''))
 					lst->ambiguous = 0;
 			}
