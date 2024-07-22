@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 06:14:17 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 06:45:29 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,4 +226,6 @@ void	ft_putstr_fd(char *s, int fd);
 char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
+char	*handle_other_cases(char *current, char *cmd, int *j);
+char	*handle_dollar_sign(char *current, char *cmd, int *j, t_list *envp);
 #endif
