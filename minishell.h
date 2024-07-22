@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/21 01:30:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 01:47:53 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,5 @@ t_exp	*ft_new_node(char *str);
 char	*unquote(char* input);
 int		count_double(char *input);
 int		count_single(char *input);
-void	check_ambg(t_cmd *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:09:26 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/22 00:54:54 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 01:47:36 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,6 @@ int		is_rdr(char *arg)
 	if (ft_strchr(arg, '>') || ft_strnstr(arg, ">>"))
 		return (1);
 	return (0);
-}
-
-void	check_ambg(t_cmd *lst)
-{
-	int	i;
-
-	while (lst)
-	{
-		i = 0;
-		while (lst->argv[i] && lst->argv[i + 1])
-		{
-			if (is_rdr(lst->argv[i]) && ft_strlen(lst->argv[i + 1]) != 0)
-			{
-				if (ft_strchr(lst->argv[i + 1], '\"'))
-					lst->ambiguous = 0;
-				else if (ft_strchr(lst->argv[i + 1], '\''))
-					lst->ambiguous = 0;
-			}
-			i++;
-		}
-		lst = lst->next;
-	}
 }
 
 int	checking_ambigious(t_cmd *node)
