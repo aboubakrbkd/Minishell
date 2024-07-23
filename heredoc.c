@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 06:20:16 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 22:39:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	heredoc(t_cmd *lst, t_list *env)
 	{
 		i = -1;
 		get_delim(lst);
-		printf("delim: %s\n", lst->delim[0]);
 		while (lst->delim[++i])
 		{
 			tmp = creat_heroc(lst);

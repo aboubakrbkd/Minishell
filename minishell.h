@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 06:45:29 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/22 22:45:04 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int		syn_err_chars(int c);
 int		last_check(int c);
 int		is_red(int c);
 int		double_red(char *s);
-void	free_array(char **arr);
 char	*add_space(char *line);
 void	second_case(char *str, char *line, int *i, int *j);
 int		count_num_of_special(char *line);
