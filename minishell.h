@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 22:45:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 00:23:36 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,17 @@
 # include <termios.h>
 # include <fcntl.h>
 
-# define GREEN  "\033[0;34m"
-# define NC  "\033[0m"
 # define BUFFER_SIZE 33
 
 extern int	g_signal_status;
 
-typedef struct s_help
+typedef struct s_expand
 {
-	char	*exp;
-	char	*name;
-	char	*end;
-	char	*start;
-	char	*dollar;
-	char	*var_value;
-}	t_help;
+	char	*cmd;
+	char	*current;
+	char	*var_name;
+	char	*value;
+}	t_expand;
 
 typedef struct s_exp
 {
@@ -59,6 +55,11 @@ typedef struct s_env
 
 typedef struct s_list
 {
+	int		tr;
+	int		argv_size;
+	char	**splited;
+	char	*expanded;
+	char	*tmp;
 	t_env	*envs;
 }				t_list;
 
@@ -83,12 +84,6 @@ typedef struct s_execute
 	int	fd_int;
 	int	fd_out;
 }			t_execute;
-
-typedef struct s_gc
-{
-	void		*ptr;
-	struct s_gc	*next;
-}	t_gc;
 
 //dw
 void	print_args(t_cmd *lst);
@@ -135,7 +130,6 @@ int		ft_strcpy(char *dest, char *src);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
-void	expand(t_cmd *lst, t_list *envp);
 void	execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
@@ -147,9 +141,7 @@ void	update_env(char *name, char *value, t_list *list);
 void	update_pwd(t_list *list);
 t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-int		special_case(char c);
 char	*ft_substr(char *s, int start, int len);
-char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_itoa(int nb);
@@ -227,4 +219,14 @@ char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
 char	*handle_other_cases(char *current, char *cmd, int *j);
 char	*handle_dollar_sign(char *current, char *cmd, int *j, t_list *envp);
+char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
+void	expand(t_cmd *lst, t_list *envp);
+void	expand_help(t_cmd *lst, t_list *envp, int *i, int *j);
+void	split_expanded(t_cmd *lst, int *i, t_list *envp, int *j);
+void	split_expanded_help(t_cmd *lst, t_list *envp, int *i);
+int		special_case(char c);
+void	add_back(t_cmd **lst, t_cmd *new);
+t_cmd	*get_last(t_cmd *lst);
+t_cmd	*ft_new(char *cmd);
+
 #endif
