@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/22 22:47:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 02:06:25 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	cd(char **argv, t_list *list)
 		if (!ft_strcmp(argv[1], ".."))
 			return (error_function(home, list), 0);
 		else if (!ft_strcmp(argv[1], "\0"))
-			return(ex_st(0, 1), 0);
+			return (ex_st(0, 1), 0);
 		printf("cd: %s: No such file or directory\n", argv[1]);
 		return (ex_st(1, 1), 1);
 	}
