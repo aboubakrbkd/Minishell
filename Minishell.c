@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/24 23:49:06 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 02:42:18 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ int	g_signal_status;
 
 void	print_args(t_cmd *lst)
 {
-	int	x = 0;
+	int	x;
+	int	i;
 
+	x = 0;
 	while (lst)
 	{
 		printf("lst %d :\n", x);
-		int	i = 0;
+		i = 0;
 		while (lst->argv[i])
 		{
 			printf("lst->argv[%d]: %s\n", i, lst->argv[i]);
@@ -31,67 +33,6 @@ void	print_args(t_cmd *lst)
 		x++;
 	}
 	printf("\n");
-}
-
-void	free_cmd_lst(t_cmd *lst)
-{
-	t_cmd	*current;
-	t_cmd	*next;
-
-	current = lst;
-	while (current)
-	{
-		next = current->next;
-		free(current->cmd);
-		free_all(current->argv);
-		free(current);
-		current = next;
-	}
-}
-
-void    handling_shlvl(t_list *list)
-{
-    char    *shl_lvl;
-    char    *lvl;
-
-    shl_lvl = my_getenv("SHLVL", list);
-    if (!shl_lvl)
-        update_env("SHLVL", "1", list);
-    else if (ft_atoi(shl_lvl) > 999)
-    {
-        printf("Minishell: warning: shell level ");
-        printf("(%d) too high, resetting to 1\n", ft_atoi(shl_lvl));
-        update_env("SHLVL", "1", list);
-    }
-    else if (ft_atoi(shl_lvl) < 0)
-        update_env("SHLVL", "0", list);
-    else if (ft_atoi(shl_lvl) == 999)
-        update_env("SHLVL", "", list);
-    else
-    {
-        lvl = ft_itoa(ft_atoi(shl_lvl) + 1);
-        if(!lvl)
-            exit(EXIT_FAILURE);
-        add_the_value("SHLVL", lvl, list);
-        free(lvl);
-    }
-}
-
-void	free_list(t_list *list)
-{
-	t_env	*current;
-	t_env	*next;
-
-	current = list->envs;
-	while (current)
-	{
-		next = current->next;
-		free(current->name);
-		free(current->value);
-		free(current);
-		current = next;
-	}
-	free(list);
 }
 
 int	main(int ac, char **av, char **env)

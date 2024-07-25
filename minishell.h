@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 01:29:02 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 02:43:34 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <termios.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # define BUFFER_SIZE 33
 
@@ -33,6 +34,9 @@ extern int	g_signal_status;
 
 typedef struct s_expand
 {
+	int		len;
+	int		in_single_quote;
+	int		in_double_quote;
 	char	*cmd;
 	char	*current;
 	char	*var_name;
@@ -162,6 +166,7 @@ void	env_to_char_array_helper(t_env *current, char **envp);
 char	**env_to_char_array(t_env *head);
 void	error_open(char *str);
 void	free_all(char **str);
+void	free_cmd_lst(t_cmd *lst);
 char	*command(char *my_argv, char **envr);
 int		env_size(t_env *env);
 char	*get_name(char *str);
@@ -174,6 +179,7 @@ void	remove_qoutes(t_cmd **lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
+void	perferm_heredoc_help(int fd, char *exp, char *tmp, int in);
 int		perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
@@ -202,17 +208,18 @@ void	function_sigint(int sig);
 void	function_sigwuit(int sig);
 void	check_signals(void);
 void	remove_qoutes(t_cmd **lst);
-int		count_argv(t_cmd *node);
 int		ft_isspace(char str);
 int		is_blank(char *str);
 int		check_line(char **res);
 void	ft_add_back(t_exp **lst, t_exp *new);
 t_exp	*last_node(t_exp *lst);
 t_exp	*ft_new_node(char *str);
-char	*unquote(char* input);
+char	*unquote(char *input);
 int		count_double(char *input);
 int		count_single(char *input);
 void	ft_putstr_fd(char *s, int fd);
+char	*handle_dollar_sign(char *curr, char *cmd, int *j, t_list *envp);
+char	*handle_other_cases(char *curr, char *cmd, int *j);
 char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
@@ -229,5 +236,7 @@ void	expand(t_cmd *lst, t_list *envp);
 void	add_back(t_cmd **lst, t_cmd *new);
 t_cmd	*get_last(t_cmd *lst);
 t_cmd	*ft_new(char *cmd);
+void	remove_quotes_from_arg(char *arg);
+void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 22:39:01 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 02:37:10 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	get_delim(t_cmd *lst)
 		{
 			if (ft_strchr(lst->argv[i + 1], '\'')
 				|| ft_strchr(lst->argv[i + 1], '\"'))
-					lst->in_quote = 1;
+				lst->in_quote = 1;
 			lst->delim[k] = ft_strdup(unquote(lst->argv[i + 1]));
 			k++;
 		}
@@ -62,12 +62,19 @@ char	*creat_heroc(t_cmd *lst)
 	return (NULL);
 }
 
-void	her_sin(int sig)
+void	perferm_heredoc_help(int fd, char *exp, char *tmp, int in)
 {
-	if (sig == SIGINT)
+	if (exp && in != 1)
 	{
-		close(0);
-		ex_st(1, 1);
+		write(fd, exp, ft_strlen(exp));
+		write(fd, "\n", 1);
+		free(exp);
+	}
+	else
+	{
+		write(fd, tmp, ft_strlen(tmp));
+		write(fd, "\n", 1);
+		free(tmp);
 	}
 }
 
@@ -89,20 +96,8 @@ int	perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env)
 				&& (ft_strlen(tmp) == ft_strlen(delim))))
 			break ;
 		exp = expand_heredoc(tmp, env);
-		if (exp && in != 1)
-		{
-			write(lst->fd, exp, ft_strlen(exp));
-			write(lst->fd, "\n", 1);
-			free(exp);
-		}
-		else
-		{
-			write(lst->fd, tmp, ft_strlen(tmp));
-			write(lst->fd, "\n", 1);
-			free(tmp);
-		}
+		perferm_heredoc_help(lst->fd, exp, tmp, in);
 	}
-	free(tmp);
 	return (0);
 }
 
@@ -132,28 +127,4 @@ void	heredoc(t_cmd *lst, t_list *env)
 		}
 		lst = lst->next;
 	}
-}
-
-int	is_heredoc(t_cmd *lst)
-{
-	int	i;
-	int	res;
-
-	res = 0;
-	while (lst)
-	{
-		i = 0;
-		lst->is_heredoc = 0;
-		while (lst->argv[i] && lst->argv[i + 1])
-		{
-			if (!ft_strcmp(lst->argv[i], "<<") && ft_strcmp(lst->argv[i + 1], "<"))
-			{
-				lst->is_heredoc = 1;
-				res = 1;
-			}
-			i++;
-		}
-		lst = lst->next;
-	}
-	return (res);
 }

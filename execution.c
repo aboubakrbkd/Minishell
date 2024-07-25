@@ -6,12 +6,11 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/24 22:56:03 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 02:18:30 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
 
 void	waits(t_execute *exec)
 {
@@ -122,9 +121,8 @@ void	execution(t_cmd *node, t_list *list)
 	t_execute	*exec;
 
 	exec = malloc(sizeof(t_execute));
-	exec->fd_int = dup(0);
-	exec->fd_out = dup(1);
-	envr = env_to_char_array(list->envs);
+	(1) && (exec->fd_int = dup(0), exec->fd_out = dup(1),
+	envr = env_to_char_array(list->envs), 0);
 	if (check_if_built(node, list, exec))
 	{
 		free_all(envr);
@@ -142,8 +140,6 @@ void	execution(t_cmd *node, t_list *list)
 		close(exec->fd[0]);
 		node = node->next;
 	}
-	hand_l_command(node, list, exec, envr);
-	close_all(node, exec);
-	free_all(envr);
-	waits(exec);
+	(1) && (hand_l_command(node, list, exec, envr), close_all(node, exec), 0),
+	free_all(envr), waits(exec);
 }
