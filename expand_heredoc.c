@@ -6,11 +6,22 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 06:46:44 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 01:04:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_env_value(char *var_name, t_env *env)
+{
+	while (env)
+	{
+		if (ft_strcmp(var_name, env->name) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return ("");
+}
 
 char	*handle_dollar_sign(char *current, char *cmd, int *j, t_list *envp)
 {

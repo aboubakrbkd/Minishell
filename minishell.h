@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 00:23:36 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 01:29:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,6 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_isalnum(int c);
 char	*ft_strncat(char *dest, char *src, unsigned int nb);
-void	build_arr_help(t_cmd **lst, char *res);
 int		split_stlen(char **str);
 int		checking_error(t_cmd *node, int index);
 void	new_array(t_cmd *node, int *index, int j);
@@ -217,14 +216,16 @@ void	ft_putstr_fd(char *s, int fd);
 char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
-char	*handle_other_cases(char *current, char *cmd, int *j);
-char	*handle_dollar_sign(char *current, char *cmd, int *j, t_list *envp);
+int		special_case(char c);
+void	expand_with_space(t_cmd *lst, t_list *envp, int	*i, char *expanded);
+void	expand_without_space(t_cmd *lst, t_list *envp, int *i, char *expanded);
+void	expand_helper(t_cmd *lst, t_list *envp, int *i);
+void	single_quote(t_expand *exp, int *j);
+void	double_quote(t_expand *exp, int *j, int *k, t_list *envp);
+void	handle_spetial_case(t_expand *exp, int *j, int *k, t_list *envp);
+void	ft_handle_other_cases(t_expand *exp, int *j, int flag);
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 void	expand(t_cmd *lst, t_list *envp);
-void	expand_help(t_cmd *lst, t_list *envp, int *i, int *j);
-void	split_expanded(t_cmd *lst, int *i, t_list *envp, int *j);
-void	split_expanded_help(t_cmd *lst, t_list *envp, int *i);
-int		special_case(char c);
 void	add_back(t_cmd **lst, t_cmd *new);
 t_cmd	*get_last(t_cmd *lst);
 t_cmd	*ft_new(char *cmd);

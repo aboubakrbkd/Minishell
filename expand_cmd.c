@@ -6,95 +6,100 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 00:33:32 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 01:15:52 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(char *var_name, t_env *env)
+void	single_quote(t_expand *exp, int *j)
 {
-	while (env)
+	(*j)++;
+	while (exp->current[(*j)] && exp->current[(*j)] != '\'')
 	{
-		if (ft_strcmp(var_name, env->name) == 0)
-			return (env->value);
-		env = env->next;
+		exp->cmd = ft_strjoin(exp->cmd, ft_substr(exp->current, (*j), 1));
+		(*j)++;
 	}
-	return ("");
+	if (exp->current[(*j)] == '\'')
+		(*j)++;
+}
+
+void	double_quote(t_expand *exp, int *j, int *k, t_list *envp)
+{
+	(*j)++;
+	while (exp->current[(*j)] && exp->current[(*j)] != '"')
+	{
+		if (exp->current[(*j)] == '$' && special_case(exp->current[(*j) + 1]))
+		{
+			(*j)++;
+			(*k) = (*j);
+			while (exp->current[(*j)] && special_case(exp->current[(*j)]))
+				(*j)++;
+			exp->var_name = ft_substr(exp->current, (*k), (*j) - (*k));
+			exp->value = get_env_value(exp->var_name, envp->envs);
+			exp->cmd = ft_strjoin(exp->cmd, exp->value);
+			free(exp->var_name);
+		}
+		else
+		{
+			exp->cmd = ft_strjoin(exp->cmd, ft_substr(exp->current, (*j), 1));
+			(*j)++;
+		}
+	}
+	if (exp->current[(*j)] == '"')
+		(*j)++;
+}
+
+void	handle_spetial_case(t_expand *exp, int *j, int *k, t_list *envp)
+{
+	(*j)++;
+	(*k) = (*j);
+	while (exp->current[(*j)] && special_case(exp->current[(*j)]))
+		(*j)++;
+	exp->var_name = ft_substr(exp->current, (*k), (*j) - (*k));
+	exp->value = get_env_value(exp->var_name, envp->envs);
+	exp->cmd = ft_strjoin(exp->cmd, exp->value);
+	free(exp->var_name);
+}
+
+void	ft_handle_other_cases(t_expand *exp, int *j, int flag)
+{
+	if (flag == 0)
+		(*j) += 2;
+	else if (flag == 1)
+		(*j)++;
+	else if (flag == 2)
+	{
+		exp->cmd = ft_strjoin(exp->cmd, ft_substr(exp->current, *j, 1));
+		(*j)++;
+	}
 }
 
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 {
-	char	*cmd;
-	char	*current;
-	char	*var_name;
-	char	*value;
-	int		j;
-	int		k;
+	t_expand	exp;
+	int			j;
+	int			k;
 
-	cmd = ft_strdup("");
-	current = lst->argv[i];
+	exp.cmd = ft_strdup("");
+	exp.current = lst->argv[i];
 	j = 0;
-	while (current[j])
+	while (exp.current[j])
 	{
-		if (current[j] == '$' && current[j + 1] == '?')
+		if (exp.current[j] == '$' && exp.current[j + 1] == '?')
 			j++;
-		else if (current[j] == '\'')
-		{
-			j++;
-			while (current[j] && current[j] != '\'')
-			{
-				cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
-				j++;
-			}
-			if (current[j] == '\'')
-				j++;
-		}
-		else if (current[j] == '"')
-		{
-			j++;
-			while (current[j] && current[j] != '"')
-			{
-				if (current[j] == '$' && special_case(current[j + 1]))
-				{
-					j++;
-					k = j;
-					while (current[j] && special_case(current[j]))
-						j++;
-					var_name = ft_substr(current, k, j - k);
-					value = get_env_value(var_name, envp->envs);
-					cmd = ft_strjoin(cmd, value);
-					free(var_name);
-				}
-				else
-				{
-					cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
-					j++;
-				}
-			}
-			if (current[j] == '"')
-				j++;
-		}
-		else if (current[j] == '$' && special_case(current[j + 1]))
-		{
-			j++;
-			k = j;
-			while (current[j] && special_case(current[j]))
-				j++;
-			var_name = ft_substr(current, k, j - k);
-			value = get_env_value(var_name, envp->envs);
-			cmd = ft_strjoin(cmd, value);
-			free(var_name);
-		}
-		else if (current[j] == '$' && current[j + 1] == '$')
-			j += 2;
-		else if (current[j] == '$' && current[j + 1] == '"')
-			j++;
+		else if (exp.current[j] == '\'')
+			single_quote(&exp, &j);
+		else if (exp.current[j] == '"')
+			double_quote(&exp, &j, &k, envp);
+		else if (exp.current[j] == '$' && special_case(exp.current[j + 1]))
+			handle_spetial_case(&exp, &j, &k, envp);
+		else if (exp.current[j] == '$' && exp.current[j + 1] == '$')
+			ft_handle_other_cases(&exp, &j, 0);
+		else if (exp.current[j] == '$' && exp.current[j + 1] == '"')
+			ft_handle_other_cases(&exp, &j, 1);
 		else
-		{
-			cmd = ft_strjoin(cmd, ft_substr(current, j, 1));
-			j++;
-		}
+			ft_handle_other_cases(&exp, &j, 2);
 	}
-	return (cmd);
+	return (exp.cmd);
 }
