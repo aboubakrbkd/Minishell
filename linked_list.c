@@ -6,11 +6,58 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:25:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/19 03:19:57 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/24 23:46:24 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_cmd	*ft_new(char *cmd)
+{
+	t_cmd	*new;
+
+	new = malloc(sizeof(t_cmd));
+	if (!new)
+		return (NULL);
+	if (new)
+	{
+		new->cmd = ft_strdup(cmd);
+		if (!new->cmd)
+			return (NULL);
+		new->argv = ft_split(new->cmd, ' ');
+		if (!new->argv)
+			return (NULL);
+		new->infile = 0;
+		new->outfile = 1;
+		new->ambiguous = 0;
+		new->in_quote = -1;
+		new->is_heredoc = -1;
+		new->next = NULL;
+	}
+	return (new);
+}
+
+t_cmd	*get_last(t_cmd *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+void	add_back(t_cmd **lst, t_cmd *new)
+{
+	t_cmd	*last;
+
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		last = get_last(*lst);
+		last->next = new;
+	}
+}
 
 t_env	*ft_lstnew(char *name, char *value)
 {

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 06:14:17 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/25 01:29:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,17 @@
 # include <termios.h>
 # include <fcntl.h>
 
-# define GREEN  "\033[0;34m"
-# define NC  "\033[0m"
 # define BUFFER_SIZE 33
 
 extern int	g_signal_status;
 
-typedef struct s_help
+typedef struct s_expand
 {
-	char	*exp;
-	char	*name;
-	char	*end;
-	char	*start;
-	char	*dollar;
-	char	*var_value;
-}	t_help;
+	char	*cmd;
+	char	*current;
+	char	*var_name;
+	char	*value;
+}	t_expand;
 
 typedef struct s_exp
 {
@@ -59,6 +55,11 @@ typedef struct s_env
 
 typedef struct s_list
 {
+	int		tr;
+	int		argv_size;
+	char	**splited;
+	char	*expanded;
+	char	*tmp;
 	t_env	*envs;
 }				t_list;
 
@@ -83,12 +84,6 @@ typedef struct s_execute
 	int	fd_int;
 	int	fd_out;
 }			t_execute;
-
-typedef struct s_gc
-{
-	void		*ptr;
-	struct s_gc	*next;
-}	t_gc;
 
 //dw
 void	print_args(t_cmd *lst);
@@ -124,7 +119,6 @@ int		syn_err_chars(int c);
 int		last_check(int c);
 int		is_red(int c);
 int		double_red(char *s);
-void	free_array(char **arr);
 char	*add_space(char *line);
 void	second_case(char *str, char *line, int *i, int *j);
 int		count_num_of_special(char *line);
@@ -136,7 +130,6 @@ int		ft_strcpy(char *dest, char *src);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
-void	expand(t_cmd *lst, t_list *envp);
 void	execution(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
 void	old_pwd_function(char *home, t_list *list);
@@ -148,9 +141,7 @@ void	update_env(char *name, char *value, t_list *list);
 void	update_pwd(t_list *list);
 t_env	*ft_lstnew(char *name, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-int		special_case(char c);
 char	*ft_substr(char *s, int start, int len);
-char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_itoa(int nb);
@@ -194,7 +185,6 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_isalnum(int c);
 char	*ft_strncat(char *dest, char *src, unsigned int nb);
-void	build_arr_help(t_cmd **lst, char *res);
 int		split_stlen(char **str);
 int		checking_error(t_cmd *node, int index);
 void	new_array(t_cmd *node, int *index, int j);
@@ -226,4 +216,18 @@ void	ft_putstr_fd(char *s, int fd);
 char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
+int		special_case(char c);
+void	expand_with_space(t_cmd *lst, t_list *envp, int	*i, char *expanded);
+void	expand_without_space(t_cmd *lst, t_list *envp, int *i, char *expanded);
+void	expand_helper(t_cmd *lst, t_list *envp, int *i);
+void	single_quote(t_expand *exp, int *j);
+void	double_quote(t_expand *exp, int *j, int *k, t_list *envp);
+void	handle_spetial_case(t_expand *exp, int *j, int *k, t_list *envp);
+void	ft_handle_other_cases(t_expand *exp, int *j, int flag);
+char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
+void	expand(t_cmd *lst, t_list *envp);
+void	add_back(t_cmd **lst, t_cmd *new);
+t_cmd	*get_last(t_cmd *lst);
+t_cmd	*ft_new(char *cmd);
+
 #endif

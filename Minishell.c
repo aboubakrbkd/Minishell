@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/22 05:35:41 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/24 23:49:06 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ void	free_cmd_lst(t_cmd *lst)
 	}
 }
 
+void    handling_shlvl(t_list *list)
+{
+    char    *shl_lvl;
+    char    *lvl;
+
+    shl_lvl = my_getenv("SHLVL", list);
+    if (!shl_lvl)
+        update_env("SHLVL", "1", list);
+    else if (ft_atoi(shl_lvl) > 999)
+    {
+        printf("Minishell: warning: shell level ");
+        printf("(%d) too high, resetting to 1\n", ft_atoi(shl_lvl));
+        update_env("SHLVL", "1", list);
+    }
+    else if (ft_atoi(shl_lvl) < 0)
+        update_env("SHLVL", "0", list);
+    else if (ft_atoi(shl_lvl) == 999)
+        update_env("SHLVL", "", list);
+    else
+    {
+        lvl = ft_itoa(ft_atoi(shl_lvl) + 1);
+        if(!lvl)
+            exit(EXIT_FAILURE);
+        add_the_value("SHLVL", lvl, list);
+        free(lvl);
+    }
+}
+
 void	free_list(t_list *list)
 {
 	t_env	*current;
@@ -82,6 +110,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1 || !lst || !list)
 		return (1);
 	list->envs = env_init(env);
+	handling_shlvl(list);
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -129,7 +158,6 @@ int	main(int ac, char **av, char **env)
 		free_cmd_lst(lst);
 		free(str);
 		free(temp);
-		free_all(res);
 	}
 	free_list(list);
 }
