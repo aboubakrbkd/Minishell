@@ -59,11 +59,6 @@ typedef struct s_env
 
 typedef struct s_list
 {
-	int		tr;
-	int		argv_size;
-	char	**splited;
-	char	*expanded;
-	char	*tmp;
 	t_env	*envs;
 }				t_list;
 
@@ -224,9 +219,9 @@ char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
 char	*get_env_value(char *var_name, t_env *env);
 int		special_case(char c);
-void	expand_with_space(t_cmd *lst, t_list *envp, int	*i, char *expanded);
-void	expand_without_space(t_cmd *lst, t_list *envp, int *i, char *expanded);
-void	expand_helper(t_cmd *lst, t_list *envp, int *i);
+void	expand_with_space(t_cmd *lst, char *expanded);
+void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded);
+void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr);
 void	single_quote(t_expand *exp, int *j);
 void	double_quote(t_expand *exp, int *j, int *k, t_list *envp);
 void	handle_spetial_case(t_expand *exp, int *j, int *k, t_list *envp);
@@ -238,5 +233,11 @@ t_cmd	*get_last(t_cmd *lst);
 t_cmd	*ft_new(char *cmd);
 void	remove_quotes_from_arg(char *arg);
 void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr);
+void	free_list(t_list *list);
+void	handling_shlvl(t_list *list);
+int		args_len(char **arg);
+char	**join_args(char **s1, char *expanded);
+char	**join_args_help(char **s1, char **splited, char **res, int i);
+int		special_case(char c);
 
 #endif

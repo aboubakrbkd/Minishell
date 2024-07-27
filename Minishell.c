@@ -41,14 +41,15 @@ int	main(int ac, char **av, char **env)
 	t_cmd			*lst;
 	t_list			*list;
 	char			*str;
-	char			**res;
-	struct termios	copy;
+	// char			**res;
+	// struct termios	copy;
 
 	(void)av;
+	(void) env;
 	g_signal_status = 0;
 	lst = malloc(sizeof(t_cmd));
 	list = malloc(sizeof(t_list));
-	if (ac != 1 || !lst || !list)
+	if (ac != 1  || !lst || !list)
 		return (1);
 	list->envs = env_init(env);
 	handling_shlvl(list);
@@ -65,40 +66,41 @@ int	main(int ac, char **av, char **env)
 		add_history(temp);
 		if (!ft_strlen(temp) || is_blank(temp))
 		{
-			ex_st(0, 1);
-			free(temp);
+			free(temp), ex_st(0, 1);
 			continue ;
 		}
 		str = add_space(temp);
-		if (syn_error(str))
-		{
-			free(temp), free(str), ex_st(258, 1);
-			continue ;
-		}
 		if (!str)
 			continue ;
-		change_to_garb(str);
-		if (handle_single_double(str))
+		if (syn_error(str))
+		{
+			free(str), ex_st(258, 1);
 			continue ;
-		res = ft_split(str, '|');
-		if (!res)
-			continue ;
-		lst = build_arr(res);
-		if (!lst)
-			continue ;
-		back_to_ascii(lst);
-		if (is_heredoc(lst))
-			heredoc(lst, list);
-		expand(lst, list);
-		remove_qoutes(&lst);
-		g_signal_status = 1;
-		tcgetattr(0, &copy);
-		execution(lst, list);
-		tcsetattr(0, 0, &copy);
-		g_signal_status = 0;
-		free_cmd_lst(lst);
-		free(str);
-		free(temp);
+		}
+		// change_to_garb(str);
+		// if (handle_single_double(str))
+		// 	continue ;
+		// res = ft_split(str, '|');
+		// if (!res)
+		// {
+		// 	free(str);
+		// 	continue ;
+		// }
+		// lst = build_arr(res);
+		// if (!lst)
+		// 	continue ;
+		// back_to_ascii(lst);
+		// if (is_heredoc(lst))
+		// 	heredoc(lst, list);
+		// expand(lst, list);
+		// remove_qoutes(&lst);
+		// g_signal_status = 1;
+		// tcgetattr(0, &copy);
+		// execution(lst, list);
+		// tcsetattr(0, 0, &copy);
+		// g_signal_status = 0;
+		// free_cmd_lst(lst);
+		// free(lst);
 	}
-	free_list(list);
+	// free_list(list);
 }

@@ -84,9 +84,9 @@ void	free_all(char **str)
 {
 	int	i;
 
-	i = 0;
 	if (!str)
 		return ;
+	i = 0;
 	while (str[i])
 	{
 		free(str[i]);

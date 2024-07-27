@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+
 void	free_list(t_list *list)
 {
 	t_env	*current;
