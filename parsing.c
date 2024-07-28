@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+void	free_envp(t_env **envp)
+{
+	t_env	*tmp;
+	if (!envp || !*envp)
+		return ;
+	while (*envp)
+	{
+		tmp = (*envp)->next;
+		free((*envp)->name);
+		free((*envp)->value);
+		free(*envp);
+		*envp = tmp;
+	}
+	envp = NULL;
+}
+
 int	syn_error(char *line)
 {
 	char	**res;

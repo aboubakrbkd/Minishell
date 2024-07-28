@@ -161,7 +161,7 @@ void	env_to_char_array_helper(t_env *current, char **envp);
 char	**env_to_char_array(t_env *head);
 void	error_open(char *str);
 void	free_all(char **str);
-void	free_cmd_lst(t_cmd *lst);
+void	free_cmd_lst(t_cmd **lst);
 char	*command(char *my_argv, char **envr);
 int		env_size(t_env *env);
 char	*get_name(char *str);
@@ -239,5 +239,7 @@ int		args_len(char **arg);
 char	**join_args(char **s1, char *expanded);
 char	**join_args_help(char **s1, char **splited, char **res, int i);
 int		special_case(char c);
+void	free_envp(t_env **envp);
+void	free_env(char *name, t_env **envps);
 
 #endif

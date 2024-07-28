@@ -59,20 +59,19 @@ void	handling_shlvl(t_list *list)
 	}
 }
 
-void	free_cmd_lst(t_cmd *lst)
+void	free_cmd_lst(t_cmd **lst)
 {
-	t_cmd	*current;
 	t_cmd	*next;
 
-	current = lst;
-	while (current)
+	while (*lst)
 	{
-		next = current->next;
-		free(current->cmd);
-		free_all(current->argv);
-		free(current);
-		current = next;
+		next = (*lst)->next;
+		free((*lst)->cmd);
+		free_all((*lst)->argv);
+		free(*lst);
+		*lst = next;
 	}
+	*lst = NULL;
 }
 
 int	ft_strsearch(char *s, int c)

@@ -93,6 +93,7 @@ void	free_all(char **str)
 		i++;
 	}
 	free(str);
+	str = NULL;
 }
 
 char	**get_path(char **envr)

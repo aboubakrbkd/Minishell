@@ -77,5 +77,5 @@ char	*add_space(char *line)
 			str[j++] = line[i++];
 	}
 	str[j] = '\0';
-	return (free(line), str);
+	return (str);
 }
