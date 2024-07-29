@@ -12,7 +12,16 @@
 
 #include "minishell.h"
 
+void	free_exp(t_expand *exp)
+{
+	t_expand	*curr;
 
+	curr = exp;
+	free(curr->current);
+	free(curr->var_name);
+	free(curr->value);
+	free(curr);
+}
 
 void	free_list(t_list *list)
 {

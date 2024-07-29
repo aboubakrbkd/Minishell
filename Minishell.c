@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **env)
 	t_list			*list;
 	char			*str;
 	char			**res;
-	// struct termios	copy;
+	struct termios	copy;
 
 	(void)av;
 	g_signal_status = 0;
@@ -100,13 +100,13 @@ int	main(int ac, char **av, char **env)
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst, list);
-		// expand(lst, list);
-		// remove_qoutes(&lst);
-		// g_signal_status = 1;
-		// tcgetattr(0, &copy);
-		// execution(lst, list);
-		// tcsetattr(0, 0, &copy);
-		// g_signal_status = 0;
+		expand(lst, list);
+		remove_qoutes(&lst);
+		g_signal_status = 1;
+		tcgetattr(0, &copy);
+		execution(lst, list);
+		tcsetattr(0, 0, &copy);
+		g_signal_status = 0;
 		free_cmd_lst(&lst), free(temp), free(str);
 	}
 	free_envp(&list->envs), free(list), free_cmd_lst(&lst);

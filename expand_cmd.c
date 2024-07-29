@@ -14,10 +14,14 @@
 
 void	single_quote(t_expand *exp, int *j)
 {
+	char	*name;
+
 	(*j)++;
 	while (exp->current[(*j)] && exp->current[(*j)] != '\'')
 	{
-		exp->cmd = ft_strjoin(exp->cmd, ft_substr(exp->current, (*j), 1));
+		name = ft_substr(exp->current, (*j), 1);
+		exp->cmd = ft_strjoin(exp->cmd, name);
+		free(name);
 		(*j)++;
 	}
 	if (exp->current[(*j)] == '\'')
@@ -81,7 +85,7 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	int			j;
 	int			k;
 
-	exp.cmd = ft_strdup("");
+	exp.cmd = calloc(1, 1);
 	exp.current = lst->argv[i];
 	j = 0;
 	while (exp.current[j])
@@ -100,6 +104,7 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 			ft_handle_other_cases(&exp, &j, 1);
 		else
 			ft_handle_other_cases(&exp, &j, 2);
+		free_exp(&exp);
 	}
 	return (exp.cmd);
 }
