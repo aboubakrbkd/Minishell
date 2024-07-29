@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:09:26 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 00:52:28 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:24:26 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	checking_ambigious(t_cmd *node)
 
 	o = 0;
 	tmp = node;
-	printf("lst->ambiguous: %d\n", node->ambiguous);
 	if (node->ambiguous == 1)
 	{
 		write(2, "ambiguous redirect\n", 19);
@@ -71,7 +70,7 @@ int	checking_error(t_cmd *node, int index)
 {
 	char	**str;
 
-	str = ft_split(node->argv[index], ' ');
+	str = ft_split_2(node->argv[index]);
 	if (split_stlen(str) > 1)
 	{
 		ex_st(1, 1);

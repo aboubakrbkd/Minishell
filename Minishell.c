@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 01:07:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:26:18 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **env)
 	t_list			*list;
 	char			*str;
 	char			**res;
-	// struct termios	copy;
+	struct termios	copy;
 
 	(void)av;
 	g_signal_status = 0;
@@ -90,7 +90,6 @@ int	main(int ac, char **av, char **env)
 			free(temp), free(str);
 			continue ;
 		}
-		free_cmd_lst(&lst);
 		lst = build_arr(res);
 		if (!lst)
 		{
@@ -100,15 +99,15 @@ int	main(int ac, char **av, char **env)
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst, list);
-		// expand(lst, list);
-		// remove_qoutes(&lst);
-		// g_signal_status = 1;
-		// tcgetattr(0, &copy);
-		// execution(lst, list);
-		// tcsetattr(0, 0, &copy);
-		// g_signal_status = 0;
+		expand(lst, list);
+		remove_qoutes(&lst);
+		g_signal_status = 1;
+		tcgetattr(0, &copy);
+		execution(lst, list);
+		tcsetattr(0, 0, &copy);
+		g_signal_status = 0;
 		free_cmd_lst(&lst), free(temp), free(str);
 	}
-	free_envp(&list->envs), free(list), free_cmd_lst(&lst);
+	free(list), free_cmd_lst(&lst);
 	return (0);
 }

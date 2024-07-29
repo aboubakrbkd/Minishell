@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:03:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/06/03 16:53:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 03:36:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,22 @@ char	**env_split(char *s, char c)
 t_env	*env_init(char **envp)
 {
 	t_env	*head;
-	t_env	*new;
-	char	**sp;
 	int		i;
+	char	**sp;
+	t_env	*new;
 
-	i = -1;
 	head = NULL;
-	while (envp[++i])
+	i = 0;
+	while (envp[i])
 	{
 		sp = env_split(envp[i], '=');
 		if (!sp)
-			return (free_envp(&head), NULL);
+			break ;
 		if (sp[1] != NULL)
 		{
 			new = ft_lstnew(sp[0], sp[1]);
-			if (!new)
-				return (free_all(sp), free_envp(&head), NULL);
+			if (new == NULL)
+				break ;
 			ft_lstadd_back(&head, new);
 		}
 		free_all(sp);

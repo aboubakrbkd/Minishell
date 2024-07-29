@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 02:39:06 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:39:15 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:23:54 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_exp	*ft_new_node(char *str)
 	new = malloc(sizeof(t_exp));
 	if (new)
 	{
-		new->splited = ft_split(str, ' ');
+		new->splited = ft_split_2(str);
 		new->next = NULL;
 	}
 	return (new);
