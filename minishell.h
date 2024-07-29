@@ -240,5 +240,6 @@ char	**join_args_help(char **s1, char **splited, char **res, int i);
 int		special_case(char c);
 void	free_envp(t_env **envp);
 void	free_env(char *name, t_env **envps);
+void	free_exp(t_expand *exp);
 
 #endif
