@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 03:43:30 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:09:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 		expanded = expand_cmd(lst, envp, *i);
 		if (expanded == NULL)
 			expanded = ft_strdup("");
-		free(lst->argv[*i]);
 		if (ft_strnstr(lst->argv[*i], "$'"))
 			lst->argv[*i] = ft_strdup(expanded + 1);
 		else
 			lst->argv[*i] = ft_strdup(expanded);
-		free(expanded);
 	}
 }
 
