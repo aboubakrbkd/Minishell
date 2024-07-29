@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 01:07:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 03:43:42 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	main(int ac, char **av, char **env)
 			free(temp), free(str);
 			continue ;
 		}
-		free_cmd_lst(&lst);
 		lst = build_arr(res);
 		if (!lst)
 		{
@@ -109,6 +108,6 @@ int	main(int ac, char **av, char **env)
 		g_signal_status = 0;
 		free_cmd_lst(&lst), free(temp), free(str);
 	}
-	free_envp(&list->envs), free(list), free_cmd_lst(&lst);
+	free(list), free_cmd_lst(&lst);
 	return (0);
 }

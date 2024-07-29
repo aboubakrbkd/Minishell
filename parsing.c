@@ -6,27 +6,11 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:45:59 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 03:09:07 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_envp(t_env **envp)
-{
-	t_env	*tmp;
-	if (!envp || !*envp)
-		return ;
-	while (*envp)
-	{
-		tmp = (*envp)->next;
-		free((*envp)->name);
-		free((*envp)->value);
-		free(*envp);
-		*envp = tmp;
-	}
-	envp = NULL;
-}
 
 int	syn_error(char *line)
 {

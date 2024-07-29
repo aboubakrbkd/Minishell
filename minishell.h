@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 01:05:15 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 03:09:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded);
 void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr);
 void	single_quote(t_expand *exp, int *j);
 void	double_quote(t_expand *exp, int *j, int *k, t_list *envp);
-void	handle_spetial_case(t_expand *exp, int *j, int *k, t_list *envp);
+void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp);
 void	ft_handle_other_cases(t_expand *exp, int *j, int flag);
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 void	expand(t_cmd *lst, t_list *envp);
@@ -238,7 +238,6 @@ int		args_len(char **arg);
 char	**join_args(char **s1, char *expanded);
 char	**join_args_help(char **s1, char **splited, char **res, int i);
 int		special_case(char c);
-void	free_envp(t_env **envp);
 void	free_env(char *name, t_env **envps);
 void	free_exp(t_expand *exp);
 
