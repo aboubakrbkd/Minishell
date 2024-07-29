@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:09:26 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/25 01:57:51 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 00:52:28 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 void	new_array(t_cmd *node, int *index, int j)
 {
-	while (node->argv[j])
+	free(node->argv[j]);
+	free(node->argv[j + 1]);
+	while (node->argv[j + 2])
 	{
-		if (!node->argv[j + 2])
-		{
-			node->argv[j] = NULL;
-			break ;
-		}
-		else
-			node->argv[j] = node->argv[j + 2];
+		node->argv[j] = node->argv[j + 2];
 		j++;
 	}
+	node->argv[j] = NULL;
 	*index -= 1;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:31:26 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 01:03:26 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ char	*expand_heredoc(char *temp, t_list *envp)
 	if (ft_strchr(temp, '$'))
 		expanded = expand_here_cmd(temp, envp);
 	if (!expanded)
-		expanded = temp;
+		expanded = ft_strdup(temp);
 	return (expanded);
 }

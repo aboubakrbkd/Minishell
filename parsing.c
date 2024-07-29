@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+void	free_envp(t_env **envp)
+{
+	t_env	*tmp;
+	if (!envp || !*envp)
+		return ;
+	while (*envp)
+	{
+		tmp = (*envp)->next;
+		free((*envp)->name);
+		free((*envp)->value);
+		free(*envp);
+		*envp = tmp;
+	}
+	envp = NULL;
+}
+
 int	syn_error(char *line)
 {
 	char	**res;
@@ -26,15 +42,15 @@ int	syn_error(char *line)
 		if ((res[i][0] == '>' || res[i][0] == '<'
 			|| double_red(res[i]) || res[i][0] == '|')
 			&& (!res[i + 1] || syn_err_chars(res[i + 1][0])))
-			return (ft_putstr_fd("bash: syntax error\n", 2), 1);
+			return (free_all(res) , ft_putstr_fd("bash: syntax error\n", 2), 1);
 		if (res[0][0] == '|')
-			return (ft_putstr_fd("bash: syntax error\n", 2), 1);
+			return (free_all(res) , ft_putstr_fd("bash: syntax error\n", 2), 1);
 		if (is_red(res[i][0]) && syn_err_chars(res[i + 1][0]))
-			return (ft_putstr_fd("bash: syntax error\n", 2), 1);
+			return (free_all(res) , ft_putstr_fd("bash: syntax error\n", 2), 1);
 		if (ft_strchr(res[i], '`') || ft_strchr(res[i], ')')
 			|| ft_strchr(res[i], '('))
-			return (ft_putstr_fd("bash: syntax error\n", 2), 1);
+			return (free_all(res) , ft_putstr_fd("bash: syntax error\n", 2), 1);
 		i++;
 	}
-	return (0);
+	return (free_all(res), 0);
 }

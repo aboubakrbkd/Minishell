@@ -55,22 +55,22 @@ char	**env_split(char *s, char c)
 t_env	*env_init(char **envp)
 {
 	t_env	*head;
-	int		i;
-	char	**sp;
 	t_env	*new;
+	char	**sp;
+	int		i;
 
+	i = -1;
 	head = NULL;
-	i = 0;
-	while (envp[i])
+	while (envp[++i])
 	{
 		sp = env_split(envp[i], '=');
 		if (!sp)
-			break ;
+			return (free_envp(&head), NULL);
 		if (sp[1] != NULL)
 		{
 			new = ft_lstnew(sp[0], sp[1]);
-			if (new == NULL)
-				break ;
+			if (!new)
+				return (free_all(sp), free_envp(&head), NULL);
 			ft_lstadd_back(&head, new);
 		}
 		free_all(sp);

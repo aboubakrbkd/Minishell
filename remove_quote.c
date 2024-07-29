@@ -35,14 +35,12 @@ void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr)
 void	remove_quotes_from_arg(char *arg)
 {
 	int		i;
-	int		j;
 	int		tr;
 	char	qoutes;
 
 	if (count_single(arg) == 1 && count_double(arg) == 0)
 		return ;
 	i = -1;
-	j = 0;
 	tr = 0;
 	qoutes = '\0';
 	while (arg[++i])

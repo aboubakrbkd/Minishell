@@ -121,8 +121,8 @@ void	execution(t_cmd *node, t_list *list)
 	t_execute	*exec;
 
 	exec = malloc(sizeof(t_execute));
-	(1) && (exec->fd_int = dup(0), exec->fd_out = dup(1),
-	envr = env_to_char_array(list->envs), 0);
+	exec->fd_int = dup(0), exec->fd_out = dup(1),
+	envr = env_to_char_array(list->envs);
 	if (check_if_built(node, list, exec))
 	{
 		free_all(envr);
@@ -140,6 +140,6 @@ void	execution(t_cmd *node, t_list *list)
 		close(exec->fd[0]);
 		node = node->next;
 	}
-	(1) && (hand_l_command(node, list, exec, envr), close_all(node, exec), 0),
-	free_all(envr), waits(exec);
+	(hand_l_command(node, list, exec, envr), close_all(node, exec),
+	free_all(envr), waits(exec));
 }

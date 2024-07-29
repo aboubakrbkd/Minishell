@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+int	special_case(char c)
+{
+	return (is_ascii(c) || is_number(c) || c == '_');
+}
+
+int	args_len(char **arg)
+{
+	int i;
+
+	if (!arg || !*arg)
+		return (0);
+	i = 0;
+	while (arg[i])
+		i++;
+	return (i);
+}
+
 int	is_all_num(char *s)
 {
 	while (*s == ' ')
