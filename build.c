@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 04:23:03 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 19:57:59 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ t_cmd	*build_arr(char **res)
 {
 	t_cmd	*head;
 	int		i;
+
 	head = NULL;
 	i = 0;
 	while (res[i])
 	{
 		add_back(&head, ft_new(res[i]));
-		free(res[i]);
 		i++;
 	}
-	free(res);
 	return (head);
 }

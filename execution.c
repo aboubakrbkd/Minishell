@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 14:53:57 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:35:51 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ void	execution(t_cmd *node, t_list *list)
 	char		**envr;
 	t_execute	exec;
 
-	exec.fd_int = dup(0), exec.fd_out = dup(1),
+	
+	exec.fd_int = dup(0);
+	exec.fd_out = dup(1);
 	envr = env_to_char_array(list->envs);
 	if (check_if_built(node, list, &exec))
 	{
@@ -130,15 +132,14 @@ void	execution(t_cmd *node, t_list *list)
 	while (node->next)
 	{
 		handle_commands(node, list, &exec, envr);
-		if (node->infile != 0)
-			close(node->infile);
-		if (node->outfile != 1)
-			close(node->outfile);
 		close((&exec)->fd[1]);
 		dup2((&exec)->fd[0], 0);
 		close((&exec)->fd[0]);
 		node = node->next;
 	}
-	(hand_l_command(node, list, &exec, envr), close_all(node, &exec),
-	free_all(envr), waits(&exec));
+	hand_l_command(node, list, &exec, envr);
+	close_all(node, &exec);
+	free_all(envr);
+	waits(&exec);
 }
+

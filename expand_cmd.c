@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 03:38:12 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:05:17 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp)
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 {
 	t_expand	exp;
-	int		j;
-	int		k;
+	int			j;
+	int			k;
 
 	exp.cmd = ft_strdup("");
 	exp.current = lst->argv[i];

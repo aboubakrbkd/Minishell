@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 01:17:48 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:02:33 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env)
 		}
 		if (!tmp || ((ft_strncmp(tmp, delim, ft_strlen(delim)) == 0)
 				&& (ft_strlen(tmp) == ft_strlen(delim))))
-				{
-					free(tmp);
-					break ;
-				}
+			{
+				free(tmp);
+				break ;
+			}
 		exp = expand_heredoc(tmp, env);
 		free(tmp);
 		perferm_heredoc_help(lst->fd, exp, in);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 04:09:02 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 20:34:49 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded)
 	if (ft_strlen(expanded) == 0 && lst->ambiguous == 0)
 	{
 		if (*tr != 1 && *tr != 2)
-			lst->ambiguous = 1;	
+			lst->ambiguous = 1;
 		free(lst->argv[*i]);
 		lst->argv[*i] = NULL;
 	}
@@ -85,6 +85,6 @@ void	expand(t_cmd *lst, t_list *envp)
 				lst->argv[i] = ft_strdup(tmp);
 			i++;
 		}
-		lst = lst->next;	
+		lst = lst->next;
 	}
 }
