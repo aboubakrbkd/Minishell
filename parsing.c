@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:58:20 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 03:09:07 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:24:08 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	syn_error(char *line)
 	char	**res;
 	int		i;
 
-	res = ft_split(line, ' ');
+	res = ft_split_2(line);
 	if (!res || !*res)
 		return (1);
 	i = 0;

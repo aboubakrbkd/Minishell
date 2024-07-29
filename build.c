@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 03:19:25 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:23:03 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*ft_new(char *cmd)
 		new->cmd = ft_strdup(cmd);
 		if (!new->cmd)
 			return (NULL);
-		new->argv = ft_split(new->cmd, ' ');
+		new->argv = ft_split_2(new->cmd);
 		if (!new->argv)
 			return (NULL);
 		new->infile = 0;

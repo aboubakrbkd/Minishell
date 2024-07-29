@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 03:09:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:37:32 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,5 +240,9 @@ char	**join_args_help(char **s1, char **splited, char **res, int i);
 int		special_case(char c);
 void	free_env(char *name, t_env **envps);
 void	free_exp(t_expand *exp);
+char	**ft_split_2(char *s);
+char	**ft_help_2(char *s, int len, char **final);
+int		countword_2(char *s);
+int		is_whitespace(int c);
 
 #endif
