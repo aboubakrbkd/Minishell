@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:43:34 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 01:05:15 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	remove_qoutes(t_cmd **lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
-void	perferm_heredoc_help(int fd, char *exp, char *tmp, int in);
+void	perferm_heredoc_help(int fd, char *exp, int in);
 int		perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
@@ -234,7 +234,6 @@ t_cmd	*ft_new(char *cmd);
 void	remove_quotes_from_arg(char *arg);
 void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr);
 void	free_list(t_list *list);
-void	handling_shlvl(t_list *list);
 int		args_len(char **arg);
 char	**join_args(char **s1, char *expanded);
 char	**join_args_help(char **s1, char **splited, char **res, int i);

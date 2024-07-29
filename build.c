@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/25 02:04:10 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 00:53:26 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_cmd	*build_arr(char **res)
 {
 	t_cmd	*head;
 	int		i;
-
 	head = NULL;
 	i = 0;
 	while (res[i])

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:42:18 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/29 01:07:13 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	main(int ac, char **av, char **env)
 	list->envs = env_init(env);
 	if (ac != 1 || !lst || !list || !list->envs)
         return (free(lst), free(list), 1);
-	// handling_shlvl(list);
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -91,6 +90,7 @@ int	main(int ac, char **av, char **env)
 			free(temp), free(str);
 			continue ;
 		}
+		free_cmd_lst(&lst);
 		lst = build_arr(res);
 		if (!lst)
 		{
@@ -100,14 +100,14 @@ int	main(int ac, char **av, char **env)
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst, list);
-		expand(lst, list);
+		// expand(lst, list);
 		// remove_qoutes(&lst);
 		// g_signal_status = 1;
 		// tcgetattr(0, &copy);
 		// execution(lst, list);
 		// tcsetattr(0, 0, &copy);
 		// g_signal_status = 0;
-		free(temp), free(str);
+		free_cmd_lst(&lst), free(temp), free(str);
 	}
 	free_envp(&list->envs), free(list), free_cmd_lst(&lst);
 	return (0);
