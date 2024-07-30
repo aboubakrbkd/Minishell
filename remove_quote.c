@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 02:03:02 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/25 02:46:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 01:04:44 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr)
 	arg[j] = '\0';
 }
 
-void	remove_quotes_from_arg(char *arg)
+void	remove_quotes_from_arg(char *arg, int in)
 {
 	int		i;
 	int		tr;
 	char	qoutes;
 
-	if (count_single(arg) == 1 && count_double(arg) == 0)
+	if ((count_single(arg) == 1 && count_double(arg) == 0) || (in == 1 || in == 2))
 		return ;
 	i = -1;
 	tr = 0;
@@ -55,11 +55,11 @@ void	remove_quotes_from_arg(char *arg)
 	remove_quotes_from_arg_helper(arg, qoutes, &tr);
 }
 
-void	process_argv(char **argv)
+void	process_argv(char **argv, int in)
 {
 	while (*argv != NULL)
 	{
-		remove_quotes_from_arg(*argv);
+		remove_quotes_from_arg(*argv, in);
 		argv++;
 	}
 }
@@ -71,7 +71,7 @@ void	remove_qoutes(t_cmd **lst)
 	current = *lst;
 	while (current != NULL)
 	{
-		process_argv(current->argv);
+		process_argv(current->argv, current->in_quote);
 		current = current->next;
 	}
 }
