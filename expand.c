@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 01:15:59 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 03:04:44 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 	if (*tr == 1 || *tr == 0)
 	{
 		expanded = expand_cmd(lst, envp, *i);
-		if (ft_strsearch(expanded, ' ') && *tr == 0)
+		if ((ft_strchr(expanded, ' ') || ft_strchr(expanded, '\t')) && *tr == 0)
 			expand_with_space(lst, expanded);
 		else
 			expand_without_space(lst, tr, i, expanded);
@@ -63,14 +63,15 @@ void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 
 void	expand(t_cmd *lst, t_list *envp)
 {
-	int	 i;
+	int	 	i;
 	char	*tmp;
-	int	 tr;
+	int	 	tr;
 
 	tr = 0;
 	while (lst)
 	{
 		i = 0;
+		tmp = NULL;
 		while (lst->argv[i])
 		{
 			if (ft_strchr(lst->argv[i], '$') && lst->argv[i + 1]

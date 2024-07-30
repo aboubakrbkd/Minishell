@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 01:18:26 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 01:42:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 03:04:05 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**join_args(char **s1, char *expanded)
 	char	**splited;
 	int		i;
 
-	splited = ft_split(expanded, ' ');
+	splited = ft_split_2(expanded);
 	res = malloc((args_len(s1) + args_len(splited) + 1) * sizeof(char *));
 	if (!splited || !res)
 		return (free_all(splited), free(res), NULL);
