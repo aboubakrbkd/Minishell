@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 03:33:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/30 04:43:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*expand_here_cmd(char *temp, t_list *envp)
 	char	*curr;
 	int		j;
 
-	cmd = NULL;
+	cmd = "";
 	curr = temp;
 	j = 0;
 	while (curr[j])
@@ -76,6 +76,8 @@ char	*expand_heredoc(char *temp, t_list *envp)
 	char	*expanded;
 
 	expanded = NULL;
+	if (ft_strchr(temp, '\'') || ft_strchr(temp, '"'))
+			return (ft_strdup(""));
 	if (ft_strchr(temp, '$'))
 		expanded = expand_here_cmd(temp, envp);
 	if (!expanded)
