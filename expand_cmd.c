@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 23:53:21 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 02:56:21 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 
 	exp.cmd = ft_strdup("");
 	exp.current = lst->argv[i];
-	j = 0, k = 0;
+	j = 0;
+	k = 0;
 	while (exp.current[j])
 	{
 		if (exp.current[j] == '$' && exp.current[j + 1] == '?')
