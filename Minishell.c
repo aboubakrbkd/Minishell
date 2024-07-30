@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 02:34:23 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 03:34:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,21 @@ void secure_path(t_list *list)
 	free(pwd);
 }
 
+void	free_envs(t_env *envs)
+{
+	t_env	*next;
+
+	while (envs)
+	{
+		next = envs->next;
+		free(envs->name);
+		free(envs->value);
+		free(envs);
+		envs = next;
+	}
+	envs = NULL;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char			*temp;
@@ -77,7 +92,7 @@ int	main(int ac, char **av, char **env)
 	if (!list->envs)
 		secure_path(list);
 	if (ac != 1)
-        return (free(list), 1);
+		return (free(list), 1);
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -112,7 +127,6 @@ int	main(int ac, char **av, char **env)
 		if (!res)
 			continue ; 
 		lst = build_arr(res);
-		free_all(res);
 		if (!lst)
 			continue ;
 		back_to_ascii(lst);
@@ -126,10 +140,10 @@ int	main(int ac, char **av, char **env)
 		tcsetattr(0, 0, &copy);
 		g_signal_status = 0;
 		free(str);
-		free(temp);
+		free_all(res);
 		free_cmd_lst(&lst);
 	}
+	free_envs(list->envs);
 	free(list);
-	free_cmd_lst(&lst);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_space.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:53:40 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/05/26 18:13:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 02:28:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ char	*add_space(char *line)
 			str[j++] = line[i++];
 	}
 	str[j] = '\0';
-	return (str);
+	return (free(line), str);
 }
