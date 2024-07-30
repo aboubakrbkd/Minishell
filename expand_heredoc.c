@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 23:53:21 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/30 03:33:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*expand_here_cmd(char *temp, t_list *envp)
 	char	*curr;
 	int		j;
 
-	cmd = ft_strdup("");
+	cmd = NULL;
 	curr = temp;
 	j = 0;
 	while (curr[j])

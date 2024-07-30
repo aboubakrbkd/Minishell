@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 19:57:59 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/30 03:22:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,18 @@ t_cmd	*ft_new(char *cmd)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	if (new)
-	{
-		new->cmd = ft_strdup(cmd);
-		if (!new->cmd)
-			return (NULL);
-		new->argv = ft_split_2(new->cmd);
-		if (!new->argv)
-			return (NULL);
-		new->infile = 0;
-		new->outfile = 1;
-		new->ambiguous = 0;
-		new->in_quote = -1;
-		new->is_heredoc = -1;
-		new->next = NULL;
-	}
+	new->cmd = ft_strdup(cmd);
+	if (!new->cmd)
+		return (free(new), NULL);
+	new->argv = ft_split_2(new->cmd);
+	if (!new->argv)
+		return (free(new->cmd), free(new), NULL);
+	new->infile = 0;
+	new->outfile = 1;
+	new->ambiguous = 0;
+	new->in_quote = -1;
+	new->is_heredoc = -1;
+	new->next = NULL;
 	return (new);
 }
 
