@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 19:26:27 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/30 01:06:10 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_expand
 	int		in_double_quote;
 	char	*cmd;
 	char	*current;
-	char	*var_name;
+	char	*name;
 	char	*value;
 }	t_expand;
 
@@ -217,21 +217,20 @@ char	*handle_dollar_sign(char *curr, char *cmd, int *j, t_list *envp);
 char	*handle_other_cases(char *curr, char *cmd, int *j);
 char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp);
-char	*get_env_value(char *var_name, t_env *env);
+char	*get_env_value(char *name, t_env *env);
 int		special_case(char c);
 void	expand_with_space(t_cmd *lst, char *expanded);
 void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded);
 void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr);
-void	single_quote(t_expand *exp, int *j);
-void	double_quote(t_expand *exp, int *j, int *k, t_list *envp);
 void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp);
-void	ft_handle_other_cases(t_expand *exp, int *j, int flag);
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 void	expand(t_cmd *lst, t_list *envp);
 void	add_back(t_cmd **lst, t_cmd *new);
 t_cmd	*get_last(t_cmd *lst);
 t_cmd	*ft_new(char *cmd);
-void	remove_quotes_from_arg(char *arg);
+void	remove_qoutes(t_cmd **lst);
+void	process_argv(char **argv, int in);
+void	remove_quotes_from_arg(char *arg, int in);
 void	remove_quotes_from_arg_helper(char	*arg, char qoutes, int *tr);
 void	free_list(t_list *list);
 int		args_len(char **arg);
@@ -244,5 +243,6 @@ char	**ft_split_2(char *s);
 char	**ft_help_2(char *s, int len, char **final);
 int		countword_2(char *s);
 int		is_whitespace(int c);
+char	*duplicate(char *str);
 
 #endif

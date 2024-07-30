@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:50:50 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/29 20:05:20 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/29 23:53:21 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*duplicate(char *str)
+{
+	char	*ptr;
+	int		i;
+	int		j;
+
+	ptr = malloc(1 + ft_strlen(str));
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			i++;
+			continue ;
+		}
+		ptr[j] = str[i];
+		i++;
+		j++;
+	}
+	ptr[j] = '\0';
+	return (ptr);
+}
 
 void	free_exp(t_expand *exp)
 {
@@ -18,7 +42,7 @@ void	free_exp(t_expand *exp)
 
 	curr = exp;
 	free(curr->current);
-	free(curr->var_name);
+	free(curr->name);
 	free(curr->value);
 	free(curr);
 }

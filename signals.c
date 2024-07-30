@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:25:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 17:26:06 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/30 00:37:38 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	function_sigint(int sig)
 		rl_redisplay();
 		ex_st(1, 1);
 	}
-	else if (sig == SIGINT && g_signal_status == 1)
-		write(1, "\n", 1);
 }
 
 void	function_sigwuit(int sig)
