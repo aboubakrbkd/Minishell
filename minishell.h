@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/31 02:00:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/31 14:48:17 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,5 +245,6 @@ char	**ft_help_2(char *s, int len, char **final);
 int		countword_2(char *s);
 int		is_whitespace(int c);
 char	*duplicate(char *str);
+t_env	*find_env(t_env *envs, char *key);
 
 #endif

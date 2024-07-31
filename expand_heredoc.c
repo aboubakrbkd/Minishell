@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 04:43:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/31 14:55:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*expand_heredoc(char *temp, t_list *envp)
 
 	expanded = NULL;
 	if (ft_strchr(temp, '\'') || ft_strchr(temp, '"'))
-			return (ft_strdup(""));
+		return (ft_strdup(""));
 	if (ft_strchr(temp, '$'))
 		expanded = expand_here_cmd(temp, envp);
 	if (!expanded)

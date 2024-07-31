@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 20:35:51 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:52:57 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	execution(t_cmd *node, t_list *list)
 	char		**envr;
 	t_execute	exec;
 
-	
 	exec.fd_int = dup(0);
 	exec.fd_out = dup(1);
 	envr = env_to_char_array(list->envs);
@@ -142,4 +141,3 @@ void	execution(t_cmd *node, t_list *list)
 	free_all(envr);
 	waits(&exec);
 }
-
