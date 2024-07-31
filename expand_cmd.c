@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/31 14:45:10 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/07/31 23:47:45 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 void	handle_single_quote(t_expand *exp, int *j)
 {
 	char	*temp;
-	char	*temp1;
 
 	temp = NULL;
 	(*j)++;
 	while (exp->current[*j] && exp->current[*j] != '\'')
 	{
 		temp = ft_substr(exp->current, *j, 1);
-		temp1 = exp->cmd;
-		free(exp->cmd);
-		exp->cmd = ft_strjoin(temp1, temp);
+		exp->cmd = ft_strjoin(exp->cmd, temp);
 		free(temp);
 		temp = NULL;
 		(*j)++;
@@ -35,10 +32,8 @@ void	handle_single_quote(t_expand *exp, int *j)
 
 void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 {
-	char	*temp;
 	char	*temp1;
 
-	temp = NULL;
 	temp1 = NULL;
 	(*j)++;
 	while (exp->current[*j] && exp->current[*j] != '"')
@@ -52,15 +47,11 @@ void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 			exp->name = ft_substr(exp->current, *k, *j - *k);
 			exp->value = get_env_value(exp->name, envp->envs);
 			free(exp->name);
-			temp = exp->cmd;
-			free(exp->cmd);
-			exp->cmd = ft_strjoin(temp, exp->value);
+			exp->cmd = ft_strjoin(exp->cmd, exp->value);
 		}
 		else
 		{
-			temp = exp->cmd;
 			temp1 = ft_substr(exp->current, *j, 1);
-			free(exp->cmd);
 			exp->cmd = ft_strjoin(exp->cmd, temp1);
 			free(temp1);
 			(*j)++;
@@ -72,19 +63,14 @@ void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 
 void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp)
 {
-	char	*temp;
-
-	temp = NULL;
 	(*j)++;
 	*k = *j;
 	while (exp->current[*j] && special_case(exp->current[*j]))
 		(*j)++;
 	exp->name = ft_substr(exp->current, *k, *j - *k);
 	exp->value = get_env_value(exp->name, envp->envs);
-	temp = exp->cmd;
-	free(exp->cmd);
-	exp->cmd = ft_strjoin(temp, exp->value);
 	free(exp->name);
+	exp->cmd = ft_strjoin(exp->cmd, exp->value);
 }
 
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
@@ -94,7 +80,7 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	int			j;
 	int			k;
 
-	exp.cmd = "";
+	exp.cmd = NULL;
 	exp.temp = NULL;
 	exp.current = lst->argv[i];
 	j = 0;
@@ -117,11 +103,10 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 		{
 			temp1 = exp.cmd;
 			exp.temp = 	ft_substr(exp.current, j, 1);
-			free(exp.cmd);
 			exp.cmd = ft_strjoin(temp1, exp.temp);
 			free(exp.temp);
 			j++;
 		}
 	}
-	return (free(exp.current), exp.cmd);
+	return (exp.cmd); 
 }
