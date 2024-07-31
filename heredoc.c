@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 04:52:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/31 01:58:38 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*creat_heroc(t_cmd *lst)
 	while (++i)
 	{
 		tmp1 = ft_itoa(i);
-		tmp = ft_strjoin("/tmp/.heredoc", tmp1);
+		tmp = ft_strjoin("heredoc", tmp1);
 		if (!tmp || !tmp1)
 			return (free(tmp), free(tmp1), NULL);
 		free(tmp1);
