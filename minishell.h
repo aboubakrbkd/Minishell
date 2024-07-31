@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 01:06:10 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/07/31 02:00:13 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_expand
 	int		in_single_quote;
 	int		in_double_quote;
 	char	*cmd;
+	char	*temp;
 	char	*current;
 	char	*name;
 	char	*value;
