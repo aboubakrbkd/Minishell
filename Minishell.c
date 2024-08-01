@@ -16,10 +16,9 @@ int	g_signal_status;
 
 void	print_args(t_cmd *lst)
 {
-	int	x;
+	static int	x;
 	int	i;
 
-	x = 0;
 	while (lst)
 	{
 		printf("lst %d :\n", x);
@@ -128,7 +127,10 @@ int	main(int ac, char **av, char **env)
 			continue ; 
 		lst = build_arr(res);
 		if (!lst)
+		{
+			free(str);
 			continue ;
+		}
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst, list);

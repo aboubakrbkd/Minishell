@@ -51,7 +51,7 @@ char	*creat_heroc(t_cmd *lst)
 	while (++i)
 	{
 		tmp1 = ft_itoa(i);
-		tmp = ft_strjoin("heredoc", tmp1);
+		tmp = ft_strjoin("/tmp/.heredoc", tmp1);
 		if (!tmp || !tmp1)
 			return (free(tmp), free(tmp1), NULL);
 		free(tmp1);

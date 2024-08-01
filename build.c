@@ -59,13 +59,18 @@ void	add_back(t_cmd **lst, t_cmd *new)
 t_cmd	*build_arr(char **res)
 {
 	t_cmd	*head;
+	t_cmd	*node;
 	int		i;
 
 	head = NULL;
+	node = NULL;
 	i = 0;
 	while (res[i])
 	{
-		add_back(&head, ft_new(res[i]));
+		node = ft_new(res[i]);
+		if (!node)
+			return (free_all(res), NULL);
+		add_back(&head, node);
 		i++;
 	}
 	return (head);

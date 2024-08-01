@@ -50,8 +50,10 @@ void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 				(*j)++;
 			exp->name = ft_substr(exp->current, *k, *j - *k);
 			exp->value = get_env_value(exp->name, envp->envs);
-			(1) && (temp = exp->cmd, free(exp->name), 0);
-			(1) && (exp->cmd = ft_strjoin(temp, exp->value), free(temp), 0);
+			temp = exp->cmd;
+			free(exp->name);
+			exp->cmd = ft_strjoin(temp, exp->value);
+			free(temp);
 		}
 		else
 		{
