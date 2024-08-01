@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 03:34:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 01:42:16 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ int	g_signal_status;
 
 void	print_args(t_cmd *lst)
 {
-	int	x;
+	static int	x;
 	int	i;
 
-	x = 0;
 	while (lst)
 	{
 		printf("lst %d :\n", x);
@@ -128,7 +127,10 @@ int	main(int ac, char **av, char **env)
 			continue ; 
 		lst = build_arr(res);
 		if (!lst)
+		{
+			free(str);
 			continue ;
+		}
 		back_to_ascii(lst);
 		if (is_heredoc(lst))
 			heredoc(lst, list);

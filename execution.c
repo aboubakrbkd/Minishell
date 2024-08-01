@@ -56,6 +56,7 @@ void	my_execve(t_cmd *node, char **envr)
 			ex_st(126, 1);
 			exit(126);
 		}
+		free_cmd_lst(&node);
 	}
 }
 
@@ -74,11 +75,13 @@ void	hand_l_command(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 			}
 			if (!node->argv[0])
 				exit(0);
+			free(node->cmd);
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd || !ft_strcmp(node->cmd, ".."))
 			{
 				write(2, "minishell: command not found\n", 29);
 				ex_st(127, 1);
+				free_cmd_lst(&node);
 				exit(127);
 			}
 			my_execve(node, envr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/31 14:48:17 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/01 02:25:04 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,8 @@ void	remove_qoutes(t_cmd **lst);
 int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
-void	perferm_heredoc_help(int fd, char *exp, int in);
-int		perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env);
+void	perferm_heredoc_help(int fd, char *exp);
+int		perferm_heredoc(t_cmd *lst, char *delim, t_list *env);
 void	her_sin(int sig);
 void	get_delim(t_cmd *lst);
 int		get_delim_size(t_cmd *lst);
@@ -217,7 +217,7 @@ void	ft_putstr_fd(char *s, int fd);
 char	*handle_dollar_sign(char *curr, char *cmd, int *j, t_list *envp);
 char	*handle_other_cases(char *curr, char *cmd, int *j);
 char	*expand_here_cmd(char *temp, t_list *envp);
-char	*expand_heredoc(char *temp, t_list *envp);
+char	*expand_heredoc(char *temp, t_list *envp, int in);
 char	*get_env_value(char *name, t_env *env);
 int		special_case(char c);
 void	expand_with_space(t_cmd *lst, char *expanded);

@@ -52,6 +52,8 @@ void	free_list(t_list *list)
 	t_env	*current;
 	t_env	*next;
 
+	if (!list)
+		return ;
 	current = list->envs;
 	while (current)
 	{
@@ -68,6 +70,8 @@ void	free_cmd_lst(t_cmd **lst)
 {
 	t_cmd	*next;
 
+	if (!lst || !*lst)
+		return ;
 	while (*lst)
 	{
 		next = (*lst)->next;

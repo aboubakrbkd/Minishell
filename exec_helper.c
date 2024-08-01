@@ -61,8 +61,6 @@ char	*command(char *my_argv, char **envr)
 
 	if (check(my_argv))
 		return (my_argv);
-	if (!envr)
-		return (NULL);
 	path = get_path(envr);
 	if (!path)
 		return (NULL);

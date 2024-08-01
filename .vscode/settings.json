@@ -3,6 +3,8 @@
 		"errno.h": "c",
 		"history.h": "c",
 		"iterator": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"*.tcc": "c",
+		"fstream": "c"
 	}
 }
