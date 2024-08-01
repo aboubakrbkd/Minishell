@@ -6,11 +6,20 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 04:00:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 05:26:10 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_parse(t_parse *p)
+{
+	if (!p)
+		return ;
+	free_all(p->res);
+	free(p->str);
+	free(p->temp);
+}
 
 t_cmd	*ft_new(char *cmd)
 {

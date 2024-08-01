@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 05:02:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 05:26:20 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,5 +254,6 @@ int		parsing(t_cmd **lst, t_parse *p, t_list *list);
 int		tty_error(t_parse *p);
 void	secure_path(t_list *list);
 void	f_env(t_env *envs);
+void	free_parse(t_parse *p);
 
 #endif

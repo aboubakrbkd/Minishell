@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_space.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:53:40 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/30 02:28:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 05:22:18 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*add_space(char *line)
 	j = 0;
 	str = malloc(ft_strlen(line) + count_num_of_special(line) * 2 + 1);
 	if (!str)
-		return (free(line), NULL);
+		return (NULL);
 	while (line[i])
 	{
 		if ((line[i] == '<' && line[i + 1] == '<')
@@ -77,5 +77,5 @@ char	*add_space(char *line)
 			str[j++] = line[i++];
 	}
 	str[j] = '\0';
-	return (free(line), str);
+	return (str);
 }
