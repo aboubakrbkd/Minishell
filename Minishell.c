@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 04:25:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 04:56:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,7 @@
 
 int	g_signal_status;
 
-void	print_args(t_cmd *lst)
-{
-	static int	x;
-	int	i;
-
-	while (lst)
-	{
-		printf("lst %d :\n", x);
-		i = 0;
-		while (lst->argv[i])
-		{
-			printf("lst->argv[%d]: %s\n", i, lst->argv[i]);
-			i++;
-		}
-		lst = lst->next;
-		x++;
-	}
-	printf("\n");
-}
-
-void secure_path(t_list *list)
+void	secure_path(t_list *list)
 {
 	char	*path;
 	char	*pwd;
@@ -44,23 +24,23 @@ void secure_path(t_list *list)
 	pwd = getcwd(NULL, 0);
 	new_env = NULL;
 	if (!pwd)
-		return;
+		return ;
 	new_env = ft_lstnew("PWD", pwd);
-	if(new_env)
+	if (new_env)
 		ft_lstadd_back(&list->envs, new_env);
 	new_env = ft_lstnew("SHLVL", "1");
-	if(new_env)
+	if (new_env)
 		ft_lstadd_back(&list->envs, new_env);
 	new_env = ft_lstnew("_", "/usr/bin/env");
-	if(new_env)
+	if (new_env)
 		ft_lstadd_back(&list->envs, new_env);
 	new_env = ft_lstnew("PATH", path);
-	if(new_env)
+	if (new_env)
 		ft_lstadd_back(&list->envs, new_env);
 	free(pwd);
 }
 
-void	free_envs(t_env *envs)
+void	f_env(t_env *envs)
 {
 	t_env	*next;
 
@@ -75,79 +55,65 @@ void	free_envs(t_env *envs)
 	envs = NULL;
 }
 
-// int	parsing()
-// {
-	
-// }
+int	tty_error(t_parse *p)
+{
+	if (!p->temp || !isatty(0))
+		return (1);
+	return (0);
+}
+
+int	parsing(t_cmd **lst, t_parse *p, t_list *list)
+{
+	add_history(p->temp);
+	if (!ft_strlen(p->temp) || is_blank(p->temp))
+		return (free(p->temp), 1);
+	p->str = add_space(p->temp);
+	if (!p->str)
+		return (free(p->temp), 1);
+	if (syn_error(p->str))
+		return (free(p->str), 1);
+	change_to_garb(p->str);
+	if (handle_single_double(p->str))
+		return (free(p->str), 1);
+	p->res = ft_split(p->str, '|');
+	if (!p->res)
+		return (1);
+	*lst = build_arr(p->res);
+	if (!*lst)
+		return (free(p->str), 1);
+	back_to_ascii(*lst);
+	if (is_heredoc(*lst))
+		heredoc(*lst, list);
+	expand(*lst, list);
+	remove_qoutes(&*lst);
+	free(p->str);
+	free_all(p->res);
+	return (0);
+}
 
 int	main(int ac, char **av, char **env)
 {
-	char			*temp;
+	t_parse			p;
 	t_cmd			*lst;
 	t_list			*list;
-	char			*str;
-	char			**res;
 	struct termios	copy;
 
 	if (ac != 1)
 		return (1);
 	(1) && ((void)av, g_signal_status = 0, list = malloc(sizeof(t_list)), 0);
-	list->envs = env_init(env);
+	(1) && (lst = malloc(sizeof(t_cmd)), list->envs = env_init(env), 0);
 	if (!list->envs)
 		secure_path(list);
 	while (1)
 	{
+		if (tty_error(&p))
+			return (f_env(list->envs), free(list), put_fd("exit\n", 2), 0);
 		(1) && (rl_catch_signals = 0, check_signals(), 0);
-		temp = readline("Minishell-$ ");
-		if (!temp || !isatty(0))
-		{
-			ft_putstr_fd("exit\n", 2);
-			break ;
-		}
-		add_history(temp);
-		if (!ft_strlen(temp) || is_blank(temp))
-		{
-			free(temp);
+		p.temp = readline("Minishell-$ ");
+		if (!ft_strlen(p.temp) || is_blank(p.temp) || parsing(&lst, &p, list))
 			continue ;
-		}
-		str = add_space(temp);
-		if (!str)
-			continue ;
-		if (syn_error(str))
-		{
-			free(str);
-			continue ;
-		}
-		change_to_garb(str);
-		if (handle_single_double(str))
-		{
-			free(str);
-			continue ;
-		}
-		res = ft_split(str, '|');
-		if (!res)
-			continue ; 
-		lst = build_arr(res);
-		if (!lst)
-		{
-			free(str);
-			continue ;
-		}
-		back_to_ascii(lst);
-		if (is_heredoc(lst))
-			heredoc(lst, list);
-		expand(lst, list);
-		remove_qoutes(&lst);
-		g_signal_status = 1;
-		tcgetattr(0, &copy);
-		execution(lst, list);
-		tcsetattr(0, 0, &copy);
-		g_signal_status = 0;
-		free(str);
-		free_all(res);
-		free_cmd_lst(&lst);
+		(1) && (g_signal_status = 1, tcgetattr(0, &copy), ex(lst, list), 0);
+		(1) && (tcsetattr(0, 0, &copy), g_signal_status = 0, f_cmd(&lst), 0);
 	}
-	free_envs(list->envs);
-	free(list);
-	return (0);
+	return (f_env(list->envs), free(list), 0);
 }

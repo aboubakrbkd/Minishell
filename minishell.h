@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 04:16:27 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 04:57:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@
 # define BUFFER_SIZE 33
 
 extern int	g_signal_status;
+
+typedef struct s_parse
+{
+	char	*temp;
+	char	*str;
+	char	**res;
+}	t_parse;
 
 typedef struct s_expand
 {
@@ -85,10 +92,6 @@ typedef struct s_execute
 	int	fd_out;
 }			t_execute;
 
-//dw
-void	print_args(t_cmd *lst);
-//dw
-
 char	**ft_split(char *s, char c);
 char	**ft_help(char *s, char c, int len, char **final);
 void	ft_free(char **ptr, int i);
@@ -130,9 +133,8 @@ int		ft_strcpy(char *dest, char *src);
 t_cmd	*new_list(void *cmd);
 void	back_to_ascii(t_cmd *lst);
 char	*nops_strdup(char *str);
-void	execution(t_cmd *node, t_list *list);
+void	ex(t_cmd *node, t_list *list);
 void	home_function(char *home, t_list *list);
-void	old_pwd_function(char *home, t_list *list);
 void	error_function(char *home, t_list *list);
 int		check_if_flag(char *argv);
 char	**env_split(char *s, char c);
@@ -162,7 +164,7 @@ void	env_to_char_array_helper(t_env *current, char **envp);
 char	**env_to_char_array(t_env *head);
 void	error_open(char *str);
 void	free_all(char **str);
-void	free_cmd_lst(t_cmd **lst);
+void	f_cmd(t_cmd **lst);
 char	*command(char *my_argv, char **envr);
 int		env_size(t_env *env);
 char	*get_name(char *str);
@@ -213,7 +215,7 @@ t_exp	*ft_new_node(char *str);
 char	*unquote(char *input);
 int		count_double(char *input);
 int		count_single(char *input);
-void	ft_putstr_fd(char *s, int fd);
+void	put_fd(char *s, int fd);
 char	*handle_dollar_sign(char *curr, char *cmd, int *j, t_list *envp);
 char	*handle_other_cases(char *curr, char *cmd, int *j);
 char	*expand_here_cmd(char *temp, t_list *envp);
@@ -248,5 +250,9 @@ char	*duplicate(char *str);
 t_env	*find_env(t_env *envs, char *key);
 void	heredoc(t_cmd *l, t_list *env);
 void	last_case(t_expand *exp, int *j);
+int		parsing(t_cmd **lst, t_parse *p, t_list *list);
+int		tty_error(t_parse *p);
+void	secure_path(t_list *list);
+void	f_env(t_env *envs);
 
 #endif
