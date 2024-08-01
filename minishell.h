@@ -6,13 +6,9 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 05:26:20 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 05:34:28 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-	$VAR == ALPHA NUM + _
-*/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
