@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/31 14:52:57 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/01 04:57:00 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	my_execve(t_cmd *node, char **envr)
 			ex_st(126, 1);
 			exit(126);
 		}
-		free_cmd_lst(&node);
+		f_cmd(&node);
 	}
 }
 
@@ -81,7 +81,7 @@ void	hand_l_command(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 			{
 				write(2, "minishell: command not found\n", 29);
 				ex_st(127, 1);
-				free_cmd_lst(&node);
+				f_cmd(&node);
 				exit(127);
 			}
 			my_execve(node, envr);
@@ -118,7 +118,7 @@ void	handle_commands(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 	}
 }
 
-void	execution(t_cmd *node, t_list *list)
+void	ex(t_cmd *node, t_list *list)
 {
 	char		**envr;
 	t_execute	exec;

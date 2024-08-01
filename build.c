@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   build.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/30 03:22:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 05:26:10 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_parse(t_parse *p)
+{
+	if (!p)
+		return ;
+	free_all(p->res);
+	free(p->str);
+	free(p->temp);
+}
 
 t_cmd	*ft_new(char *cmd)
 {
@@ -25,7 +34,7 @@ t_cmd	*ft_new(char *cmd)
 	new->argv = ft_split_2(new->cmd);
 	if (!new->argv)
 		return (free(new->cmd), free(new), NULL);
-	new->infile = 0;
+	new->inf = 0;
 	new->outfile = 1;
 	new->ambiguous = 0;
 	new->in_quote = -1;

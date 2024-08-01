@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/31 23:44:42 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 04:19:15 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,49 +33,37 @@ void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded)
 
 void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 {
-	char	*expanded;
+	char	*ex;
 
 	if (ft_strsearch(lst->argv[*i], '"'))
-	{
-		*tr = 1;
-		lst->in_quote = 2;
-	}
+		(1) && (*tr = 1, lst->in_quote = 2, 0);
 	if (ft_strsearch(lst->argv[*i], '\''))
-	{
-		lst->in_quote = 2;
-		*tr = 2;
-	}
+		(1) && (lst->in_quote = 2, *tr = 2, 0);
 	if (*tr == 1 || *tr == 0)
 	{
-		expanded = expand_cmd(lst, envp, *i);
-		if ((ft_strchr(expanded, ' ') || ft_strchr(expanded, '\t')) && *tr == 0)
-			expand_with_space(lst, expanded);
+		ex = expand_cmd(lst, envp, *i);
+		if ((ft_strchr(ex, ' ') || ft_strchr(ex, '\t')) && *tr == 0)
+			expand_with_space(lst, ex);
 		else
-			expand_without_space(lst, tr, i, expanded);
-		free(expanded);
+			expand_without_space(lst, tr, i, ex);
+		free(ex);
 	}
 	if (*tr == 2)
 	{
-		expanded = expand_cmd(lst, envp, *i);
+		ex = expand_cmd(lst, envp, *i);
 		if (ft_strnstr(lst->argv[*i], "$'"))
-		{
-			free(lst->argv[*i]);
-			lst->argv[*i] = ft_strdup(expanded + 1);
-		}
+			(1) && (free(lst->argv[*i]), lst->argv[*i] = ft_strdup(ex + 1), 0);
 		else
-		{
-			free(lst->argv[*i]);
-			lst->argv[*i] = ft_strdup(expanded);
-		}
-		free(expanded);
+			(1) && (free(lst->argv[*i]), lst->argv[*i] = ft_strdup(ex), 0);
+		free(ex);
 	}
 }
 
 void	expand(t_cmd *lst, t_list *envp)
 {
-	int	 	i;
+	int		i;
 	char	*tmp;
-	int	 	tr;
+	int		tr;
 
 	tr = 0;
 	while (lst)
