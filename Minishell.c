@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 01:42:16 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 04:25:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ void	free_envs(t_env *envs)
 	envs = NULL;
 }
 
+// int	parsing()
+// {
+	
+// }
+
 int	main(int ac, char **av, char **env)
 {
 	char			*temp;
@@ -84,22 +89,19 @@ int	main(int ac, char **av, char **env)
 	char			**res;
 	struct termios	copy;
 
-	(void)av;
-	g_signal_status = 0;
-	list = malloc(sizeof(t_list));
+	if (ac != 1)
+		return (1);
+	(1) && ((void)av, g_signal_status = 0, list = malloc(sizeof(t_list)), 0);
 	list->envs = env_init(env);
 	if (!list->envs)
 		secure_path(list);
-	if (ac != 1)
-		return (free(list), 1);
 	while (1)
 	{
-		rl_catch_signals = 0;
-		check_signals();
+		(1) && (rl_catch_signals = 0, check_signals(), 0);
 		temp = readline("Minishell-$ ");
 		if (!temp || !isatty(0))
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
 		add_history(temp);

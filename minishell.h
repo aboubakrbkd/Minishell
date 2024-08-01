@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 02:25:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 04:16:27 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argv;
-	char			**delim;
+	char			**del;
 	int				fd;
-	int				infile;
+	int				inf;
 	int				outfile;
 	int				in_quote;
 	int				is_heredoc;
@@ -176,10 +176,10 @@ int		is_heredoc(t_cmd *lst);
 void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
 void	perferm_heredoc_help(int fd, char *exp);
-int		perferm_heredoc(t_cmd *lst, char *delim, t_list *env);
+int		perferm_heredoc(t_cmd *lst, char *del, t_list *env);
 void	her_sin(int sig);
-void	get_delim(t_cmd *lst);
-int		get_delim_size(t_cmd *lst);
+void	get_del(t_cmd *lst);
+int		get_del_size(t_cmd *lst);
 int		ex_st(int status, int mode);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -246,5 +246,7 @@ int		countword_2(char *s);
 int		is_whitespace(int c);
 char	*duplicate(char *str);
 t_env	*find_env(t_env *envs, char *key);
+void	heredoc(t_cmd *l, t_list *env);
+void	last_case(t_expand *exp, int *j);
 
 #endif
