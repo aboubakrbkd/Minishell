@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:00 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/16 13:13:28 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:06:05 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,11 @@ int	update_the_value(char *name, char *value, t_list *list)
 	{
 		if (!ft_strcmp(env->name, name))
 		{
-			temp = env->value;
-			env->value = ft_strjoin(temp, value);
+			temp = ft_strjoin(env->value, value);
+			if (!temp)
+				return (1);
+			free(env->value);
+			env->value = temp;
 			return (0);
 		}
 		env = env->next;
