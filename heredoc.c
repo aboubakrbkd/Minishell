@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/07/31 01:58:38 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 02:24:50 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ char	*creat_heroc(t_cmd *lst)
 	return (NULL);
 }
 
-void	perferm_heredoc_help(int fd, char *exp, int in)
+void	perferm_heredoc_help(int fd, char *exp)
 {
-	if (exp && in != 1)
+	if (exp)
 	{
 		write(fd, exp, ft_strlen(exp));
 		write(fd, "\n", 1);
@@ -77,7 +77,7 @@ void	perferm_heredoc_help(int fd, char *exp, int in)
 	}
 }
 
-int	perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env)
+int	perferm_heredoc(t_cmd *lst, char *delim, t_list *env)
 {
 	char	*exp;
 	char	*tmp;
@@ -97,9 +97,9 @@ int	perferm_heredoc(t_cmd *lst, int in, char *delim, t_list *env)
 				free(tmp);
 				break ;
 			}
-		exp = expand_heredoc(tmp, env);
+		exp = expand_heredoc(tmp, env, lst->in_quote);
 		free(tmp);
-		perferm_heredoc_help(lst->fd, exp, in);
+		perferm_heredoc_help(lst->fd, exp);
 	}
 	return (0);
 }
@@ -116,7 +116,7 @@ void	heredoc(t_cmd *lst, t_list *env)
 		while (lst->delim[++i])
 		{
 			tmp = creat_heroc(lst);
-			if (perferm_heredoc(lst, lst->in_quote, lst->delim[i], env))
+			if (perferm_heredoc(lst, lst->delim[i], env))
 			{
 				free(lst->delim[i]), unlink(tmp), free(tmp);
 				close(lst->fd);

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 00:26:47 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 01:37:30 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 				(*j)++;
 			exp->name = ft_substr(exp->current, *k, *j - *k);
 			exp->value = get_env_value(exp->name, envp->envs);
-			temp = exp->cmd;
-			free(exp->name);
-			exp->cmd = ft_strjoin(temp, exp->value);
-			free(temp);
+			(1) && (temp = exp->cmd, free(exp->name), 0);
+			(1) && (exp->cmd = ft_strjoin(temp, exp->value), free(temp), 0);
 		}
 		else
 		{
