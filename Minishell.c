@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 01:48:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 13:11:14 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:12 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		if (tty_error(&p))
-			return (f_env(l->envs), free(l), put_fd("exit\n", 2), 0);
+			return (f_env(l->envs), free(l), put_fd("exit\n", 2), ex_st(0, 0));
 		(1) && (rl_catch_signals = 0, check_signals(), 0);
 		if (parsing(&lst, &p, l))
 			continue ;
