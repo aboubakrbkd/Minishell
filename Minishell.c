@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
 /*   Updated: 2024/08/02 01:33:22 by mkimdil          ###   ########.fr       */
@@ -105,7 +105,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		if (tty_error(&p))
-			return (f_env(l->envs), free(l), free(lst), put_fd("exit\n", 2), 0);
+			return (f_env(l->envs), free(l), put_fd("exit\n", 2), 0);
 		(1) && (rl_catch_signals = 0, check_signals(), 0);
 		if (parsing(&lst, &p, l))
 			continue ;
