@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 04:00:13 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/01 22:11:42 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	redirect_out_append(t_cmd *node, int *index, int flags)
 {
 	int		j;
+	char	*str;
 
 	if (checking_ambigious(node) == 1)
 		return (1);
@@ -25,7 +26,9 @@ int	redirect_out_append(t_cmd *node, int *index, int flags)
 		node->outfile = open(node->argv[*index + 1], flags, 0644);
 		if (node->outfile == -1)
 		{
-			msg_error(ft_strjoin("open: ", node->argv[*index + 1]));
+			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
+			msg_error(str);
+			free(str);
 			ex_st(1, 1);
 			return (1);
 		}
@@ -38,6 +41,7 @@ int	redirect_out_append(t_cmd *node, int *index, int flags)
 int	redirect_in(t_cmd *node, int *index, int flags)
 {
 	int		j;
+	char	*str;
 
 	if (checking_ambigious(node) == 1)
 		return (1);
@@ -48,7 +52,10 @@ int	redirect_in(t_cmd *node, int *index, int flags)
 		node->inf = open(node->argv[*index + 1], flags);
 		if (node->inf == -1)
 		{
-			msg_error(ft_strjoin("open: ", node->argv[*index + 1]));
+			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
+			msg_error(str);
+			ex_st(1, 1);
+			free(str);
 			return (1);
 		}
 		j = *index;
@@ -60,6 +67,7 @@ int	redirect_in(t_cmd *node, int *index, int flags)
 int	redirect_out(t_cmd *node, int *index, int flags)
 {
 	int		j;
+	char	*str;
 
 	if (checking_ambigious(node) == 1)
 		return (1);
@@ -70,7 +78,9 @@ int	redirect_out(t_cmd *node, int *index, int flags)
 		node->outfile = open(node->argv[*index + 1], flags, 0644);
 		if (node->outfile == -1)
 		{
-			msg_error(ft_strjoin("open: ", node->argv[*index + 1]));
+			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
+			msg_error(str);
+			free(str);
 			ex_st(1, 1);
 			return (1);
 		}
