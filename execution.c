@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 23:07:28 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/02 20:18:54 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	waits(t_execute *exec)
 
 void	my_execve(t_cmd *node, char **envr)
 {
+	puts("efsg");
 	if (execve(node->cmd, node->argv, envr) == -1)
 	{
+		puts("dtfg");
 		if (!ft_strncmp(node->cmd, ".", 1))
 		{
 			write(2, "minishell: .: filename argument required\n", 41);

@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:12:05 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/02 18:26:25 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:27:08 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ int	redirect_out_append(t_cmd *node, int *index, int flags)
 		{
 			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
 			msg_error(str);
-			free(str);
-			ex_st(1, 1);
-			return (1);
+			return (free(str), ex_st(1, 1), 1);
 		}
 		j = *index;
 		new_array(node, index, j);
+	}
+	else
+	{
+		write(2, "minishell: no such file or directory\n", 37);
+		return (ex_st(1, 1), 1);
 	}
 	return (0);
 }
@@ -54,12 +57,15 @@ int	redirect_in(t_cmd *node, int *index, int flags)
 		{
 			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
 			msg_error(str);
-			ex_st(1, 1);
-			free(str);
-			return (1);
+			return (free(str), ex_st(1, 1), 1);
 		}
 		j = *index;
 		new_array(node, index, j);
+	}
+	else
+	{
+		write(2, "minishell: no such file or directory\n", 37);
+		return (ex_st(1, 1), 1);
 	}
 	return (0);
 }
@@ -80,12 +86,15 @@ int	redirect_out(t_cmd *node, int *index, int flags)
 		{
 			str = ft_strjoin("minishell: ", node->argv[*index + 1]);
 			msg_error(str);
-			free(str);
-			ex_st(1, 1);
-			return (1);
+			return (free(str), ex_st(1, 1), 1);
 		}
 		j = *index;
 		new_array(node, index, j);
+	}
+	else
+	{
+		write(2, "minishell: no such file or directory\n", 37);
+		return (ex_st(1, 1), 1);
 	}
 	return (0);
 }
