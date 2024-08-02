@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 23:30:28 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/02 12:35:38 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,18 @@ t_env	*find_env(t_env *envs, char *key)
 void	update_oldpwd(t_list *list, char *old_pwd)
 {
 	t_env	*oldpwd_env;
+	char	*tmp;
 
 	oldpwd_env = find_env(list->envs, "OLDPWD");
 	if (oldpwd_env)
 	{
 		free(oldpwd_env->value);
 		if (!old_pwd)
-			oldpwd_env->value = ft_strdup("/Users/mkimdil/Desktop");
+		{
+			tmp = getcwd(NULL, 0);
+			oldpwd_env->value = tmp;
+			free(tmp);
+		}
 		else
 			oldpwd_env->value = ft_strdup(old_pwd);
 	}
@@ -98,7 +103,6 @@ int	cd(char **argv, t_list *list)
 		free(old_pwd);
 		return (ex_st(1, 1), 1);
 	}
-	update_oldpwd(list, old_pwd);
 	update_pwd(list);
 	return (free(old_pwd), ex_st(0, 1), 0);
 }
