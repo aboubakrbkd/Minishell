@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 01:33:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/02 01:45:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	tty_error(t_parse *p)
 
 int	parsing(t_cmd **lst, t_parse *p, t_list *list)
 {
-	p->temp = readline("bash-3.2$ ");
+	p->temp = readline("Minishell-$ ");
 	if (!ft_strlen(p->temp) || is_blank(p->temp))
 		return (free(p->temp), 1);
 	add_history(p->temp);
