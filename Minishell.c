@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 01:48:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:12 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:19:48 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (1);
 	(1) && ((void)av, g_signal_status = 0, l = malloc(sizeof(t_list)), 0);
+	if (!l)
+		return (1);
 	(1) && (l->envs = env_init(env), 0);
 	if (!l->envs)
 		secure_path(l);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:12:28 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 23:26:32 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/02 18:02:33 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	ft_strnstr(char *str, char *to_find)
 
 int	ft_atoi(char *str)
 {
-	int	r;
-	int	i;
-	int	s;
+	size_t	r;
+	int		i;
+	int		s;
 
 	r = 0;
 	i = 0;
@@ -89,10 +89,15 @@ int	ft_atoi(char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		r = r * 10 + (str[i] - '0');
+		if (r > 9223372036854775807ULL && s > 0)
+			return (-1);
+		else if (r > 922337203685477580ULL + 1 && s < 0)
+			return (0);
 		i++;
 	}
 	return (r * s);
 }
+
 
 char	*ft_strdup(char *str)
 {

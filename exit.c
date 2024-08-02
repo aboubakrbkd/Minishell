@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/29 14:57:16 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:07:45 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,17 @@ int	exit_function(char **argv)
 	{
 		if (argv[2] == NULL)
 		{
-			if (ft_atoi(argv[1]) < 0)
-				exit_functions_help(argv[1], -1);
-			else if (ft_atoi(argv[1]) > 255)
-				exit_functions_help(argv[1], 1);
-			else
-				exit_functions_help(argv[1], 0);
+			exit(ft_atoi(argv[1]));
+			// if (ft_atoi(argv[1]) < 0)
+			// 	exit_functions_help(argv[1], -1);
+			// else if (ft_atoi(argv[1]) > 255)
+			// 	exit_functions_help(argv[1], 1);
+			// else
+			// 	exit_functions_help(argv[1], 0);
 		}
 		else
 			return (printf("too many arguments\n"), 1);
-	}
 	printf("%s: %s: numeric argument required\n", argv[0], argv[1]);
+	}
 	return (ex_st(255, 1), exit(255), 0);
 }
