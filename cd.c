@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:54:47 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/31 14:51:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/01 23:30:28 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	update_oldpwd(t_list *list, char *old_pwd)
 	if (oldpwd_env)
 	{
 		free(oldpwd_env->value);
-		oldpwd_env->value = ft_strdup(old_pwd);
+		if (!old_pwd)
+			oldpwd_env->value = ft_strdup("/Users/mkimdil/Desktop");
+		else
+			oldpwd_env->value = ft_strdup(old_pwd);
 	}
 	else
 	{
@@ -85,7 +88,7 @@ int	cd(char **argv, t_list *list)
 		i++;
 	if (i == 1)
 		return (home_function(home, list), free(old_pwd), 0);
-	else if (chdir(argv[1]) == -1)
+	if (chdir(argv[1]) == -1)
 	{
 		if (!ft_strcmp(argv[1], ".."))
 			return (error_function(home, list), free(old_pwd), 0);
