@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/07/31 14:52:35 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 00:26:09 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ char	*command(char *my_argv, char **envr)
 		command_path = ft_strjoin(joiner, my_argv);
 		free(joiner);
 		if (access(command_path, F_OK | X_OK) == 0)
-			return (free_all(path), command_path);
+			return (fr(path), command_path);
 		free(command_path);
 		i++;
 	}
-	return (free_all(path), NULL);
+	return (fr(path), NULL);
 }
 
-void	free_all(char **str)
+void	fr(char **str)
 {
 	int	i;
 

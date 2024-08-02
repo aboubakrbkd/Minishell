@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/02 22:08:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 00:26:09 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	ex(t_cmd *node, t_list *list)
 	envr = env_to_char_array(list->envs);
 	if (check_if_built(node, list, &exec))
 	{
-		free_all(envr);
+		fr(envr);
 		return ;
 	}
 	while (node->next)
@@ -141,6 +141,6 @@ void	ex(t_cmd *node, t_list *list)
 	}
 	hand_l_command(node, list, &exec, envr);
 	close_all(node, &exec);
-	free_all(envr);
+	fr(envr);
 	waits(&exec);
 }

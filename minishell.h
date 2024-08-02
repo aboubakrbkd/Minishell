@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 18:31:21 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 00:26:09 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int		is_builtin(t_cmd *cmd, t_list *list);
 void	env_to_char_array_helper(t_env *current, char **envp);
 char	**env_to_char_array(t_env *head);
 void	error_open(char *str);
-void	free_all(char **str);
+void	fr(char **str);
 void	f_cmd(t_cmd **lst);
 char	*command(char *my_argv, char **envr);
 int		env_size(t_env *env);
@@ -171,7 +171,6 @@ int		add_the_value(char *name, char *value, t_list *list);
 void	add_env(t_env **env, char *name, char *value);
 void	remove_qoutes(t_cmd **lst);
 int		is_heredoc(t_cmd *lst);
-void	heredoc(t_cmd *lst, t_list *env);
 char	*creat_heroc(t_cmd *lst);
 void	perferm_heredoc_help(int fd, char *exp);
 int		perferm_heredoc(t_cmd *lst, char *del, t_list *env);
@@ -244,7 +243,7 @@ int		countword_2(char *s);
 int		is_whitespace(int c);
 char	*duplicate(char *str);
 t_env	*find_env(t_env *envs, char *key);
-void	heredoc(t_cmd *l, t_list *env);
+int		heredoc(t_cmd *l, t_list *env);
 void	last_case(t_expand *exp, int *j);
 int		parsing(t_cmd **lst, t_parse *p, t_list *list);
 int		tty_error(t_parse *p);
