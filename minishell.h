@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 18:20:03 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:31:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <errno.h>
 
 # define BUFFER_SIZE 33
-
 
 extern int	g_signal_status;
 

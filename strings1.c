@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:12:28 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/02 18:02:33 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:31:04 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	ft_atoi(char *str)
 	}
 	return (r * s);
 }
-
 
 char	*ft_strdup(char *str)
 {
