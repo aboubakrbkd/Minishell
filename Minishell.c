@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 04:01:04 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/02 00:21:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/02 01:33:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	parsing(t_cmd **lst, t_parse *p, t_list *list)
 	if (!ft_strlen(p->temp) || is_blank(p->temp))
 		return (free(p->temp), 1);
 	add_history(p->temp);
-	if (!ft_strlen(p->temp) || is_blank(p->temp))
-		return (free(p->temp), 1);
 	p->str = add_space(p->temp);
 	if (!p->str)
 		return (free(p->temp), 1);
@@ -100,7 +98,6 @@ int	main(int ac, char **av, char **env)
 
 	if (ac != 1)
 		return (1);
-	
 	(1) && ((void)av, g_signal_status = 0, l = malloc(sizeof(t_list)), 0);
 	(1) && (l->envs = env_init(env), 0);
 	if (!l->envs)
