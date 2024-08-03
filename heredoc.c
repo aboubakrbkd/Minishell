@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 00:52:39 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:58:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	heredoc(t_cmd *l, t_list *env)
 			unlink(t);
 			if (perferm_heredoc(l, l->del[i], env))
 			{
-				(1) && (fr(l->del), free(t), close(l->fd), f = 1, 0);
+				(1) && (fr(l->del), free(t), close(l->fd), f = 1, close(fd), 0);
 				break ;
 			}
 			(l->inf != 0) && (close(l->inf), 0);
