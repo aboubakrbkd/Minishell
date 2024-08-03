@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 01:02:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 01:20:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	my_execve(t_cmd *node, char **envr)
 			ex_st(126, 1);
 			exit(126);
 		}
-		f_cmd(&node);
 	}
 }
 
@@ -81,7 +80,6 @@ void	hand_l_command(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 			{
 				write(2, "minishell: command not found\n", 29);
 				ex_st(127, 1);
-				f_cmd(&node);
 				exit(127);
 			}
 			my_execve(node, envr);
