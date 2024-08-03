@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 17:12:18 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:15:46 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,7 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 		else if (exp.current[j] == '$' && special_case(exp.current[j + 1]))
 			handle_special_case(&exp, &j, &k, envp);
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '$')
-		{
-			exp.cmd = ft_strdup("");
-			j += 2;
-		}
+			(1) && (exp.cmd = ft_strdup(""), j += 2, 0);
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '"')
 			j++;
 		else
