@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 13:25:53 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:08:02 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	get_del(t_cmd *lst)
 	char	*tmp1;
 
 	del_size = get_del_size(lst) * 2;
-	lst->del = malloc(sizeof(char *) * del_size + 1);
+	lst->del = malloc(sizeof(char *) * (del_size + 1));
 	if (!lst->del)
 		return ;
 	i = -1;
@@ -109,9 +109,7 @@ int	heredoc(t_cmd *l, t_list *env)
 	char	*t;
 	int		i;
 	int		fd;
-	int		f;
 
-	f = 0;
 	while (l)
 	{
 		(1) && (i = -1, get_del(l), 0);
@@ -121,14 +119,14 @@ int	heredoc(t_cmd *l, t_list *env)
 			unlink(t);
 			if (perferm_heredoc(l, l->del[i], env))
 			{
-				(1) && (fr(l->del), free(t), close(l->fd), f = 1, close(fd), 0);
-				break ;
+				(1) && (fr(l->del), free(t), close(l->fd), close(fd), 0);
+				return (1);
 			}
 			(l->inf != 0) && (close(l->inf), 0);
 			(1) && (l->inf = fd, close(l->fd), free(t), 0);
 		}
-		(f == 0) && (fr(l->del), 0);
+		fr(l->del);
 		l = l->next;
 	}
-	return (f);
+	return (0);
 }
