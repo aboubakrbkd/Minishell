@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 01:20:37 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 01:23:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ void	handle_commands(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 		{
 			my_dup1(node, exec);
 			if (checkbuiltin(node))
-			{
-				is_builtin(node, list);
-				exit(0);
-			}
+				(1) && (is_builtin(node, list), exit(0), 0);
 			if (!node->argv[0])
 				exit(0);
 			free(node->cmd);

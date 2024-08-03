@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:18:27 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 01:01:32 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 01:21:56 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	my_dup1(t_cmd *node, t_execute *exec)
 {
-	printf("%d\n", node->inf);
 	if (node->inf != 0)
 	{
 		if (dup2(node->inf, 0) == -1)
