@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 18:56:04 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 20:21:57 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 		}
 		else
 		{
-			(1) && (temp1 = ft_substr(exp->current, *j, 1), free(exp->cmd), 0);
-			(1) && (exp->cmd = NULL, exp->cmd = ft_strjoin(exp->cmd, temp1), 0);
+			(1) && (temp = ft_substr(exp->current, *j, 1), temp1 = exp->cmd, 0);
+			(1) && (exp->cmd = ft_strjoin(temp1, temp), free(temp), 0);
 			(1) && (free(temp1), (*j)++, 0);
 		}
 	}
