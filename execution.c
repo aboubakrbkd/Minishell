@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/02 22:08:58 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 01:23:11 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	my_execve(t_cmd *node, char **envr)
 			ex_st(126, 1);
 			exit(126);
 		}
-		f_cmd(&node);
 	}
 }
 
@@ -81,7 +80,6 @@ void	hand_l_command(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 			{
 				write(2, "minishell: command not found\n", 29);
 				ex_st(127, 1);
-				f_cmd(&node);
 				exit(127);
 			}
 			my_execve(node, envr);
@@ -100,21 +98,20 @@ void	handle_commands(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 		{
 			my_dup1(node, exec);
 			if (checkbuiltin(node))
-			{
-				is_builtin(node, list);
-				exit(0);
-			}
+				(1) && (is_builtin(node, list), exit(0), 0);
 			if (!node->argv[0])
 				exit(0);
+			free(node->cmd);
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{
 				write(2, "minishell: command not found\n", 29);
-				ex_st(127, 1);
-				exit(127);
+				(1) && (ex_st(127, 1), exit(127), 0);
 			}
 			my_execve(node, envr);
 		}
+		else
+			close(node->inf);
 	}
 }
 
@@ -128,7 +125,7 @@ void	ex(t_cmd *node, t_list *list)
 	envr = env_to_char_array(list->envs);
 	if (check_if_built(node, list, &exec))
 	{
-		free_all(envr);
+		fr(envr);
 		return ;
 	}
 	while (node->next)
@@ -141,6 +138,6 @@ void	ex(t_cmd *node, t_list *list)
 	}
 	hand_l_command(node, list, &exec, envr);
 	close_all(node, &exec);
-	free_all(envr);
+	fr(envr);
 	waits(&exec);
 }

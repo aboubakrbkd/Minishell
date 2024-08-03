@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 04:03:10 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 00:52:39 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,31 +104,31 @@ int	perferm_heredoc(t_cmd *lst, char *del, t_list *env)
 	return (0);
 }
 
-void	heredoc(t_cmd *l, t_list *env)
+int	heredoc(t_cmd *l, t_list *env)
 {
 	char	*t;
 	int		i;
 	int		fd;
+	int		f;
 
+	f = 0;
 	while (l)
 	{
-		i = -1;
-		get_del(l);
+		(1) && (i = -1, get_del(l), 0);
 		while (l->del[++i])
 		{
-			t = creat_heroc(l);
-			fd = open(t, O_RDONLY);
+			(1) && (t = creat_heroc(l), fd = open(t, O_RDONLY), 0);
 			unlink(t);
 			if (perferm_heredoc(l, l->del[i], env))
 			{
-				(1) && (free(l->del[i]), unlink(t), free(t), close(l->fd), 0);
+				(1) && (fr(l->del), free(t), close(l->fd), f = 1, 0);
 				break ;
 			}
-			if (l->inf != 0)
-				close(l->inf);
-			(1) && (l->inf = fd, free(l->del[i]), close(l->fd), free(t), 0);
+			(l->inf != 0) && (close(l->inf), 0);
+			(1) && (l->inf = fd, close(l->fd), free(t), 0);
 		}
-		free(l->del);
+		(f == 0) && (fr(l->del), 0);
 		l = l->next;
 	}
+	return (f);
 }
