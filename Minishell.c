@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 01:48:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 13:27:10 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:24:14 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	parsing(t_cmd **lst, t_parse *p, t_list *list)
 	if (!p->str)
 		return (free(p->temp), 1);
 	if (syn_error(p->str))
-		return (free(p->temp), free(p->str), 1);
+		return (ex_st(258, 1), free(p->temp), free(p->str), 1);
 	change_to_garb(p->str);
 	if (handle_single_double(p->str))
 		return (free(p->temp), free(p->str), 1);
