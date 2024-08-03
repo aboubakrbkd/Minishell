@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 01:48:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 00:26:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 13:27:10 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	parsing(t_cmd **lst, t_parse *p, t_list *list)
 	back_to_ascii(*lst);
 	if (is_heredoc(*lst))
 		if (heredoc(*lst, list))
-			return (free_parse(p), 1);
+			return (free_parse(p), f_cmd(lst), 1);
 	expand(*lst, list);
 	return (remove_qoutes(lst), free_parse(p), 0);
 }
