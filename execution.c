@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 00:26:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/03 01:02:53 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,17 @@ void	handle_commands(t_cmd *node, t_list *list, t_execute *exec, char **envr)
 			}
 			if (!node->argv[0])
 				exit(0);
+			free(node->cmd);
 			node->cmd = command(node->argv[0], envr);
 			if (!node->cmd)
 			{
 				write(2, "minishell: command not found\n", 29);
-				ex_st(127, 1);
-				exit(127);
+				(1) && (ex_st(127, 1), exit(127), 0);
 			}
 			my_execve(node, envr);
 		}
+		else
+			close(node->inf);
 	}
 }
 
