@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:55:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 16:08:02 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/03 21:16:55 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	perferm_heredoc(t_cmd *lst, char *del, t_list *env)
 		tmp = readline("> ");
 		if (!ttyname(0))
 		{
+			close(lst->inf);
 			open(ttyname(2), O_RDWR);
 			return (free(tmp), 1);
 		}
