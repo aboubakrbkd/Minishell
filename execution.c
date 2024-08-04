@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:59:50 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 01:23:11 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/04 10:55:21 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,15 @@ void	ex(t_cmd *node, t_list *list)
 	while (node->next)
 	{
 		handle_commands(node, list, &exec, envr);
+		if (node->inf != 0)
+			close(node->inf);
+		if (node->outfile != 1)
+			close(node->outfile);
 		close((&exec)->fd[1]);
 		dup2((&exec)->fd[0], 0);
 		close((&exec)->fd[0]);
 		node = node->next;
 	}
 	hand_l_command(node, list, &exec, envr);
-	close_all(node, &exec);
-	fr(envr);
-	waits(&exec);
+	(1) && (close_all(node, &exec), fr(envr), waits(&exec), 0);
 }

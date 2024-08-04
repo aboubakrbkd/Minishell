@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/04 01:36:21 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/04 10:56:52 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_single_quote(t_expand *exp, int *j)
 	}
 	if (exp->current[*j] == '\'')
 		(*j)++;
-}	
+}
 
 void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 {
@@ -75,7 +75,6 @@ void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp)
 	char	*temp;
 
 	temp = NULL;
-
 	(*j)++;
 	if (exp->current[*j] && is_number(exp->current[*j]))
 		numeric_expand(exp, j);

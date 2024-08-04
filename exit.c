@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:07:53 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/03 23:54:58 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/04 10:57:11 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	special_case(char c)
 
 int	expand_cases(char c)
 {
-	return (is_ascii(c) || is_number(c) ||  c == '_');
+	return (is_ascii(c) || is_number(c) || c == '_');
 }
 
 int	args_len(char **arg)
