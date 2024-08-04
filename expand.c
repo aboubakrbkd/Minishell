@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 00:31:01 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/04 01:03:12 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 {
 	char	*ex;
 
-	if (ft_strsearch(lst->argv[*i], '"'))
+	if (lst->argv[*i] && ft_strsearch(lst->argv[*i], '"'))
 		(1) && (*tr = 1, lst->in_quote = 2, 0);
-	if (ft_strsearch(lst->argv[*i], '\''))
+	if (lst->argv[*i] && ft_strsearch(lst->argv[*i], '\''))
 		(1) && (lst->in_quote = 2, *tr = 2, 0);
 	if (*tr == 1 || *tr == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 20:21:57 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/04 01:36:21 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,44 @@ void	handle_single_quote(t_expand *exp, int *j)
 	}
 	if (exp->current[*j] == '\'')
 		(*j)++;
-}
+}	
 
 void	handle_double_quote(t_expand *exp, int *j, int *k, t_list *envp)
 {
 	char	*temp1;
 	char	*temp;
 
-	(1) && (temp1 = NULL, temp = NULL, (*j)++, 0);
-	while (exp->current[*j] && exp->current[*j] != '"')
+	if (exp->current[*j] == '"')
+		(*j)++;
+	(1) && (temp1 = NULL, temp = NULL, 0);
+	if (exp->current[*j] == '$' && special_case(exp->current[*j + 1]))
 	{
-		if (exp->current[*j] == '$' && special_case(exp->current[(*j) + 1]))
-		{
-			(1) && ((*j)++, *k = *j, 0);
-			while (exp->current[*j] && special_case(exp->current[*j]))
-				(*j)++;
-			exp->name = ft_substr(exp->current, *k, *j - *k);
-			exp->value = get_env_value(exp->name, envp->envs);
-			(1) && (temp = exp->cmd, free(exp->name), 0);
-			(1) && (exp->cmd = ft_strjoin(temp, exp->value), free(temp), 0);
-		}
-		else
-		{
-			(1) && (temp = ft_substr(exp->current, *j, 1), temp1 = exp->cmd, 0);
-			(1) && (exp->cmd = ft_strjoin(temp1, temp), free(temp), 0);
-			(1) && (free(temp1), (*j)++, 0);
-		}
+		(1) && ((*j)++, *k = *j, 0);
+		while (exp->current[*j] && special_case(exp->current[*j]))
+			(*j)++;
+		exp->name = ft_substr(exp->current, *k, *j - *k);
+		exp->value = get_env_value(exp->name, envp->envs);
+		(1) && (temp = exp->cmd, free(exp->name), 0);
+		(1) && (exp->cmd = ft_strjoin(temp, exp->value), free(temp), 0);
+	}
+	else if (exp->current[*j] == '$' && is_number(exp->current[*j + 1]))
+	{
+		if (exp->current[*j + 1])
+			(*j)++;
+		numeric_expand(exp, j);
 	}
 	if (exp->current[*j] == '"')
 		(*j)++;
+}
+
+void	numeric_expand(t_expand *exp, int *j)
+{
+	char	*temp1;
+
+	(*j)++;
+	temp1 = exp->cmd;
+	exp->cmd = ft_strjoin(exp->cmd, NULL);
+	free(temp1);
 }
 
 void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp)
@@ -66,16 +75,22 @@ void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp)
 	char	*temp;
 
 	temp = NULL;
+
 	(*j)++;
-	*k = *j;
-	while (exp->current[*j] && special_case(exp->current[*j]))
-		(*j)++;
-	exp->name = ft_substr(exp->current, *k, *j - *k);
-	exp->value = get_env_value(exp->name, envp->envs);
-	free(exp->name);
-	temp = exp->cmd;
-	exp->cmd = ft_strjoin(temp, exp->value);
-	free(temp);
+	if (exp->current[*j] && is_number(exp->current[*j]))
+		numeric_expand(exp, j);
+	else
+	{
+		*k = *j;
+		while (exp->current[*j] && special_case(exp->current[*j]))
+			(*j)++;
+		exp->name = ft_substr(exp->current, *k, *j - *k);
+		exp->value = get_env_value(exp->name, envp->envs);
+		free(exp->name);
+		temp = exp->cmd;
+		exp->cmd = ft_strjoin(temp, exp->value);
+		free(temp);
+	}
 }
 
 void	last_case(t_expand *exp, int *j)
@@ -90,11 +105,20 @@ void	last_case(t_expand *exp, int *j)
 	(*j)++;
 }
 
+void	dolar_dolar_case(t_expand *exp, int *j)
+{
+	char	*temp;
+
+	temp = exp->cmd;
+	exp->cmd = ft_strjoin(exp->cmd, "");
+	free(temp);
+	(*j) += 2;
+}
+
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 {
 	t_expand	exp;
 	int			j;
-	char		*temp;
 	int			k;
 
 	(1) && (exp.cmd = NULL, exp.current = lst->argv[i], j = 0, k = 0, 0);
@@ -106,18 +130,10 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 			handle_single_quote(&exp, &j);
 		else if (exp.current[j] == '"')
 			handle_double_quote(&exp, &j, &k, envp);
-		else if (exp.current[j] == '$' && special_case(exp.current[j + 1]))
+		else if (exp.current[j] == '$' && expand_cases(exp.current[j + 1]))
 			handle_special_case(&exp, &j, &k, envp);
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '$')
-		{
-			if (exp.current[j] == '$' && exp.current[j + 1] == '$')
-			{
-				temp = exp.cmd;
-				exp.cmd = ft_strjoin(exp.cmd, "");
-				free(temp);
-				j += 2;
-			}
-		}
+			dolar_dolar_case(&exp, &j);
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '"')
 			j++;
 		else
