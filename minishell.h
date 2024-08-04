@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/03 20:24:23 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/04 00:03:34 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,5 +250,8 @@ int		tty_error(t_parse *p);
 void	secure_path(t_list *list);
 void	f_env(t_env *envs);
 void	free_parse(t_parse *p);
+void	dolar_dolar_case(t_expand *exp, int *j);
+int		expand_cases(char c);
+void	numeric_expand(t_expand *exp, int *j);
 
 #endif
