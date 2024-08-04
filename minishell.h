@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/04 00:03:34 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/04 18:06:37 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ int		is_number(char c);
 int		is_upper(char c);
 int		is_lower(char c);
 int		is_ascii(char c);
-int		echo(char **argv, int outfile);
+int		echo(char **argv);
 int		cd(char **argv, t_list *list);
 int		exit_function(char **argv);
 void	env_1(char **argv, t_env *list, int outfile);
-void	env(char **argv, t_list *list, int outfile);
+void	env(char **argv, t_list *list);
 int		unset(char **argv, t_env **envps);
-void	pwd(char **args, t_list *list, int outfile);
-void	export(char **argv, t_list *list, int outfile);
+void	pwd(char **args, t_list *list);
+void	export(char **argv, t_list *list);
 int		syn_error(char *line);
 int		syn_err_chars(int c);
 int		last_check(int c);
