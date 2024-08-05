@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/04 18:06:37 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/05 00:30:12 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int		special_case(char c);
 void	expand_with_space(t_cmd *lst, char *expanded);
 void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded);
 void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr);
-void	handle_special_case(t_expand *exp, int *j, int *k, t_list *envp);
+void	handle_special_case(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i);
 void	expand(t_cmd *lst, t_list *envp);
 void	add_back(t_cmd **lst, t_cmd *new);
@@ -252,6 +252,7 @@ void	f_env(t_env *envs);
 void	free_parse(t_parse *p);
 void	dolar_dolar_case(t_expand *exp, int *j);
 int		expand_cases(char c);
-void	numeric_expand(t_expand *exp, int *j);
+void	numeric_expand(t_cmd *lst, t_expand *exp, int *j);
+void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
 
 #endif
