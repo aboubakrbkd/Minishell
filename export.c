@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:38:59 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/04 18:03:54 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:54:43 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void	checking_and_add(int is_valid, char *argv, t_list *list)
 	if (is_modified == 1)
 		add_env(&list->envs, name, value);
 	free(name);
+}
+
+int	expand_cases(char c)
+{
+	return (is_ascii(c) || is_number(c) || c == '_');
 }
 
 void	export(char **argv, t_list *list)

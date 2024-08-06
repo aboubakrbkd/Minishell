@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:00 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/01 14:06:05 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:56:18 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,16 @@ int	update_the_value(char *name, char *value, t_list *list)
 		env = env->next;
 	}
 	return (1);
+}
+
+void	last_case(t_expand *exp, int *j)
+{
+	char	*temp1;
+
+	temp1 = exp->cmd;
+	exp->temp = ft_substr(exp->current, *j, 1);
+	exp->cmd = ft_strjoin(temp1, exp->temp);
+	free(temp1);
+	free(exp->temp);
+	(*j)++;
 }

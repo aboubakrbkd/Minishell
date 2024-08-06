@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/05 00:38:41 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/05 12:56:27 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,28 +95,6 @@ void	handle_special_case(t_expand *exp, int *j, t_cmd *lst, t_list *envp)
 		exp->cmd = ft_strjoin(temp, exp->value);
 		free(temp);
 	}
-}
-
-void	last_case(t_expand *exp, int *j)
-{
-	char	*temp1;
-
-	temp1 = exp->cmd;
-	exp->temp = ft_substr(exp->current, *j, 1);
-	exp->cmd = ft_strjoin(temp1, exp->temp);
-	free(temp1);
-	free(exp->temp);
-	(*j)++;
-}
-
-void	dolar_dolar_case(t_expand *exp, int *j)
-{
-	char	*temp;
-
-	temp = exp->cmd;
-	exp->cmd = ft_strjoin(temp, "\b");
-	free(temp);
-	(*j) += 2;
 }
 
 char	*expand_cmd(t_cmd *lst, t_list *envp, int i)

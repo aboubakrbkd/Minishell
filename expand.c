@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/04 23:33:05 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/05 12:55:51 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,14 @@ void	expand(t_cmd *lst, t_list *envp)
 		}
 		lst = lst->next;
 	}
+}
+
+void	dolar_dolar_case(t_expand *exp, int *j)
+{
+	char	*temp;
+
+	temp = exp->cmd;
+	exp->cmd = ft_strjoin(temp, "\b");
+	free(temp);
+	(*j) += 2;
 }
