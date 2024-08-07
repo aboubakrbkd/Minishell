@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/05 00:30:12 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/07 04:28:07 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ char	*expand_here_cmd(char *temp, t_list *envp);
 char	*expand_heredoc(char *temp, t_list *envp, int in);
 char	*get_env_value(char *name, t_env *env);
 int		special_case(char c);
-void	expand_with_space(t_cmd *lst, char *expanded);
+void	expand_with_space(t_cmd *lst, char *expanded, int *i);
 void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded);
 void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr);
 void	handle_special_case(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
@@ -254,5 +254,8 @@ void	dolar_dolar_case(t_expand *exp, int *j);
 int		expand_cases(char c);
 void	numeric_expand(t_cmd *lst, t_expand *exp, int *j);
 void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
+void	check_expanded(t_cmd *lst, int *i, int *tr);
+void	remove_null_values(char **argv, int size);
+char	**append(char **arg, char *expanded, int index);
 
 #endif

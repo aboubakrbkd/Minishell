@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/05 12:56:27 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/07 04:07:57 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,12 @@ void	handle_single_quote(t_expand *exp, int *j)
 
 void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp)
 {
-	char	*temp1;
 	char	*temp;
 	int		k;
 
 	if (exp->current[*j] == '"')
 		(*j)++;
-	(1) && (temp1 = NULL, temp = NULL, 0);
+	temp = NULL;
 	if (exp->current[*j] == '$' && special_case(exp->current[*j + 1]))
 	{
 		(1) && ((*j)++, k = *j, 0);
@@ -69,8 +68,6 @@ void	numeric_expand(t_cmd *lst, t_expand *exp, int *j)
 	lst->ambiguous = 1;
 	temp1 = exp->cmd;
 	exp->cmd = ft_strjoin(exp->cmd, NULL);
-	if (!exp->cmd)
-		exp->cmd = ft_strdup("");
 	free(temp1);
 }
 
