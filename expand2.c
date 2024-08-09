@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:31 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 04:52:35 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 19:54:06 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**append(char **argv, int len)
 	while (++ap.i < len)
 		if (ft_strchr(argv[ap.i], ' ') || ft_strchr(argv[ap.i], '\t'))
 			ap.total_len += countword_2(argv[ap.i]);
-	res = malloc(sizeof(char *) * (ap.total_len * 1));
+	res = malloc(sizeof(char *) * (ap.total_len + 1));
 	if (!res)
 		return (argv);
 	ap.i = -1;
