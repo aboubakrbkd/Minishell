@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:31 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 19:54:06 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 23:41:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	dolar_dolar_case(t_expand *exp, int *j)
 	char	*temp;
 
 	temp = exp->cmd;
-	exp->cmd = ft_strjoin(temp, "\b");
-	free(temp);
+	exp->cmd = ft_strjoin(temp, NULL);
+	if (temp)
+		free(temp);
 	(*j) += 2;
 }
 
