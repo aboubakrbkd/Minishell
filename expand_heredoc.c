@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:37:05 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/01 02:32:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/06 18:13:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_env_value(char *name, t_env *env)
 			return (env->value);
 		env = env->next;
 	}
-	return ("");
+	return (NULL);
 }
 
 char	*handle_dollar_sign(char *curr, char *cmd, int *j, t_list *envp)
