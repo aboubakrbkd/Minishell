@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/07 04:28:31 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 01:58:22 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	expand_with_space(t_cmd *lst, char *expanded, int *i)
 {
 	lst->ambiguous = 1;
-	lst->argv = append(lst->argv, expanded, *i);
+	free(lst->argv[*i]); 
+	lst->argv[*i] = ft_strdup(expanded);
 }
 
 void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded)
@@ -25,7 +26,7 @@ void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded)
 		free(lst->argv[*i]);
 		lst->argv[*i] = ft_strdup(expanded);
 	}
-	else if (!expanded)
+	if (lst->argv[*i] && !expanded)
 	{
 		if (*tr != 1 && *tr != 2)
 			lst->ambiguous = 1;
@@ -36,55 +37,37 @@ void	expand_without_space(t_cmd *lst, int *tr, int *i, char *expanded)
 
 void	check_expanded(t_cmd *lst, int *i, int *tr)
 {
+	if (!ft_strcmp(lst->argv[0], "export"))
+		lst->fl1 = 1;
 	if (lst->argv[*i] && ft_strsearch(lst->argv[*i], '"'))
 		(1) && (*tr = 1, lst->in_quote = 2, 0);
 	if (lst->argv[*i] && ft_strsearch(lst->argv[*i], '\''))
 		(1) && (lst->in_quote = 2, *tr = 2, 0);
 }
 
-void expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
+void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 {
-    char *ex = NULL;
+	char	*ex;
 
-    ex = expand_cmd(lst, envp, *i);
-	printf("%s\n", ex);
-    if (*tr == 1 || *tr == 0)
-    {
-        if (ex && ((ft_strchr(ex, ' ') || ft_strchr(ex, '\t'))) && *tr == 0)
-            expand_with_space(lst, ex, i);
-        else
-            expand_without_space(lst, tr, i, ex);
-    }
-    if (*tr == 2)
-    {
-        if (ft_strnstr(lst->argv[*i], "$'"))
-        {
-            free(lst->argv[*i]);
-            lst->argv[*i] = ft_strdup(ex + 1);
-        }
-        else
-        {
-            free(lst->argv[*i]);
-            lst->argv[*i] = ft_strdup(ex);
-        }
-    }
-    free(ex);
-}
-
-void	remove_null_values(char **argv, int size)
-{
-	int	index;
-	int	jndex;
-
-		index = 0;
-		jndex = 0;
-	while (jndex < size)
+	ex = NULL;
+	lst->fl1 = 0;
+	check_expanded(lst, i, tr);
+	ex = expand_cmd(lst, envp, *i);
+	if (*tr == 1 || *tr == 0)
 	{
-		if (argv[jndex] != NULL)
-			argv[index++] = argv[jndex];
-		jndex++;
+		if (ex && ((ft_strchr(ex, ' ') || ft_strchr(ex, '\t'))) && *tr == 0)
+			expand_with_space(lst, ex, i);
+		else
+			(1) && (lst->fl2 = 1, expand_without_space(lst, tr, i, ex), 0);
 	}
-	argv[index] = NULL;
+	if (*tr == 2)
+	{
+		if (ft_strnstr(lst->argv[*i], "$'"))
+			(1) && (free(lst->argv[*i]), lst->argv[*i] = ft_strdup(ex + 1), 0);
+		else
+			(1) && (free(lst->argv[*i]), lst->argv[*i] = ft_strdup(ex), 0);
+	}
+	free(ex);
 }
 
 void	expand(t_cmd *lst, t_list *envp)
@@ -96,6 +79,7 @@ void	expand(t_cmd *lst, t_list *envp)
 	tr = 0;
 	while (lst)
 	{
+		lst->fl1 = -1;
 		i = 0;
 		tmp = NULL;
 		while (lst->argv[i])
@@ -105,16 +89,8 @@ void	expand(t_cmd *lst, t_list *envp)
 			i++;
 		}
 		remove_null_values(lst->argv, i);
+		if (lst->fl1 == 0)
+			lst->argv = append(lst->argv, i);
 		lst = lst->next;
 	}
-}
-
-void	dolar_dolar_case(t_expand *exp, int *j)
-{
-	char	*temp;
-
-	temp = exp->cmd;
-	exp->cmd = ft_strjoin(temp, "\b");
-	free(temp);
-	(*j) += 2;
 }

@@ -1,0 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/09 00:09:31 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/08/09 01:58:16 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	dolar_dolar_case(t_expand *exp, int *j)
+{
+	char	*temp;
+
+	temp = exp->cmd;
+	exp->cmd = ft_strjoin(temp, "\b");
+	free(temp);
+	(*j) += 2;
+}
+
+void	remove_null_values(char **argv, int size)
+{
+	int	index;
+	int	jndex;
+
+	index = 0;
+	jndex = 0;
+	while (jndex < size)
+	{
+		if (argv[jndex] != NULL)
+			argv[index++] = argv[jndex];
+		jndex++;
+	}
+	argv[index] = NULL;
+}
+
+char	**append(char **argv, int len)
+{
+	t_append	ap;
+	char		**res;
+
+	(1) && (ap.total_len = len, ap.i = -1, 0);
+	while (++ap.i < len)
+		if (ft_strchr(argv[ap.i], ' ') || ft_strchr(argv[ap.i], '\t'))
+			ap.total_len += countword_2(argv[ap.i]);
+	res = malloc(sizeof(char *) * (ap.total_len * 1));
+	if (!res)
+		return (argv);
+	ap.i = -1;
+	ap.k = 0;
+	while (argv[++ap.i])
+	{
+		if (ft_strchr(argv[ap.i], ' ') || ft_strchr(argv[ap.i], '\t'))
+		{
+			(1) && (ap.temp = ft_split_2(argv[ap.i]), ap.j = -1, 0);
+			while (ap.temp[++ap.j])
+				(1) && (res[ap.k] = ft_strdup(ap.temp[ap.j]), ap.k++, 0);
+			fr(ap.temp);
+		}
+		else
+			(1) && (res[ap.k] = ft_strdup(argv[ap.i]), ap.k++, 0);
+	}
+	return (res[ap.k] = NULL, fr(argv), res);
+}

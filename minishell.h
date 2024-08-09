@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/07 04:28:07 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 01:51:24 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 # define BUFFER_SIZE 33
 
 extern int	g_signal_status;
+
+typedef struct s_append
+{
+	char	**temp;
+	int		i;
+	int		j;
+	int		k;
+	int		total_len;
+}	t_append;
 
 typedef struct s_parse
 {
@@ -71,6 +80,8 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**argv;
 	char			**del;
+	int				fl1;
+	int				fl2;
 	int				fd;
 	int				inf;
 	int				outfile;
@@ -256,6 +267,6 @@ void	numeric_expand(t_cmd *lst, t_expand *exp, int *j);
 void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
 void	check_expanded(t_cmd *lst, int *i, int *tr);
 void	remove_null_values(char **argv, int size);
-char	**append(char **arg, char *expanded, int index);
+char	**append(char **argv, int len);
 
 #endif
