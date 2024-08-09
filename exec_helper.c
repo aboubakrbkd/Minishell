@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:02:46 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/08 05:34:15 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:03:39 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ char	*command(char *my_argv, char **envr)
 
 void	fr(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (arr)
 	{
 		while (arr[i])
@@ -93,7 +95,6 @@ void	fr(char **arr)
 		free(arr);
 	}
 }
-
 
 char	**get_path(char **envr)
 {

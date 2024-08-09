@@ -6,19 +6,36 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:31 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 01:58:16 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 23:41:23 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	noex_single(t_expand *exp, int *j)
+{
+	char	*temp;
+	char	*temp1;
+
+	while (exp->current[*j] && exp->current[*j] != '\'')
+	{
+		temp = ft_substr(exp->current, *j, 1);
+		temp1 = exp->cmd;
+		exp->cmd = ft_strjoin(temp1, temp);
+		free(temp);
+		free(temp1);
+		(*j)++;
+	}
+}
 
 void	dolar_dolar_case(t_expand *exp, int *j)
 {
 	char	*temp;
 
 	temp = exp->cmd;
-	exp->cmd = ft_strjoin(temp, "\b");
-	free(temp);
+	exp->cmd = ft_strjoin(temp, NULL);
+	if (temp)
+		free(temp);
 	(*j) += 2;
 }
 
@@ -47,7 +64,7 @@ char	**append(char **argv, int len)
 	while (++ap.i < len)
 		if (ft_strchr(argv[ap.i], ' ') || ft_strchr(argv[ap.i], '\t'))
 			ap.total_len += countword_2(argv[ap.i]);
-	res = malloc(sizeof(char *) * (ap.total_len * 1));
+	res = malloc(sizeof(char *) * (ap.total_len + 1));
 	if (!res)
 		return (argv);
 	ap.i = -1;

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/07 04:07:57 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:52:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,10 @@
 
 void	handle_single_quote(t_expand *exp, int *j)
 {
-	char	*temp;
-	char	*temp1;
-
-	temp = NULL;
 	(*j)++;
 	while (exp->current[*j] && exp->current[*j] != '\'')
-	{
-		temp = ft_substr(exp->current, *j, 1);
-		temp1 = exp->cmd;
-		exp->cmd = ft_strjoin(temp1, temp);
-		free(temp);
-		free(temp1);
-		(*j)++;
-	}
-	if (exp->current[*j] == '\'')
-		(*j)++;
+		noex_single(exp, j);
+	(*j)++;
 }
 
 void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp)

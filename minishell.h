@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 01:51:24 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:52:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_cmd
 	char			**argv;
 	char			**del;
 	int				fl1;
-	int				fl2;
 	int				fd;
 	int				inf;
 	int				outfile;
@@ -268,5 +267,7 @@ void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp);
 void	check_expanded(t_cmd *lst, int *i, int *tr);
 void	remove_null_values(char **argv, int size);
 char	**append(char **argv, int len);
+void	handle_single_quote(t_expand *exp, int *j);
+void	noex_single(t_expand *exp, int *j);
 
 #endif
