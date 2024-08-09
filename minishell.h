@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 01:51:24 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:08:28 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_cmd
 	char			**argv;
 	char			**del;
 	int				fl1;
-	int				fl2;
 	int				fd;
 	int				inf;
 	int				outfile;
