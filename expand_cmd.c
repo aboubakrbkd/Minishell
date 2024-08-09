@@ -6,27 +6,11 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 04:50:43 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:52:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	noex_single(t_expand *exp, int *j)
-{
-	char	*temp;
-	char	*temp1;
-
-	while (exp->current[*j] && exp->current[*j] != '\'')
-	{
-		temp = ft_substr(exp->current, *j, 1);
-		temp1 = exp->cmd;
-		exp->cmd = ft_strjoin(temp1, temp);
-		free(temp);
-		free(temp1);
-		(*j)++;
-	}
-}
 
 void	handle_single_quote(t_expand *exp, int *j)
 {
@@ -110,27 +94,17 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 		if (exp.current[j] == '$' && exp.current[j + 1] == '?')
 			j++;
 		else if (exp.current[j] == '\'')
-		{
-			puts("single");
 			handle_single_quote(&exp, &j);
-		}
 		else if (exp.current[j] == '"')
-		{
-			puts("double");
 			handle_double_quote(&exp, &j, lst, envp);
-		}
 		else if (exp.current[j] == '$' && expand_cases(exp.current[j + 1]))
-		{
-			puts("special");
 			handle_special_case(&exp, &j, lst, envp);
-		}
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '$')
 			dolar_dolar_case(&exp, &j);
 		else if (exp.current[j] == '$' && exp.current[j + 1] == '"')
 			j++;
 		else
 			last_case(&exp, &j);
-		puts("1");
 	}
 	return (exp.cmd);
 }

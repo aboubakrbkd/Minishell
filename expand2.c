@@ -6,11 +6,27 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:31 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 01:58:16 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/09 04:52:35 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	noex_single(t_expand *exp, int *j)
+{
+	char	*temp;
+	char	*temp1;
+
+	while (exp->current[*j] && exp->current[*j] != '\'')
+	{
+		temp = ft_substr(exp->current, *j, 1);
+		temp1 = exp->cmd;
+		exp->cmd = ft_strjoin(temp1, temp);
+		free(temp);
+		free(temp1);
+		(*j)++;
+	}
+}
 
 void	dolar_dolar_case(t_expand *exp, int *j)
 {
