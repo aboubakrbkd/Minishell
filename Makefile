@@ -9,9 +9,9 @@ CC = cc
 READLINE_PREFIX = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_PREFIX)/include
 READLINE_LIB = $(READLINE_PREFIX)/lib
-LIBS = -L$(READLINE_LIB) -lreadline# -lncurses
+LIBS = -L$(READLINE_LIB) -lreadline
 INCLUDES = -I$(READLINE_INCLUDE)
-FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
 
 all: ${NAME}
