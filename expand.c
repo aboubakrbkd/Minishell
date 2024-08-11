@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/11 04:43:31 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/11 22:10:05 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	expand_helper(t_cmd *lst, t_list *envp, int *i, int *tr)
 		if (ex && ((ft_strchr(ex, ' ') || ft_strchr(ex, '\t'))) && *tr == 0)
 			(1) && (lst->fl1 = 0, expand_with_space(lst, ex, i), 0);
 		else
-			(1) && (lst->fl1 = 1, expand_without_space(lst, tr, i, ex), 0);
+			(1) && (lst->fl1 = 2, expand_without_space(lst, tr, i, ex), 0);
 	}
 	if (*tr == 2)
 	{
