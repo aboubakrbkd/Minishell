@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 04:57:34 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 04:52:46 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/11 04:44:20 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	handle_double_quote(t_expand *exp, int *j, t_cmd *lst, t_list *envp)
 		while (exp->current[*j] && special_case(exp->current[*j]))
 			(*j)++;
 		exp->name = ft_substr(exp->current, k, *j - k);
-		exp->value = get_env_value(exp->name, envp->envs);
+		exp->value = get_env_value_2(exp->name, envp->envs);
 		(1) && (temp = exp->cmd, free(exp->name), 0);
 		(1) && (exp->cmd = ft_strjoin(temp, exp->value), free(temp), 0);
 	}
@@ -89,6 +89,8 @@ char	*expand_cmd(t_cmd *lst, t_list *envp, int i)
 	int			k;
 
 	(1) && (exp.cmd = NULL, exp.current = lst->argv[i], j = 0, k = 0, 0);
+	if (lst->fl1 == 1)
+		return (expand_export(lst, envp, i));
 	while (exp.current[j])
 	{
 		if (exp.current[j] == '$' && exp.current[j + 1] == '?')

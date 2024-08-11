@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:50:37 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 04:52:01 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/11 03:48:12 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_parse
 typedef struct s_expand
 {
 	int		len;
+	int		tr;
 	int		in_single_quote;
 	int		in_double_quote;
 	char	*cmd;
@@ -269,5 +270,7 @@ void	remove_null_values(char **argv, int size);
 char	**append(char **argv, int len);
 void	handle_single_quote(t_expand *exp, int *j);
 void	noex_single(t_expand *exp, int *j);
+char	*expand_export(t_cmd *lst, t_list *envp, int i);
+char	*get_env_value_2(char *name, t_env *env);
 
 #endif

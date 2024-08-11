@@ -6,15 +6,26 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:16:45 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/08/09 04:09:14 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/08/11 04:43:31 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		check_is_ambg(char *expanded)
+{
+	int		nb;
+
+	nb = ft_strnstr(expanded, ">>");
+	return (ft_strsearch(expanded, '>') || nb);
+}
+
 void	expand_with_space(t_cmd *lst, char *expanded, int *i)
 {
-	lst->ambiguous = 1;
+	if (check_is_ambg(expanded))
+		lst->fl1 = 1;		
+	else
+		lst->ambiguous = 1;
 	free(lst->argv[*i]);
 	lst->argv[*i] = ft_strdup(expanded);
 }
