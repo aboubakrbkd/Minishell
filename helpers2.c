@@ -6,7 +6,7 @@
 /*   By: aboukdid <aboukdid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:15:15 by aboukdid          #+#    #+#             */
-/*   Updated: 2024/08/04 18:10:06 by aboukdid         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:12:28 by aboukdid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ int	check_if_built(t_cmd *node, t_list *list, t_execute *exec)
 	{
 		if (checkbuiltin(node))
 		{
-			check_for_redirection(node);
+			if (check_for_redirection(node))
+			{
+				close_all(node, exec);
+				return (1);
+			}
 			my_dup2(node);
 			if (is_builtin(node, list))
 			{
